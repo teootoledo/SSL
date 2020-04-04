@@ -6,3 +6,4 @@
 - Apellido: Toledo
 - Nombre: Teo Martín
 - Usuario de GitHub: *teootoledo*
+- Email: teootoledo@gmail.com
