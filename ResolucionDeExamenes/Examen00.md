@@ -204,5 +204,4 @@ Un archivo es un conjunto de bytes. Estos contienen distinta información que po
 ### 10. Diseñe un algoritmo
 
 Dado un arreglo de naturales “a” y su longitud “n” calcule el promedio.
-
-![image](ResolucionDeExamenes/imgs/AlgoritmoExamen0SSL.jpg)
+![image](https://cdn1.imggmi.com/uploads/2020/4/4/3bf572acd1ac16b965dc93aa26a17586-full.jpg)
