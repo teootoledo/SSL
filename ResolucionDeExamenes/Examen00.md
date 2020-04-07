@@ -110,7 +110,7 @@ La partición de un conjunto es la unión de distintos subconjuntos del mismo, n
 
 ### 6. Sea X= {a,b} indique P(X)
 
-P(X) = { {a}, {b} }
+P(X) = { Ø, {a}, {b}, {a,b} }
 
   
 
