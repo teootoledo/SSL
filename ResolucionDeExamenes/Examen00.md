@@ -4,6 +4,11 @@
 
 ## Parte I
 
+### Sistema de Información
+
+Conjunto de subsistemas que interpretan, manipulan y analizan datos con el objetivo de ser utilizados para la toma de una decisión.
+
+
 ### 1. Tarea representativa del Ing. en Sistemas de Información
 
 Resuelve problemas con artefactos o mecanismos diseñados para la manipulación de datos.
@@ -29,15 +34,8 @@ Las asignaturas relacionadas con el desarrollo de software son:
 -   Sintaxis y semántica de los lenguajes
     
 -   Paradigmas de programación
-    
--   Sistemas operativos
-    
--   Gestión de datos
-    
--   Algoritmos Complejos para Estructuras de Datos Avanzados
-    
 
-  
+-   Gestion de datos
 
 ### 4. Asignaturas de sistemas de información
 
@@ -51,17 +49,11 @@ Las asignaturas relacionadas con los sistemas de información son:
     
 -   Diseño de sistemas
     
--   Ingeniería de requisitos
+-   Administración de recursos
     
--   Sistemas aplicados a la gestión empresarial
+-   Ingerienía de software
     
-
-  
-  
-  
-  
-  
-  
+-   Proyecto final
 
 ### 5. Paradigma de programación de 1er año
 
@@ -123,6 +115,8 @@ Un lenguaje formal es aquel lenguaje que tiene predefinidos sus símbolos / cara
 ### 8. Autómata finito
 
 Un autómata es un modelo matemático para una máquina de estado finito, en el que dada una entrada de símbolos, va trasladándose de estado a estado según una función de transición. Esta indica a qué estado dirigirse dependiendo del símbolo ingresado.
+Sirve para reconocer lenguajes.
+Recibe un string formado por letras de un alfabeto, y devuelve un booleano (pertenece o no).
 
   
 
@@ -134,24 +128,22 @@ Un algoritmo son los pasos necesarios para resolver un problema en general. Adqu
 
   
 
-### 2. Programación estructurada
+### 2. Programación estructurada (estilo)
 
 La programación estructurada es un paradigma de programación que se constituye por tener segmentos de códigos, con una secuencia de ejecución, condicionales, e iteraciones. El objetivo es facilitar la interpretación del código y disminuir el tiempo de desarrollo.
 
-  
+#### Paradigma Imperativo
+Uno de los paradigmas mas representativos de la programación y de hecho el primer paradigma formalmente aceptado es el imperativo. Imperar significa mandar, ordenar, y eso es exactamente lo que hacemos al programar.
+
+
 
 ### 3. Estructuras de control de flujo
 
-Son las estructuras condicionales o de iteración que modifican el flujo de ejecución de las sentencias. Estas son:
-
--   if (condición)
+    -   Secuencia
     
--   for (inicialización ; condición ; actualización)
+    -   Selección
     
--   while (condición)
-    
-
-  
+    -   Iteración  
 
 ### 4. Diferencias entre parámetro y argumento
 
@@ -169,9 +161,9 @@ Los argumentos pueden pasarse por valor (se copian al parámetro pero no se ve a
 
 ### 6. Diferencias entre parámetros de entrada, salida y entrada/salida
 
-Los parámetros de entrada son aquellos que su manipulación dentro de la función influyen en el resultado esperado.
+Los parámetros de entrada son aquellos que su manipulación dentro de la función influyen en el resultado esperado. Es utilizado para calcular algo en la función.
 
-Los de salida son variables que son utilizadas para devolver el valor, o son ignoradas, es decir que no influyen en el resultado.
+Los de salida son variables que son utilizadas para devolver el valor, o son ignoradas, es decir que no influyen en el resultado. Aloja un resultado.
 
 Mientras que los parámetros de entrada/salida cumplen ambas funciones, ya que influyen en el resultado del proceso y se ven modificados por este.
 
@@ -180,8 +172,7 @@ Mientras que los parámetros de entrada/salida cumplen ambas funciones, ya que i
 ### 7. Tipo de dato abstracto
 
 Es un conjunto de datos u objetos que tienen asociados ciertas operaciones para su manejo. Permiten abstraerse de cómo están implementadas sus operaciones.
-
-  
+ 
 
 ### 8. Diferencias entre stack y queue
 
@@ -195,7 +186,7 @@ Queue es como una “cola”, lo que nos obliga a extraer siempre el que se alma
 
 ### 9. Archivo
 
-Un archivo es un conjunto de bytes. Estos contienen distinta información que podemos usar como entrada de datos para nuestro programa (leyendo), o también como salida de este (escribiendo).
+Un archivo es una secuencia de bytes. Estos contienen distinta información que podemos usar como entrada de datos para nuestro programa (leyendo), o también como salida de este (escribiendo).
 
   
   
