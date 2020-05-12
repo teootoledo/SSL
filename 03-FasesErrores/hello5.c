@@ -1,4 +1,3 @@
-#include<stdio.h>
 int printf(const char *s, ...);
 int main(void){
     int i=42;

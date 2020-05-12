@@ -110,7 +110,7 @@ Comando utilizado:
 
 	gcc -S hello4.c
 
-Contenido de **"hello4.i"**:
+Contenido de **"hello4.s"**:
 
 		.file	"hello4.c"
 		.def	___main;	.scl	2;	.type	32;	.endef
@@ -207,7 +207,7 @@ Contenido de **"hello4.o"**:
 	6600 0000 0000 0000 2000 0200 2e00 0000
 	2e72 6461 7461 247a 7a7a 002e 6568 5f66
 	7261 6d65 002e 7264 6174 6124 7a7a 7a00
-	2e65 685f 6672 616d 6500
+	2e65 685f 6672 616d 6500 
 
 #### 10 - Vincular *"hello4.o"* con la biblioteca estándar. Generar el ejecutable
 
@@ -215,15 +215,15 @@ Comando utilizado:
 
 	gcc -o hello4 hello4.o
 
-Archivo resultante:
+Error resultante:
 
-	- hello4.exe
+	hello4.o:hello4.c:(.text+0x1e): undefined reference to `prontf'
+	collect2.exe: error: ld returned 1 exit status
 
 #### 11 - Corregir en *"hello5.c"*. Generar el ejecutable
 
 Contenido de **"hello5.c"**:
 
-	#include<stdio.h>
 	int  printf(const  char *s, ...);
 	int  main(void){
 	int i=42;
@@ -245,11 +245,10 @@ Resultado obtenido:
 
 Contenido de **"hello6.c"**:
 
-	#include<stdio.h>
 	int  printf(const  char *s, ...);
 	int  main(void){
 	int i=42;
-	printf("La respuesta es %d\n");}
+	printf("La respuesta es %d\n",i);}
 
 Comando utilizado:
 
@@ -270,7 +269,7 @@ Contenido de **"hello7.c"**:
 
 #### 15 - ¿Por qué funciona?
 
-> La variante anterior no funciona. Arroja el siguiente error:
+> La variante anterior compila porque printf está declarada implícitamente. Arroja el siguiente warning:
 
 	hello7.c: In function 'main':
 	hello7.c:3:5: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
@@ -279,4 +278,6 @@ Contenido de **"hello7.c"**:
 	hello7.c:3:5: warning: incompatible implicit declaration of built-in function 'printf'
 	hello7.c:3:5: note: include '<stdio.h>' or provide a declaration of 'printf'
 
-> Por lo tanto es necesario incluir `<stdio.h>`al código del programa.
+> El programa en mi caso no es ejecutable.
+> Arroja una alerta "Acceso denegado"
+
