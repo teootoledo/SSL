@@ -281,3 +281,4 @@ Contenido de **"hello7.c"**:
 > El programa en mi caso no es ejecutable.
 > Arroja una alerta "Acceso denegado"
 
+![Error](https://imgur.com/KeEqXhW)
