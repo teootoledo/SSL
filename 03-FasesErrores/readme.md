@@ -268,7 +268,7 @@ Contenido de **"hello7.c"**:
 		}
 
 #### 15 - ¿Por qué funciona?
-
+> *EN TIEMPO DE LINKEO BUSCA SIEMPRE LA LIBRERÍA ESTÁNDAR*
 > La variante anterior compila porque printf está declarada implícitamente. Arroja el siguiente warning:
 
 	hello7.c: In function 'main':
@@ -281,4 +281,4 @@ Contenido de **"hello7.c"**:
 > El programa en mi caso no es ejecutable.
 > Arroja una alerta "Acceso denegado"
 
-![Error](SSL/03-FasesErrores/Error.jpg)
+![Error](/03-FasesErrores/Error.jpg)
