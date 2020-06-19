@@ -1,4 +1,4 @@
-# Trabajo #4 - Strings
+# Trabajo #4 - Operaciones de Strings
 
 ### Objetivo
 
