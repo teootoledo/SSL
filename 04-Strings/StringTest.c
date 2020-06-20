@@ -1,3 +1,9 @@
+/*
+Teo Martin Toledo
+171-891-5
+20062020
+*/
+
 #include <assert.h>
 #include "String.h"
 #include <stdbool.h>
