@@ -2,7 +2,7 @@
 
 ------
 
-![cvspy](C:\Users\teoot\Documents\GitHub\SSL\04-Strings\img\cvspy.jpg)
+<img src="\04-Strings\img\c.png" style="zoom: 25%;" />	vs	 <img src="\04-Strings\img\py.png" style="zoom:8%;" />
 
 
 
