@@ -7,7 +7,7 @@
 1. **¿El tipo es parte del lenguaje en algún nivel?**
    1. En **C**, las cadenas al nivel sintáctico son reconocidas como los caracteres que se encierran entre "". *Ejemplo: "cadena"*. A nivel semántico se maneja como un arreglo o secuencia de caracteres independientes. *Ejemplo: ['c', 'a', 'd', 'e', 'n', 'a']*
    2. En **Python**, sintácticamente y semánticamente son muy similares respecto a cómo se maneja **C**. La gran diferencia viene en que el tipo de dato pertenece al lenguaje, por lo tanto, no se operan como si fueran arreglos. Por lo tanto, la manipulación puede considerarse, "más simple".
-2.  **¿El tipo es parte de la biblioteca?**
+2. **¿El tipo es parte de la biblioteca?**
    1. En **C**, el tipo de dato *"string"* no pertenece al lenguaje. Cuando se necesita manipular *strings*, se utilizan "arrays" de tipo *char*, con una longitud determinada. También se puede realizar el uso de "vector" para que sea posible la modificación del tamaño dinámicamente. Puede incluirse a *<string.h>* para utilizar funciones de cadenas.
    2. En **Python**, los *"strings"*, son un tipo de dato particular, que ya viene definido con sus propias operaciones dentro del mismo LP. Aún así, el comportamiento interno es casi el mismo, ya que funciona con un array de tipo char.
 3. **¿Qué alfabeto usa?**

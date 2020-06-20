@@ -9,4 +9,7 @@ unsigned GetLength(const char[]);
 bool IsEmpty(const char[]);
 
 //Power: Σ* x |N → Σ*
-//char* Power(char[], unsigned);
+void Power(const char[], const unsigned, char[]);
+
+//Contains Σ* x Σ → |B
+bool Contains(const char[], const char);

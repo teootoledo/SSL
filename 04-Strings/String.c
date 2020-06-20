@@ -19,7 +19,20 @@ bool IsEmpty(const char str[]){
 
 
 //Power
-//char* Power(char str[], const unsigned exp){
-//    unsigned newLength = GetLength(str)*exp;
-//    char power[newLength];
-//}
+void Power(const char str[], const unsigned exp, char resultado[]){
+    unsigned lengthResultado = GetLength(str)*exp;
+    for(unsigned i=0; i<lengthResultado; ++i){
+        resultado[i]=str[i%GetLength(str)];
+    }
+    resultado[lengthResultado]='\0'; //fin de la cadena
+}
+
+
+//Contains
+bool Contains(const char str[], const char c){
+    for(unsigned i=0; i < GetLength(str); ++i){
+        if(c==str[i]) return true;
+        else continue;
+    }
+    return false;
+}
