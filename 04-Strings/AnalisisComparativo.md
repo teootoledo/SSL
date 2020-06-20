@@ -1,7 +1,7 @@
 # Análisis Comparativo 📊
 ------
 
-![cvspy](\04-Strings\img\cvspy.jpg)
+![cvspy](/04-Strings/img/cvspy.jpg)
 =======
 
 1. ¿El tipo es parte del lenguaje en algún nivel?
