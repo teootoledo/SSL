@@ -41,7 +41,7 @@ $$
 
 Contains: Σ* x Σ → |B
 $$
-Contains: Σ* x Σ → B / Contains(str,c)\left\{\begin{matrix}
+\left ( \sum * \cdot \sum  \cdot \ \mathbb{N}\right )Contains \left\{\begin{matrix}
 1, &si\ c  \subseteq str \\
 0, & eoc
 \end{matrix}\right.
