@@ -9,4 +9,4 @@ unsigned GetLength(const char[]);
 bool IsEmpty(const char[]);
 
 //Power: Σ* x |N → Σ*
-char* Power(char[], unsigned);
+//char* Power(char[], unsigned);

@@ -19,9 +19,7 @@ bool IsEmpty(const char str[]){
 
 
 //Power
-char* Power(char str[], const unsigned exp){
-    unsigned newLength = GetLength(str)*exp;
-    char power[newLength];
-
-
-}
+//char* Power(char str[], const unsigned exp){
+//    unsigned newLength = GetLength(str)*exp;
+//    char power[newLength];
+//}
