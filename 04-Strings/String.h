@@ -12,4 +12,4 @@ bool IsEmpty(const char[]);
 void Power(const char[], const unsigned, char[]);
 
 //Contains Σ* x Σ → |B
-bool Contains(const char[], const char);
+bool Contains(const char[], const char, unsigned pos);
