@@ -28,11 +28,23 @@ void Power(const char str[], const unsigned exp, char resultado[]){
 }
 
 
-//Contains
+//Contains NO RECURSIVA
+/*
 bool Contains(const char str[], const char c){
     for(unsigned i=0; i < GetLength(str); ++i){
         if(c==str[i]) return true;
         else continue;
+    }
+    return false;
+}
+*/
+
+//Constains RECURSIVA
+
+bool Contains(const char str[], const char c, unsigned pos){
+    while(str[pos] != '\0'){
+        if(str[pos]==c) return true;
+        return Contains(str, c, ++pos);
     }
     return false;
 }
