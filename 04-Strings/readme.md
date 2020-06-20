@@ -1,12 +1,29 @@
 # Trabajo #4 - Operaciones de Strings
 
-### Objetivo
+------
+
+### Objetivos
 
 1. Parte I — Análisis Comparativo del tipo String en Lenguajes de Programación: Realizar un análisis comparativo de dato String en el lenguaje C versus un lenguaje de programación a elección.
+
+   1. ¿El tipo es parte del lenguaje en algún nivel?
+   2. ¿El tipo es parte de la biblioteca?
+   3. ¿Qué alfabeto usa?
+   4. ¿Cómo se resuelve la alocación de memoria?
+   5. ¿El tipo tiene mutabilidad o es inmutable?
+   6. ¿El tipo es un *first class citizen*?
+   7. ¿Cuál es la mecánica para ese tipo cuando se los pasa como argumentos?
+   8.  ¿Y cuando son retornados por una función?
+
+   Las anteriores preguntas son disparadores para realizar una análisis profundo.
+
+   
+
 2. Parte II — Biblioteca para el Tipo String: Desarrollar una biblioteca con las siguientes operaciones de strings:
    1. GetLength
    2. IsEmpty
    3. Power
+   4. Una operación a definir libremente.
 
 
 
@@ -22,8 +39,4 @@
       2. Escribir los prototipos en String.h.
       3. Escribir en String.h comentarios con las precondiciones y poscondiciones de cada función, arriba de cada prototipo.
       4. Escribir las implementaciones en Strings.c.
-
-------
-
-### Resolución
 
