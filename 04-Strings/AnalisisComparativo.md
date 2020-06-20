@@ -2,9 +2,10 @@
 
 ------
 
-<img src="\04-Strings\img\c.png" style="zoom: 25%;" />	vs	 <img src="\04-Strings\img\py.png" style="zoom:8%;" />
 
 
+![cvspy](C:\Users\teoot\Documents\GitHub\SSL\04-Strings\img\cvspy.jpg)
+=======
 
 1. ¿El tipo es parte del lenguaje en algún nivel?
    1. En **C**, las cadenas al nivel sintáctico son reconocidas como los caracteres que se encierran entre "". *Ejemplo: "cadena"*. A nivel semántico se maneja como un arreglo o secuencia de caracteres independientes. *Ejemplo: ['c', 'a', 'd', 'e', 'n', 'a']*
