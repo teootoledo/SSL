@@ -30,9 +30,9 @@ $$
 
 Power: Σ* x |N → Σ*
 $$
-Power: Σ* x |N → Σ*/Power(str,e)=\left\{\begin{matrix}
+Power: Σ* \cdot N → Σ*/Power(str,e)=\left\{\begin{matrix}
 \epsilon, &si\ e = 0 \vee str=\epsilon \\
-str*Power(str,(e-1)),& si\ e>0
+str\cdot Power(str,(e-1)),& si\ e>0
 \end{matrix}\right.
 $$
 

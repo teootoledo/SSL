@@ -1,7 +1,7 @@
 /*
 Teo Martin Toledo
 171-891-5
-20062020
+22062020
 */
 
 //String.h
@@ -14,7 +14,7 @@ Teo Martin Toledo
 unsigned GetLength(const char[]);
 
 //IsEmpty: Σ* → |B
-//Sin precondiciones.
+//Sin precondiciones además de recibir un puntero a una cadena de chars.
 bool IsEmpty(const char[]);
 
 //Power: Σ* x |N → Σ*
