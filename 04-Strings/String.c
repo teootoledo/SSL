@@ -17,6 +17,15 @@ unsigned GetLength(const char str[]){
     return counter;
 }
 
+/* GetLength RECURSIVA
+unsigned GetLength(const char str[]){
+    return IsEmpty(str) ? 0
+                        : 1 + GetLength(str + 1);
+                        //++str (efecto de lado) SI FUNCIONA
+                        //str + 1 (sin efecto de lado) SI FUNCIONA
+                        //str++ (sin efecto de lado) NO FUNCIONARIA
+}
+*/
 
 //IsEmpty
 bool IsEmpty(const char str[]){
