@@ -1,0 +1,13 @@
+digraph finite_state_machine {
+	rankdir=LR;
+	ranksep=4;
+	nodesep=1;
+
+	node [shape = doublecircle, color="indigo"]; IN OUT
+	IN -> IN [ label = "otro\n++nc" color="grey24" ];
+	IN -> OUT [ label = "'\\t'|' '\n++nc" color="grey24" ];
+	IN -> OUT [ label = "'\\n'\n++nc\n++nl" color="grey24" ];
+	OUT -> IN [ label = "otro\n++nw\n++nc" color="grey24" ];
+	OUT -> OUT [ label = "'\\n'\n++nl\n++nc" color="grey24" ];
+	OUT -> OUT [ label = "'\\t'|' '\n++nc" color="grey24" ];
+}

@@ -1,0 +1,14 @@
+digraph g{
+  node [shape = circle];
+  ranksep=0.3;
+  nodesep=0.3;
+  1 [ label = "="];
+  1 -> nl;
+  2 [ label = "="];
+  1 -> 2;
+  2 -> nw;
+  3 [ label = "="];
+  2 -> 3;
+  3 -> nc;
+  3 -> 0;
+}
