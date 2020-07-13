@@ -4,13 +4,13 @@
 
 ### 1.b - Árbol de expresión - Inicialización de variables.
 
-![arbolInicializacion](\05-ContadorDePalabras\img\arbolInicializacion.png)
+![arbolInicializacion](/05-ContadorDePalabras/img/arbolInicializacion.png)
 
 > c == " || c == '\n' || c == '\t'
 
 ### 1.c Árbol de expresión - Condición del if.
 
-![arbolCondicionIf](05-ContadorDePalabras\img\arbolCondicionIf.png)
+![arbolCondicionIf](/05-ContadorDePalabras/img/arbolCondicionIf.png)
 
 > nl = nw = nc = 0
 
@@ -18,7 +18,7 @@
 
 ### 2. Máquina de estado - Word Counter.
 
-![wc](05-ContadorDePalabras\img\wc.png)
+![wc](/05-ContadorDePalabras/img/wc.png)
 
 ------
 
