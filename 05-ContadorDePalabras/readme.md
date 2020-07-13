@@ -4,13 +4,13 @@
 
 ### 1.b - Árbol de expresión - Inicialización de variables.
 
-![arbolInicializacion](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolInicializacion.svg)
+![arbolInicializacion](\05-ContadorDePalabras\img\arbolInicializacion.png)
 
 > c == " || c == '\n' || c == '\t'
 
 ### 1.c Árbol de expresión - Condición del if.
 
-![arbolCondicionIf](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolCondicionIf.svg)
+![arbolCondicionIf](05-ContadorDePalabras\img\arbolCondicionIf.png)
 
 > nl = nw = nc = 0
 
@@ -18,7 +18,7 @@
 
 ### 2. Máquina de estado - Word Counter.
 
-![wc](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\wc.svg)
+![wc](05-ContadorDePalabras\img\wc.png)
 
 ------
 
