@@ -32,3 +32,4 @@
 ### 3.b.iv ¿Tiene alguna aplicación `go to` hoy en día? ¿Algún lenguaje moderno lo utiliza?
 
 Por lo que pude investigar no muchos lenguajes modernos implementan esta función de control de flujo. La aplicación va a depender siempre del contexto y de lo que estemos haciendo.
+Es útil su implementación a la hora de "escapar" de distintas funciones anidadas, evitando la concatenación de varios `return` y saliendo de manera rápida a una etiqueda fuera del scope actual.
