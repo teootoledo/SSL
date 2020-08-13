@@ -6,7 +6,7 @@
 
 
 
-<img src="\05-PalabrasEnLinea\img\arbolInicializacion.png" alt="arbolInicializacion" style="zoom:50%;" />
+<img src="05-PalabrasEnLinea/img/arbolCondicionIf.png" style="zoom:50%;" />
 =======
 ### 1.c Árbol de expresión - Condición del if.
 
