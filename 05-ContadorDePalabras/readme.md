@@ -4,21 +4,33 @@
 
 ### 1.b - Árbol de expresión - Inicialización de variables.
 
-![arbolInicializacion](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolInicializacion.svg)
+<img src="C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolInicializacion.png" alt="arbolInicializacion" style="zoom:50%;" />
 
 > c == " || c == '\n' || c == '\t'
 
 ### 1.c Árbol de expresión - Condición del if.
 
-![arbolCondicionIf](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolCondicionIf.svg)
+<img src="C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\arbolCondicionIf.png" alt="arbolCondicionIf" style="zoom: 50%;" />
 
 > nl = nw = nc = 0
 
 ------
 
-### 2. Máquina de estado - Word Counter.
+### 2. Máquina de estado - Palabras en línea.
 
-![wc](C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\wc.svg)
+<img src="C:\Users\teoot\Documents\GitHub\SSL\05-ContadorDePalabras\img\wl.png" alt="wc" style="zoom:50%;" />
+
+- **Q**  = {IN, OUT}
+
+* **∑**  = ASCII
+* **q0** = OUT
+* **F**  = {IN, OUT} = **Q**
+* **T**  =  { 
+  * (OUT, '\n' || '\t' || ' ', OUT), 
+  * (OUT,  otro, IN, putchar(‘c’) ),
+  * (IN, '\n' || '\t' || ' ', OUT, putchar(‘\n’)),
+  * (IN, '\n', otro, IN, putchar(‘c’))
+* }
 
 ------
 
@@ -31,4 +43,11 @@
 
 ### 3.b.iv ¿Tiene alguna aplicación `go to` hoy en día? ¿Algún lenguaje moderno lo utiliza?
 
-Por lo que pude investigar no muchos lenguajes modernos implementan esta función de control de flujo. La aplicación va a depender siempre del contexto y de lo que estemos haciendo.
+Por lo investigado, no muchos lenguajes modernos implementan esta función de control de flujo. La aplicación va a depender siempre del contexto y de lo que estemos haciendo.
+
+------
+
+### 3.c.ii ¿Es necesario que las funciones accedan a contadores?
+
+No es necesario que las funciones accedan a contadores.
+

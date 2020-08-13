@@ -3,11 +3,9 @@ digraph finite_state_machine {
 	ranksep=4;
 	nodesep=1;
 
-	node [shape = doublecircle, color="indigo"]; IN OUT
-	IN -> IN [ label = "otro\n++nc" color="grey24" ];
-	IN -> OUT [ label = "'\\t'|' '\n++nc" color="grey24" ];
-	IN -> OUT [ label = "'\\n'\n++nc\n++nl" color="grey24" ];
-	OUT -> IN [ label = "otro\n++nw\n++nc" color="grey24" ];
-	OUT -> OUT [ label = "'\\n'\n++nl\n++nc" color="grey24" ];
-	OUT -> OUT [ label = "'\\t'|' '\n++nc" color="grey24" ];
+	node [shape = doublecircle, color="indigo"]; OUT IN
+	OUT -> OUT [ label = "' ' || '\\t' || '\\n'"  color="grey24" ];
+	OUT -> IN [ label = "otro" color="grey24" ];
+	IN -> IN [ label = "otro\nputchar(\"c\")" color="grey24" ];
+	IN -> OUT [ label = "' ' || '\\t' || '\\n'\nputchar(\"\\n\");" color="grey24" ];
 }
