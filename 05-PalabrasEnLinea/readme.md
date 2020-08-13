@@ -4,14 +4,16 @@
 
 ### 1.b - Árbol de expresión - Inicialización de variables.
 
-<img src="\05-ContadorDePalabras\img\arbolInicializacion.png" alt="arbolInicializacion" style="zoom:50%;" />
+
+
+<img src="\05-PalabrasEnLinea\img\arbolInicializacion.png" alt="arbolInicializacion" style="zoom:50%;" />
 =======
 ### 1.c Árbol de expresión - Condición del if.
 
-<img src="05-ContadorDePalabras\img\arbolCondicionIf.png" alt="arbolCondicionIf" style="zoom: 50%;" />
+<img src="\05-PalabrasEnLinea\img\arbolCondicionIf.png" alt="arbolCondicionIf" style="zoom: 50%;" />
 =======
 ### 2. Máquina de estado - Palabras en línea.
-<img src="\05-ContadorDePalabras\img\wl.png" alt="wc" style="zoom:70%;" />
+<img src="\05-PalabrasEnLinea\img\wl.png" alt="wc" style="zoom:70%;" />
 
 - **Q**  = {IN, OUT}
 
