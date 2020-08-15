@@ -6,14 +6,14 @@
 
 
 
-<img src="05-PalabrasEnLinea/img/arbolCondicionIf.png" style="zoom:50%;" />
+<img src="/05-PalabrasEnLinea/img/arbolCondicionIf.png" style="zoom:30%;" />
 =======
 ### 1.c Árbol de expresión - Condición del if.
 
-<img src="\05-PalabrasEnLinea\img\arbolCondicionIf.png" alt="arbolCondicionIf" style="zoom: 50%;" />
+<img src="/05-PalabrasEnLinea/img/arbolCondicionIf.png" alt="arbolCondicionIf" style="zoom: 30%;" />
 =======
 ### 2. Máquina de estado - Palabras en línea.
-<img src="\05-PalabrasEnLinea\img\wl.png" alt="wc" style="zoom:70%;" />
+<img src="/05-PalabrasEnLinea/img/wl.png" alt="wc" style="zoom:60%;" />
 
 - **Q**  = {IN, OUT}
 
