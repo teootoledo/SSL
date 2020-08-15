@@ -4,7 +4,7 @@
 
 ### 1.b - Árbol de expresión - Inicialización de variables.
 
-<img src="/05-PalabrasEnLinea/img/arbolInicializacion.png" alt="arbolInicializacion" style="zoom:30%;" />
+<img src="/05-PalabrasEnLinea/img/arbolInicializacion.png" alt="arbolInicializacion" style="zoom:10%;" />
 
 ### 1.c Árbol de expresión - Condición del if.
 
