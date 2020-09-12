@@ -33,26 +33,3 @@
 
 ---
 
-
-
-// codigo 
-Parser()
-Exp()
-
-
-Exp()
-Algo();
-Match(Adición);
-Algo();
-
-Algo()
-t=GetNextToken();
-if(t==Identificador || t==Numero)
-return;
-ERROR!
-
-Match(Esperado)
-t=GetNextToken();
-if(Esperado==t)
-return;
-ERROR!
