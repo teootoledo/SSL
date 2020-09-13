@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <scanner.h>
+#include "scanner.h"
 
-#define cEst 15
-#define cTran 10
 #define MAX_TOKEN_LENGTH 100
 
 int main(void)
@@ -43,3 +41,8 @@ token *scanner(void)
         }
     }
 };
+
+void agregarToken(token tokenList[], const token Token, unsigned position)
+{
+    tokenList[position] = Token;
+}
