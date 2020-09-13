@@ -9,7 +9,7 @@
     <identificador> -> <letra>
     <constante> -> <dígito>
     <operador> -> <operadorSuma> <operadorMultiplicación>
-    	<letra> -> una de a-z A-Z
+    	<letra> -> una de a-z A-Z (a-z|A-Z)*
     	<dígito> -> uno de 0-9
     	<operadorSuma> +
     	<operadorMultiplicación> *
