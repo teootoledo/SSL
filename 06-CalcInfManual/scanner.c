@@ -2,47 +2,99 @@
 // Analizador Léxico
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "scanner.h"
 
-#define MAX_TOKEN_LENGTH 100
-
-int main(void)
+typedef enum
 {
-    scanner();
-    printf("OK");
-}
+    Q0_inicial,
+    Q1_constante,
+    Q2_identificador,
+    Q3_adicion,
+    Q4_producto,
+    Q5_err
+} Estado;
 
-token *scanner(void)
+token GetNextToken(void);
+
+token scanner(void)
+
 {
-    token resultado[MAX_TOKEN_LENGTH];
-    unsigned lastToken = 0;
-    int c;
-    Estado estado = OUT;
+    static Estado estadoActual = Q0_inicial;
+    char c;
     while ((c = getchar()) != EOF)
     {
+        switch (estadoActual)
+        {
+            //------------------------------ESTADO INICIAL------------------
+        case Q0_inicial:
+            if (isdigit(c))
+            {
+                estadoActual = Q1_constante;
+                break;
+            }
+            if (isalpha(c))
+            {
+                estadoActual = Q2_identificador;
+                break;
+            }
+            if (c == '+')
+            {
+                estadoActual = Q3_adicion;
+                break;
+            }
+            if (c == '*')
+            {
+                estadoActual = Q4_producto;
+                break;
+            }
+            estadoActual = err;
+            break;
+            //------------------------------ESTADO CONSTANTE------------------
+        case Q1_constante:
+            if (!isdigit(c))
+            {
+                estadoActual = Q0_inicial;
+                ungetc(c, stdin);
+                return constante;
+            }
+            break;
+            //------------------------------ESTADO IDENTIFICADOR--------------
+        case Q2_identificador:
+            if ((!isalpha(c)) || (!isdigit(c)))
+            {
+                estadoActual = Q0_inicial;
+                ungetc(c, stdin);
+                return identificador;
+            }
+            break;
+            //------------------------------ESTADO ADICIÓN--------------------
+        case Q3_adicion:
+            estadoActual = Q0_inicial;
+            ungetc(c, stdin);
+            return adicion;
+            break;
+            //------------------------------ESTADO PRODUCTO-------------------
+        case Q4_producto:
+            estadoActual = Q0_inicial;
+            ungetc(c, stdin);
+            return producto;
+            break;
+            //------------------------------ESTADO ERROR----------------------
+        case Q5_err:
+            printf("Lexical ERROR");
+            exit(1);
+            break;
 
-        if (isdigit(c) || isalpha(c))
-        {
-            estado = IN;
-        }
-        else if (estado == IN)
-        {
-            agregarToken(resultado, operando, lastToken);
-            agregarToken(resultado, operador, ++lastToken);
-            ++lastToken;
-            estado = OUT;
-        }
-        else if (estado == OUT)
-        {
-            agregarToken(resultado, operador, ++lastToken);
-            ++lastToken;
+        default:
+            estadoActual = fdt;
+            break;
         }
     }
-};
+}
 
-void agregarToken(token tokenList[], const token Token, unsigned position)
+token GetNextToken(void)
 {
-    tokenList[position] = Token;
+    return scanner();
 }

@@ -1,13 +1,44 @@
-// Parser --> GetToken --> Scanner
-// Analizador sintáctico
-// Prototipo
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include "scanner.h"
+#include "parser.h"
 
-int tT[cEst][cTran] =
+typedef enum
+{
+    Q0_inicio,
+    Q1_final,
+    Q2_err
+} EstadoParser;
 
-    {   //         0  1  2  3  4
-        //         L  D  +  * EOF*/
-        /* Q0  */ {2, 1, 4, 4, 3},
-        /* Q1  */ {4, 1, 0, 0, 3},
-        /* Q2  */ {2, 2, 0, 0, 3},
-        /* FDT */ {3, 3, 3, 3, 3},
-        /* ERR */ {4, 4, 4, 4, 4}};
+bool parser(void)
+{
+    EstadoParser estadoActual = Q0_inicio;
+    token newToken;
+    while ((newToken = GetNextToken()) != fdt)
+    {
+        switch (estadoActual)
+        {
+        case Q0_inicio:
+            if (newToken != identificador || newToken != constante)
+            {
+                estadoActual = Q2_err;
+            }
+            estadoActual = Q1_final;
+            break;
+        case Q1_final:
+            if (newToken != adicion || newToken != producto)
+            {
+                estadoActual = Q2_err;
+            }
+            estadoActual = Q0_inicio;
+        case Q2_err:
+            printf("Syntax ERROR");
+            exit(1);
+            break;
+
+        default:
+            break;
+        }
+    }
+}
