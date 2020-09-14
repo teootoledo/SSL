@@ -17,25 +17,19 @@ typedef enum
     Q6_fdt
 } Estado;
 
-//void mostrar(token);
+// void mostrar(token);
 
 token GetNextToken(void);
-/*
-int main(void)
+
+/* int main(void)
 {
     token t;
-    t = scanner();
-    mostrar(t);
-    t = scanner();
-    mostrar(t);
-    t = scanner();
-    mostrar(t);
-    t = scanner();
-    mostrar(t);
-    t = scanner();
-    mostrar(t);
+    for (; (t = scanner()) != fdt;)
+    {
+        mostrar(t);
+    }
 }
-*/
+ */
 token scanner(void)
 {
     static Estado estadoActual = Q0_inicial;
@@ -86,7 +80,9 @@ token scanner(void)
             break;
             //------------------------------ESTADO IDENTIFICADOR--------------
         case Q2_identificador:
-            if ((!isalpha(c)) || (!isdigit(c)))
+            if ((isalpha(c)) || (isdigit(c)))
+                break;
+            else
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
@@ -124,8 +120,8 @@ token GetNextToken(void)
 {
     return scanner();
 }
-/*
-void mostrar(token a)
+
+/* void mostrar(token a)
 {
     switch (a)
     {
@@ -147,4 +143,4 @@ void mostrar(token a)
         break;
     }
 }
-*/
+ */
