@@ -4,5 +4,8 @@
 
 int main(void)
 {
-    parser();
+    if (parser())
+        printf("\n--- Syntax OK ---\n");
+    else
+        printf("\n--- Syntax ERROR ---\n");
 }
