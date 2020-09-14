@@ -13,13 +13,30 @@ typedef enum
     Q2_identificador,
     Q3_adicion,
     Q4_producto,
-    Q5_err
+    Q5_err,
+    Q6_fdt
 } Estado;
 
+//void mostrar(token);
+
 token GetNextToken(void);
-
+/*
+int main(void)
+{
+    token t;
+    t = scanner();
+    mostrar(t);
+    t = scanner();
+    mostrar(t);
+    t = scanner();
+    mostrar(t);
+    t = scanner();
+    mostrar(t);
+    t = scanner();
+    mostrar(t);
+}
+*/
 token scanner(void)
-
 {
     static Estado estadoActual = Q0_inicial;
     char c;
@@ -49,7 +66,13 @@ token scanner(void)
                 estadoActual = Q4_producto;
                 break;
             }
-            estadoActual = err;
+            if (c == '\n')
+            {
+                estadoActual = Q6_fdt;
+                c = EOF;
+                break;
+            }
+            estadoActual = Q5_err;
             break;
             //------------------------------ESTADO CONSTANTE------------------
         case Q1_constante:
@@ -84,7 +107,7 @@ token scanner(void)
             //------------------------------ESTADO ERROR----------------------
         case Q5_err:
             printf("Lexical ERROR");
-            exit(1);
+            exit(0);
             break;
 
         default:
@@ -95,6 +118,31 @@ token scanner(void)
 }
 
 token GetNextToken(void)
+
 {
     return scanner();
 }
+/*
+void mostrar(token a)
+{
+    switch (a)
+    {
+    case identificador:
+        printf("id\n");
+        break;
+    case constante:
+        printf("const\n");
+        break;
+    case adicion:
+        printf("add\n");
+        break;
+    case producto:
+        printf("prod\n");
+        break;
+
+    default:
+        printf("Not a token");
+        break;
+    }
+}
+*/

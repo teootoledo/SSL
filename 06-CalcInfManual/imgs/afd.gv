@@ -1,11 +1,14 @@
 digraph finite_state_machine {
 	rankdir=LR;
-	ranksep=1;
-	nodesep=1;
+	ranksep=2;
+	nodesep=0.5;
 
-	node [shape = circle, color="indigo"]; Q0 Q2
-	node [shape = doublecircle, color="indigo"]; Q1
-	Q0 -> Q1 [ label = "0-9 | a-z | A-Z"  color="grey24" ];
-	Q1 -> Q2 [ label = "+ | *" color="grey24" ];
-	Q2 -> Q1 [ label = "0-9 | a-z | A-Z" color="grey24" ];
+	node [shape = circle, color="indigo"]; Q0
+	node [shape = doublecircle, color="indigo"]; Q1 Q2
+	Q0 -> Q1 [ label = "D"  color="grey24" ];
+	Q1 -> Q1 [ label = "D"  color="grey24" ];
+	Q0 -> Q2 [ label = "L" color="grey24" ];
+	Q2 -> Q2 [ label = "L | D"  color="grey24" ];
+	Q0 -> Q3 [ label = "+" color="grey24" ];
+	Q0 -> Q4 [ label = "*" color="grey24" ];
 }
