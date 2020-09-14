@@ -17,7 +17,7 @@
 
 ---
 
-#### Gramática sintáctica 🔗
+### Gramática sintáctica 🔗
 
 ```c
 <expresión> -> <operando> <operador> <operando> (<operador> <operando>)*
