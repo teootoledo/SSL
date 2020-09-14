@@ -70,6 +70,7 @@ token scanner(void)
             {
                 estadoActual = Q6_fdt;
                 c = EOF;
+                return fdt;
                 break;
             }
             estadoActual = Q5_err;
@@ -106,6 +107,7 @@ token scanner(void)
             break;
             //------------------------------ESTADO ERROR----------------------
         case Q5_err:
+            c = EOF;
             printf("Lexical ERROR");
             exit(0);
             break;
