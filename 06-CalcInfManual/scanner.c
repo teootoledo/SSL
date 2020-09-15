@@ -30,7 +30,7 @@ token GetNextToken(void);
     }
 }
  */
-token scanner(void)
+token GetNextToken(void)
 {
     static Estado estadoActual = Q0_inicial;
     char c;
@@ -113,12 +113,6 @@ token scanner(void)
             break;
         }
     }
-}
-
-token GetNextToken(void)
-
-{
-    return scanner();
 }
 
 /* void mostrar(token a)

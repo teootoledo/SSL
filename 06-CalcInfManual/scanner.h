@@ -10,6 +10,4 @@ typedef enum
     err
 } token;
 
-token scanner(void);
-
 token GetNextToken(void);
