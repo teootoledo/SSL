@@ -27,9 +27,12 @@
 
 ---
 
-### AFD ◾
+### AFD Scanner ◾
 
-<img src="/06-CalcInfManual/imgs/afd.png" alt="Autómata finito determinístico" style="zoom:30%;" />
+<img src="/07-CalcInfManual-V2/imgs/afd.png" alt="Autómata finito determinístico" style="zoom:30%;" />
 
----
+### AP Parser ◾
 
+<img src="/07-CalcInfManual-V2/imgs/ap.png" alt="Autómata de pila para parser" style="zoom:30%;" />
+
+### 
