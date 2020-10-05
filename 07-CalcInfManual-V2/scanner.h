@@ -9,7 +9,8 @@ typedef enum
     SUMA,
     MULTIPLICACION,
     FDS,
-    FDT
+    FDT,
+    NAT
 } TOKEN;
 
 TOKEN Scanner(void);

@@ -29,8 +29,8 @@ void SetValor(int[]);
 void SetTipo(TOKEN);
 void mostrarBuffer();
 void limpiarBuffer();
-int buffer[8] = {0};
-int punteroDeBuffer = 0;
+extern int buffer[8] = {0};
+extern int punteroDeBuffer = 0;
 int punteroDeSimbolo = 0;
 
 struct simbolo
@@ -92,6 +92,14 @@ void limpiarBuffer()
     }
     punteroDeBuffer = 0;
 }
+
+void mostrarTablaSimbolos(struct simbolo tabla[])
+{
+    for (unsigned i = 0; tabla[i].tipo != NAT; ++i)
+    {
+    }
+}
+
 int main(void)
 {
     TOKEN t;
@@ -171,6 +179,7 @@ TOKEN scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
+                agregarSimbolo();
                 return IDENTIFICADOR;
             }
             agregarCaracter(c);
@@ -180,6 +189,7 @@ TOKEN scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
+                agregarSimbolo(CONSTANTE);
                 return CONSTANTE;
             }
             agregarCaracter(c);
@@ -190,8 +200,7 @@ TOKEN scanner(void)
             ungetc(c, stdin);
             return SUMA;
 
-        case Q4_producto:
-            estadoActual = Q0_inicial;
+            agregarSimbolo() case Q4_producto : estadoActual = Q0_inicial;
             ungetc(c, stdin);
             return MULTIPLICACION;
 
