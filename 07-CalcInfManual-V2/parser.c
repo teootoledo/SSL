@@ -1,50 +1,123 @@
-#include "parser.h"
 #include "scanner.h"
-#include <stdlib.h>
 
-static void Programa(void);
-static void Expresion(void);
-static void Primaria(void);
-static void ErrorSintactico(token esperado, token alternativa);
+TOKEN tokensCorrectos[];
 
-void parser(void)
+void Match(TOKEN tokenEsperado)
 {
-    Expresion();
-    printf("[Parser] Expresión Válida\n");
+    TOKEN tokenActual = GetNextToken();
+    if (tokenActual != tokenEsperado)
+    {
+        ErrorSintactico();
+    }
 }
 
-static void Expresion(void)
+void Objetivo(void)
 {
-    Termino();
+    /* <objetivo> -> <programa> FDT */
+    Programa();
+    Match(FDT);
+}
+void Programa(void)
+{
+    ListaDeSentencias();
+}
 
+void ListaSentencias(void)
+{
+    /* <listaSentencias>*/
+    Sentencia();
     while (1)
     {
-        switch (GetNextToken())
+        switch (ProximoToken())
         {
-        case adicion:
-        case producto:
-            Termino();
+        case IDENTIFICADOR:
+        case CONSTANTE:
+        case PARENIZQUIERDO:
+            Sentencia();
             break;
-        case fdt:
-            return;
         default:
-            break;
+            return;
         }
     }
 }
 
-static void Termino(void)
+void Sentencia(void)
 {
-    token t = GetNextToken();
-    if (t == lpar)
-        if (t == identificador || t == constante)
-            return;
-        else
-            ErrorSintactico(identificador, constante);
+    TOKEN token = GetNextToken();
+    switch (token)
+    {
+    case IDENTIFICADOR: /* <sentencia> -> ID := <expresion>; */
+        token = GetNextToken();
+        switch (token)
+        {
+        case ASIGNACION:
+            Definicion();
+            break;
+        case SUMA:
+        case MULTIPLICACION:
+            Expresion();
+            break;
+        case CONSTANTE:
+            Expresion();
+
+        default:
+            break;
+        }
+        break;
+    case CONSTANTE: /* <sentencia> -> LEER ( <listaIdentificadores> ); */
+        Match(LEER);
+        Match(PARENIZQUIERDO);
+        ListaIdentificadores();
+        Match(PARENDERECHO);
+        Match(PUNTOYCOMA);
+        break;
+    case ESCRIBIR: /* <sentencia> -> ESCRIBIR (<listaExpresiones>); */
+        Match(ESCRIBIR);
+        Match(PARENIZQUIERDO);
+        ListaExpresiones();
+        Match(PARENDERECHO);
+        Match(PUNTOYCOMA);
+        break;
+    default:
+        ErrorSintactico(tok);
+        break;
+    }
 }
 
-static void ErrorSintactico(token esperado, token alternativa)
+void Definicion(void)
 {
-    printf("[Parser] Error Sintáctico\n");
-    exit(0);
+    Match(CONSTANTE);
+    Match(FDS);
+}
+
+void Expresion(void)
+{
+    /* <expresion> -> <primaria> {<operadorAditivo> <primaria>} */
+    TOKEN t;
+    Primaria();
+    for (t = GetNextToken(); t == SUMA || t == MULTIPLICACION; t = GetNextToken())
+    {
+        OperadorAditivo();
+        Primaria();
+    }
+}
+
+void Primaria(void)
+{
+    /* <identificador> || <constante> || <parenizquierdo> <expresion> <parenderecho> */
+    TOKEN t = GetNextToken();
+    if (t == IDENTIFICADOR || t == CONSTANTE)
+        Match(t);
+    else
+        ErrorSintactico(t);
+}
+
+void OperadorAditivo(void)
+{
+    /* <operadorAditivo> -> uno de SUMA RESTA */
+    TOKEN t = GetNextToken();
+    if (t == SUMA)
+        Match(t);
+    else
+        ErrorSintactico(t);
 }

@@ -1,38 +1,135 @@
-// Scanner --> GetChar --> SO
-// Analizador Léxico
-
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
 #include "scanner.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
+//----------------- ESTADOS ---------------
 typedef enum
 {
     Q0_inicial,
-    Q1_constante,
-    Q2_identificador,
+    Q1_identificador,
+    Q2_constante,
     Q3_adicion,
     Q4_producto,
-    Q5_lpar,
-    Q6_rpar,
-    Q7_err,
-    Q8_fdt
+    Q5_parizquierdo,
+    Q6_parderecho,
+    Q7_igual,
+    Q8_asignacion,
+    Q9_fds,
+    Q10_fdt,
+    Q11_error
 } Estado;
 
-// void mostrar(token);
+void mostrar(TOKEN);
+TOKEN scanner(void);
+void agregarSimbolo(int[], int[], TOKEN);
+void agregarCaracter(int);
+void SetNombre(int[]);
+void SetValor(int[]);
+void SetTipo(TOKEN);
+void mostrarBuffer();
+void limpiarBuffer();
+int buffer[8] = {0};
+int punteroDeBuffer = 0;
+int punteroDeSimbolo = 0;
 
-token GetNextToken(void);
-
-/* int main(void)
+extern struct simbolo
 {
-    token t;
-    for (; (t = GetNextToken()) != fdt;)
-    {
-        mostrar(t);
-    }
-} */
+    TOKEN tipo;
+    int nombre[8];
+    int valor[8];
+} tablaDeSimbolos[];
 
-token GetNextToken(void)
+struct simbolo auxiliar;
+
+void agregarSimbolo(int nombre[], int valor[], TOKEN tipo)
+{
+    if (tipo == IDENTIFICADOR)
+    {
+        SetNombre(nombre);
+    }
+    SetValor(valor);
+    SetTipo(tipo);
+    ++punteroDeSimbolo;
+}
+
+void SetNombre(int nombre[])
+{
+    for (unsigned i = 0; tablaDeSimbolos[punteroDeSimbolo].nombre[i] != 0; ++i)
+        tablaDeSimbolos[punteroDeSimbolo].nombre[i] = nombre[i];
+}
+
+void SetValor(int valor[])
+{
+    for (unsigned i = 0; tablaDeSimbolos[punteroDeSimbolo].valor[i] != 0; ++i)
+        tablaDeSimbolos[punteroDeSimbolo].valor[i] = valor[i];
+}
+
+void SetTipo(TOKEN tipo)
+{
+    tablaDeSimbolos[punteroDeSimbolo].tipo = tipo;
+}
+
+void agregarCaracter(int c)
+{
+    buffer[punteroDeBuffer] = c;
+    punteroDeBuffer++;
+}
+
+void mostrarBuffer()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        printf(" %d ,", buffer[i]);
+    }
+}
+
+void limpiarBuffer()
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        buffer[i] = 0;
+    }
+    punteroDeBuffer = 0;
+}
+int main(void)
+{
+    /* agregarCaracter(1);
+    agregarCaracter(2);
+    agregarCaracter(3);
+    agregarCaracter(4);
+    agregarCaracter(5);
+    agregarCaracter(6);
+    agregarCaracter(7);
+    agregarCaracter(8);
+    mostrarBuffer();
+    limpiarBuffer();
+    mostrarBuffer(); */
+
+    TOKEN t;
+    t = scanner();
+    mostrar(t);
+    mostrarBuffer();
+    printf("\n");
+    t = scanner();
+    mostrar(t);
+    mostrarBuffer();
+    printf("\n");
+    t = scanner();
+    mostrar(t);
+    mostrarBuffer();
+    printf("\n");
+    t = scanner();
+    mostrar(t);
+    mostrarBuffer();
+    printf("\n");
+    t = scanner();
+    mostrar(t);
+    mostrarBuffer();
+    printf("\n");
+}
+
+TOKEN scanner(void)
 {
     static Estado estadoActual = Q0_inicial;
     char c;
@@ -40,125 +137,160 @@ token GetNextToken(void)
     {
         switch (estadoActual)
         {
-            //------------------------------ESTADO INICIAL------------------
         case Q0_inicial:
-            if (isdigit(c))
-            {
-                estadoActual = Q1_constante;
-                break;
-            }
             if (isalpha(c))
             {
-                estadoActual = Q2_identificador;
+                estadoActual = Q1_identificador;
+                agregarCaracter(c);
                 break;
             }
-            switch (c)
+            if (isdigit(c))
             {
-            case '+':
+                estadoActual = Q2_constante;
+                agregarCaracter(c);
+                break;
+            }
+            if (c == '+')
+            {
                 estadoActual = Q3_adicion;
                 break;
-            case '*':
+            }
+            if (c == '*')
+            {
                 estadoActual = Q4_producto;
                 break;
-            case '(':
-                estadoActual = Q5_lpar;
-                break;
-            case ')':
-                estadoActual = Q6_rpar;
-                break;
-            case '\n':
-                estadoActual = Q8_fdt;
-                c = EOF;
-                return fdt;
-
-            default:
-                estadoActual = Q7_err;
+            }
+            if (c == '(')
+            {
+                estadoActual = Q5_parizquierdo;
                 break;
             }
+            if (c == ')')
+            {
+                estadoActual = Q6_parderecho;
+                break;
+            }
+            if (c == '=')
+            {
+                estadoActual = Q7_igual;
+                break;
+            }
+            if (c == ':')
+            {
+                estadoActual = Q8_asignacion;
+                break;
+            }
+            if (c == '\n')
+            {
+                estadoActual = Q9_fds;
+                break;
+            }
+
+            estadoActual = Q11_error;
             break;
-            //------------------------------ESTADO CONSTANTE------------------
-        case Q1_constante:
+
+        case Q1_identificador:
+            if ((!isalpha(c)) && (!isdigit(c)))
+            {
+                estadoActual = Q0_inicial;
+                ungetc(c, stdin);
+                return IDENTIFICADOR;
+            }
+            agregarCaracter(c);
+            break;
+        case Q2_constante:
             if (!isdigit(c))
             {
                 estadoActual = Q0_inicial;
+                agregarCaracter(c);
                 ungetc(c, stdin);
-                return constante;
+                mostrarBuffer();
+                return CONSTANTE;
             }
+            agregarCaracter(c);
             break;
-            //------------------------------ESTADO IDENTIFICADOR--------------
-        case Q2_identificador:
-            if ((isalpha(c)) || (isdigit(c)))
-                break;
-            else
-            {
-                estadoActual = Q0_inicial;
-                ungetc(c, stdin);
-                return identificador;
-            }
-            break;
-            //------------------------------ESTADO ADICIÓN--------------------
+
         case Q3_adicion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            return adicion;
-            break;
-            //------------------------------ESTADO PRODUCTO-------------------
+            return SUMA;
+
         case Q4_producto:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            return producto;
-            break;
-            //------------------------------ESTADO LPAR-----------------------
-        case Q5_lpar:
-            estadoActual = Q0_inicial;
-            ungetc(c, stdin);
-            return lpar;
-            break;
-            //------------------------------ESTADO RPAR-----------------------
-        case Q6_rpar:
-            estadoActual = Q0_inicial;
-            ungetc(c, stdin);
-            return rpar;
-            break;
-            //------------------------------ESTADO ERROR----------------------
-        case Q7_err:
-            c = EOF;
-            printf("Lexical ERROR");
-            exit(0);
-            break;
+            return MULTIPLICACION;
 
-        default:
-            estadoActual = fdt;
-            break;
+        case Q5_parizquierdo:
+            estadoActual = Q0_inicial;
+            ungetc(c, stdin);
+            return PARENIZQUIERDO;
+
+        case Q6_parderecho:
+            estadoActual = Q0_inicial;
+            ungetc(c, stdin);
+            return PARENDERECHO;
+
+        case Q7_igual:
+            estadoActual = Q0_inicial;
+            ungetc(c, stdin);
+            return IGUAL;
+
+        case Q8_asignacion:
+            if (c == '=')
+            {
+                estadoActual = Q0_inicial;
+                return ASIGNACION;
+            }
+
+        case Q9_fds:
+            if (c == '.')
+                return FDT;
+            return FDS;
+
+        case Q11_error:
+            printf("ERROR LEXICO");
+            c = EOF;
+            exit(0);
         }
     }
 }
 
-/* void mostrar(token a)
+void mostrar(TOKEN a)
 {
     switch (a)
     {
-    case identificador:
-        printf("id\n");
+    case IDENTIFICADOR:
+        printf("IDENTIFICADOR\n");
         break;
-    case constante:
-        printf("const\n");
+    case CONSTANTE:
+        printf("CONSTANTE\n");
         break;
-    case adicion:
-        printf("add\n");
+    case SUMA:
+        printf("ADICION\n");
         break;
-    case producto:
-        printf("prod\n");
+    case MULTIPLICACION:
+        printf("MULTIPLICACION\n");
         break;
-    case lpar:
-        printf("(\n");
+    case PARENIZQUIERDO:
+        printf("PARENIZQUIERDO\n");
         break;
-    case rpar:
-        printf(")\n");
+    case PARENDERECHO:
+        printf("PARENDERECHO \n");
         break;
-
+    case IGUAL:
+        printf("IGUAL \n");
+        break;
+    case ASIGNACION:
+        printf("ASIGNACION \n");
+        break;
+    case FDS:
+        printf("FDS \n");
+        break;
+    case FDT:
+        printf("FDT \n");
+        break;
     default:
-        printf("Not a token");
+        printf("Not a token \n");
         break;
     }
-} */
+}

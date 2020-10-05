@@ -1,15 +1,17 @@
-// HEADER DEL ANALIZADOR LÉXICO
-
 typedef enum
 {
-    constante,
-    identificador,
-    adicion,
-    producto,
-    lpar,
-    rpar,
-    fdt,
-    err
-} token;
+    IDENTIFICADOR,
+    CONSTANTE,
+    ASIGNACION,
+    IGUAL,
+    PARENIZQUIERDO,
+    PARENDERECHO,
+    SUMA,
+    MULTIPLICACION,
+    FDS,
+    FDT
+} TOKEN;
 
-token GetNextToken(void);
+TOKEN Scanner(void);
+
+void mostrar(TOKEN);
