@@ -1,7 +1,5 @@
 #include "scanner.h"
 
-TOKEN tokensCorrectos[];
-
 void Match(TOKEN tokenEsperado)
 {
     TOKEN tokenActual = GetNextToken();

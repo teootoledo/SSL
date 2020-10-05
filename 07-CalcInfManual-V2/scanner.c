@@ -33,12 +33,12 @@ int buffer[8] = {0};
 int punteroDeBuffer = 0;
 int punteroDeSimbolo = 0;
 
-extern struct simbolo
+struct simbolo
 {
     TOKEN tipo;
     int nombre[8];
     int valor[8];
-} tablaDeSimbolos[];
+} tablaDeSimbolos[32];
 
 struct simbolo auxiliar;
 
@@ -80,7 +80,7 @@ void mostrarBuffer()
 {
     for (int i = 0; i < 8; i++)
     {
-        printf(" %d ,", buffer[i]);
+        printf(" [%d]", buffer[i]);
     }
 }
 
@@ -94,39 +94,16 @@ void limpiarBuffer()
 }
 int main(void)
 {
-    /* agregarCaracter(1);
-    agregarCaracter(2);
-    agregarCaracter(3);
-    agregarCaracter(4);
-    agregarCaracter(5);
-    agregarCaracter(6);
-    agregarCaracter(7);
-    agregarCaracter(8);
-    mostrarBuffer();
-    limpiarBuffer();
-    mostrarBuffer(); */
-
     TOKEN t;
-    t = scanner();
-    mostrar(t);
-    mostrarBuffer();
-    printf("\n");
-    t = scanner();
-    mostrar(t);
-    mostrarBuffer();
-    printf("\n");
-    t = scanner();
-    mostrar(t);
-    mostrarBuffer();
-    printf("\n");
-    t = scanner();
-    mostrar(t);
-    mostrarBuffer();
-    printf("\n");
-    t = scanner();
-    mostrar(t);
-    mostrarBuffer();
-    printf("\n");
+
+    while ((t = scanner()) != FDT)
+    {
+        mostrar(t);
+        printf("\t");
+        mostrarBuffer();
+        limpiarBuffer();
+        printf("\n\n");
+    }
 }
 
 TOKEN scanner(void)
@@ -202,9 +179,7 @@ TOKEN scanner(void)
             if (!isdigit(c))
             {
                 estadoActual = Q0_inicial;
-                agregarCaracter(c);
                 ungetc(c, stdin);
-                mostrarBuffer();
                 return CONSTANTE;
             }
             agregarCaracter(c);
@@ -243,14 +218,22 @@ TOKEN scanner(void)
             }
 
         case Q9_fds:
-            if (c == '.')
+            estadoActual = Q0_inicial;
+            if (c == '\n')
                 return FDT;
+            ungetc(c, stdin);
             return FDS;
+            break;
 
         case Q11_error:
             printf("ERROR LEXICO");
             c = EOF;
             exit(0);
+            break;
+
+        default:
+            printf("Lexical ERROR");
+            break;
         }
     }
 }
