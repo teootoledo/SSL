@@ -1,4 +1,5 @@
 #include "scanner.h"
+#include "simbolos.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -22,97 +23,22 @@ typedef enum
 
 void mostrar(TOKEN);
 TOKEN scanner(void);
-void agregarSimbolo(int[], int[], TOKEN);
 void agregarCaracter(int);
-void SetNombre(int[]);
-void SetValor(int[]);
-void SetTipo(TOKEN);
+
 void mostrarBuffer();
 void limpiarBuffer();
-extern int buffer[8] = {0};
-extern int punteroDeBuffer = 0;
-int punteroDeSimbolo = 0;
+int buffer[8] = {0};
+int punteroDeBuffer = 0;
 
-struct simbolo
-{
-    TOKEN tipo;
-    int nombre[8];
-    int valor[8];
-} tablaDeSimbolos[32];
+// int main(void)
+// {
+//     TOKEN t;
 
-struct simbolo auxiliar;
+//     while ((t = scanner()) != FDT)
+//         mostrar(t);
 
-void agregarSimbolo(int nombre[], int valor[], TOKEN tipo)
-{
-    if (tipo == IDENTIFICADOR)
-    {
-        SetNombre(nombre);
-    }
-    SetValor(valor);
-    SetTipo(tipo);
-    ++punteroDeSimbolo;
-}
-
-void SetNombre(int nombre[])
-{
-    for (unsigned i = 0; tablaDeSimbolos[punteroDeSimbolo].nombre[i] != 0; ++i)
-        tablaDeSimbolos[punteroDeSimbolo].nombre[i] = nombre[i];
-}
-
-void SetValor(int valor[])
-{
-    for (unsigned i = 0; tablaDeSimbolos[punteroDeSimbolo].valor[i] != 0; ++i)
-        tablaDeSimbolos[punteroDeSimbolo].valor[i] = valor[i];
-}
-
-void SetTipo(TOKEN tipo)
-{
-    tablaDeSimbolos[punteroDeSimbolo].tipo = tipo;
-}
-
-void agregarCaracter(int c)
-{
-    buffer[punteroDeBuffer] = c;
-    punteroDeBuffer++;
-}
-
-void mostrarBuffer()
-{
-    for (int i = 0; i < 8; i++)
-    {
-        printf(" [%d]", buffer[i]);
-    }
-}
-
-void limpiarBuffer()
-{
-    for (int i = 0; i < 8; ++i)
-    {
-        buffer[i] = 0;
-    }
-    punteroDeBuffer = 0;
-}
-
-void mostrarTablaSimbolos(struct simbolo tabla[])
-{
-    for (unsigned i = 0; tabla[i].tipo != NAT; ++i)
-    {
-    }
-}
-
-int main(void)
-{
-    TOKEN t;
-
-    while ((t = scanner()) != FDT)
-    {
-        mostrar(t);
-        printf("\t");
-        mostrarBuffer();
-        limpiarBuffer();
-        printf("\n\n");
-    }
-}
+//     mostrarTablaSimbolos();
+// }
 
 TOKEN scanner(void)
 {
@@ -168,7 +94,12 @@ TOKEN scanner(void)
             if (c == '\n')
             {
                 estadoActual = Q9_fds;
+                return FDS;
                 break;
+            }
+            if (c == '.')
+            {
+                return FDT;
             }
 
             estadoActual = Q11_error;
@@ -179,7 +110,8 @@ TOKEN scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                agregarSimbolo();
+                agregarSimbolo(buffer, IDENTIFICADOR);
+                limpiarBuffer();
                 return IDENTIFICADOR;
             }
             agregarCaracter(c);
@@ -189,7 +121,8 @@ TOKEN scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                agregarSimbolo(CONSTANTE);
+                agregarSimbolo(buffer, CONSTANTE);
+                limpiarBuffer();
                 return CONSTANTE;
             }
             agregarCaracter(c);
@@ -200,7 +133,8 @@ TOKEN scanner(void)
             ungetc(c, stdin);
             return SUMA;
 
-            agregarSimbolo() case Q4_producto : estadoActual = Q0_inicial;
+        case Q4_producto:
+            estadoActual = Q0_inicial;
             ungetc(c, stdin);
             return MULTIPLICACION;
 
@@ -225,13 +159,19 @@ TOKEN scanner(void)
                 estadoActual = Q0_inicial;
                 return ASIGNACION;
             }
+            estadoActual = Q11_error;
+            break;
 
         case Q9_fds:
-            estadoActual = Q0_inicial;
-            if (c == '\n')
+            if (c == '.')
+            {
                 return FDT;
+            }
+            estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            return FDS;
+            break;
+
+        case Q10_fdt:
             break;
 
         case Q11_error:
@@ -285,4 +225,26 @@ void mostrar(TOKEN a)
         printf("Not a token \n");
         break;
     }
+}
+void agregarCaracter(int c)
+{
+    buffer[punteroDeBuffer] = c;
+    punteroDeBuffer++;
+}
+
+void mostrarBuffer()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        printf(" [%d]", buffer[i]);
+    }
+}
+
+void limpiarBuffer()
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        buffer[i] = 0;
+    }
+    punteroDeBuffer = 0;
 }

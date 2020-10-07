@@ -6,5 +6,5 @@ int main()
 {
     printf("Comienzo de objetivo\n");
     printf("Ingrese expresión: ");
-    parser();
+    Objetivo();
 }
