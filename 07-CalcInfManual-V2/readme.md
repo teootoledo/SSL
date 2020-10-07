@@ -1,38 +1,38 @@
-# Calculadora Infija: Construcción Manual 🧮
+# Calculadora 2
 
----
 
-### Gramática léxica 🔤
+### Gramática Léxica
 
-```c
-<token> -> uno de <identificador> <constante> <operador> <lpar> <rpar>
-    <identificador> -> <letra>
-    <constante> -> <dígito>
-    	<letra> -> una de a-z A-Z (a-z|A-Z)*
-    	<dígito> -> uno de 0-9
-    	<operador> -> uno de <adición> <producto>
-    		<adición> -> +
-    		<producto> -> *
-    	<lpar> -> (
-    	<rpar> -> )
-```
+~~~
+<token> -> uno de <identificador> <constante> <operadorAditivo> <operadorMultiplicador> <asignación> <igual> <carácterPuntuación>
+<identificador> -> <letra> {<letra o dígito>}
+<constante> -> <dígito> {<dígito>}
+<letra o dígito> -> uno de <letra> <dígito>
+<letra> -> una de a-z A-Z
+<dígito> -> uno de 0-9
+<operadorAditivo> -> + 
+<operadorMultiplicador> -> *
+<asignación> -> :=
+<igual> -> =
+<carácterPuntuación> -> uno de ( ) 
+~~~
 
----
+### Gramática Sintáctica
 
-### Gramática sintáctica 🔗
-
-```c
-
-```
-
----
-
-### AFD Scanner ◾
-
-<img src="/07-CalcInfManual-V2/imgs/afd.png" alt="Autómata finito determinístico" style="zoom:30%;" />
-
-### AP Parser ◾
-
-<img src="/07-CalcInfManual-V2/imgs/ap.png" alt="Autómata de pila para parser" style="zoom:30%;" />
-
-### 
+~~~
+<objetivo> -> <programa> FDT
+	<programa> -> <listaSentencias>
+		<listaSentencias> -> <sentencia> {<sentencia>}
+			<sentencia> -> <definicion> | <expresion>
+				<definicion> -> <identificador> <asignacion> <constante> FDS
+				<expresión> -> <primaria> {<operadorAditivo> | <operadorMultiplicador <primaria>} = FDS
+					<primaria> -> <identificador> | <constante> | ( <expresión> )
+~~~   
+| En la entrada | Nombre del Token |
+|---------------|------------------|
+| := | ASIGNACION |
+| = | IGUAL |
+| ( | PARENIZQUIERDO |
+| ) | PARENDERECHO |
+| + | SUMA |
+| * | MULTIPLICACION |
