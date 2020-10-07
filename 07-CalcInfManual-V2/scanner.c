@@ -93,7 +93,7 @@ TOKEN scanner(void)
             }
             if (c == '\n')
             {
-                estadoActual = Q9_fds;
+                estadoActual = Q0_inicial;
                 return FDS;
                 break;
             }
@@ -163,12 +163,6 @@ TOKEN scanner(void)
             break;
 
         case Q9_fds:
-            if (c == '.')
-            {
-                return FDT;
-            }
-            estadoActual = Q0_inicial;
-            ungetc(c, stdin);
             break;
 
         case Q10_fdt:
