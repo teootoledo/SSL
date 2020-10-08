@@ -11,14 +11,14 @@ int punteroDeSimbolo = 0;
     TOKEN c2 = CONSTANTE;
     TOKEN c3 = IDENTIFICADOR;
     TOKEN c4 = CONSTANTE;
-    agregarSimbolo(nom, val, c);
-    agregarSimbolo(nom, val, c2);
-    agregarSimbolo(nom, val, c3);
-    agregarSimbolo(nom, val, c4);
-    mostrarTablaSimbolos();
+    AgregarSimbolo(nom, val, c);
+    AgregarSimbolo(nom, val, c2);
+    AgregarSimbolo(nom, val, c3);
+    AgregarSimbolo(nom, val, c4);
+    MostrarTablaSimbolos();
 }*/
 
-void agregarSimbolo(int valor[8], TOKEN tipo)
+void AgregarSimbolo(int valor[8], TOKEN tipo)
 {
     if (tipo == IDENTIFICADOR)
         SetNombre(valor);
@@ -47,7 +47,7 @@ void SetTipo(TOKEN tipo)
     tablaDeSimbolos[punteroDeSimbolo].tipo = tipo;
 }
 
-void mostrarTablaSimbolos()
+void MostrarTablaSimbolos()
 {
     for (unsigned i = 0; i < 8; ++i)
     {
@@ -57,20 +57,20 @@ void mostrarTablaSimbolos()
             printf("CONSTANTE \t");
         else
             return;
-        mostrarNombre(tablaDeSimbolos[i].nombre);
+        MostrarNombre(tablaDeSimbolos[i].nombre);
         printf("\t");
-        mostrarValor(tablaDeSimbolos[i].valor);
+        MostrarValor(tablaDeSimbolos[i].valor);
         printf("\n");
     }
 }
 
-void mostrarNombre(int nombre[8])
+void MostrarNombre(int nombre[8])
 {
     for (int i = 0; i < 8; i++)
         printf(" [%d]", nombre[i]);
 }
 
-void mostrarValor(int valor[8])
+void MostrarValor(int valor[8])
 {
     for (int i = 0; i < 8; i++)
     {

@@ -11,10 +11,12 @@ typedef enum
     PARENDERECHO,
     SUMA,
     MULTIPLICACION,
+    EXP,
     FDS,
     FDT
 } TOKEN;
 
 #endif
 
-TOKEN scanner(void);
+TOKEN Scanner(void);
+void MostrarToken(TOKEN);

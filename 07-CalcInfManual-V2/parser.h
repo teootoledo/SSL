@@ -4,8 +4,10 @@
 
 //PROTOTIPOS
 void Match(TOKEN);
-void Objetivo(void);
-void Programa(void);
-void ListaDeSentencias(void);
-void Sentencia(void);
+void TokenActual(TOKEN);
+void Parser(void);
+void Sentencias(void);
 void Definicion(void);
+void Expresion(void);
+void Primaria(void);
+void ErrorSintactico(void);
