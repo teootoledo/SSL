@@ -22,7 +22,6 @@ typedef enum
     Q12_error
 } Estado;
 
-
 TOKEN Scanner(void);
 void AgregarCaracter(int);
 
@@ -96,7 +95,7 @@ TOKEN Scanner(void)
             {
                 estadoActual = Q9_expresion;
                 break;
-            }            
+            }
             if (c == '.')
             {
                 estadoActual = Q10_fds;
@@ -106,7 +105,7 @@ TOKEN Scanner(void)
             if (c == '\n')
             {
                 estadoActual = Q11_fdt;
-                break;        
+                break;
             }
 
             estadoActual = Q12_error;
@@ -171,7 +170,7 @@ TOKEN Scanner(void)
         case Q9_expresion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            return EXP;    
+            return EXP;
 
         case Q10_fds:
             estadoActual = Q0_inicial;
@@ -180,7 +179,7 @@ TOKEN Scanner(void)
             break;
 
         case Q11_fdt:
-            if(c == '\n')
+            if (c == '\n')
                 return FDT;
             estadoActual = Q0_inicial;
             ungetc(c, stdin);

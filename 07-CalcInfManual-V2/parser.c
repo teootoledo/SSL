@@ -6,8 +6,8 @@ TOKEN t;
 
 void Parser()
 {
-Sentencias();
-printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n");
+    Sentencias();
+    printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n");
 }
 
 void Sentencias()
@@ -15,18 +15,18 @@ void Sentencias()
     t = Scanner();
     switch (t)
     {
-    case IDENTIFICADOR: 
+    case IDENTIFICADOR:
         Definicion();
         Match(FDS);
         break;
     case EXP:
-        Expresion();    
+        Expresion();
         TokenActual(FDS);
         break;
     case FDT:
-        return;    
+        return;
     default:
-        ErrorSintactico();          
+        ErrorSintactico();
     }
     Sentencias();
 }
@@ -37,58 +37,62 @@ void Definicion()
     Match(CONSTANTE);
 }
 
-void Expresion (void) {
- Primaria();
- for (t = Scanner(); t == SUMA || t == MULTIPLICACION ; t = Scanner())
+void Expresion(void)
+{
     Primaria();
+    for (t = Scanner(); t == SUMA || t == MULTIPLICACION; t = Scanner())
+        Primaria();
 }
 
-void Primaria(){
-    t = Scanner(); 
+void Primaria()
+{
+    t = Scanner();
     switch (t)
     {
-        case IDENTIFICADOR:
+    case IDENTIFICADOR:
         return;
-        case CONSTANTE:
+    case CONSTANTE:
         return;
-        case PARENIZQUIERDO:
-        while(t == PARENIZQUIERDO){
-                Expresion();
-                TokenActual(PARENDERECHO);
-        }   
+    case PARENIZQUIERDO:
+        while (t == PARENIZQUIERDO)
+        {
+            Expresion();
+            TokenActual(PARENDERECHO);
+        }
         return;
-        default:
+    default:
         ErrorSintactico();
-    }     
+    }
 }
 void Match(TOKEN tokenEsperado)
 {
     TOKEN actualToken = Scanner();
     if (actualToken != tokenEsperado)
     {
-      printf("\n\nTOKEN ESPERADO: ");
-      MostrarToken(tokenEsperado);
-      printf("TOKEN RECIBIDO: ");
-      MostrarToken(actualToken);
-      printf("\n");
-      ErrorSintactico();
+        printf("\n\nTOKEN ESPERADO: ");
+        MostrarToken(tokenEsperado);
+        printf("TOKEN RECIBIDO: ");
+        MostrarToken(actualToken);
+        printf("\n");
+        ErrorSintactico();
     }
 }
 
-void TokenActual(TOKEN tokenEsperado){
+void TokenActual(TOKEN tokenEsperado)
+{
     if (tokenEsperado != t)
     {
-      printf("\n\nTOKEN ESPERADO: ");
-      MostrarToken(tokenEsperado);
-      printf("TOKEN RECIBIDO: ");
-      MostrarToken(t);
-      printf("\n");
-      ErrorSintactico();
+        printf("\n\nTOKEN ESPERADO: ");
+        MostrarToken(tokenEsperado);
+        printf("TOKEN RECIBIDO: ");
+        MostrarToken(t);
+        printf("\n");
+        ErrorSintactico();
     }
 }
 
-void ErrorSintactico(){
+void ErrorSintactico()
+{
     printf("\nERROR SINTACTICO\n");
     exit(1);
 }
-
