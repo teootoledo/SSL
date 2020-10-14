@@ -1,10 +1,16 @@
 #include "scanner.h"
-#include "simbolos.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-//----------------- ESTADOS ---------------
+//-------------- PROTOTIPOS ---------------//
+void AgregarCaracter(int);
+void MostrarBuffer();
+void LimpiarBuffer();
+int buffer[8] = {0};
+int punteroDeBuffer = 0;
+
+//----------------- ESTADOS ------, buffer---------//
 typedef enum
 {
     Q0_inicial,
@@ -22,27 +28,23 @@ typedef enum
     Q12_error
 } Estado;
 
-TOKEN Scanner(void);
-void AgregarCaracter(int);
+int main(void)
+{
+    tipoDeToken t;
 
-void MostrarBuffer();
-void LimpiarBuffer();
-int buffer[8] = {0};
-int punteroDeBuffer = 0;
+    while ((t = Scanner()) != FDT)
+    {
+    };
+    printf("\n\n");
+    MostrarListaDeTokens();
+    printf("\n\n");
+    return 0;
+}
 
-// int main(void)
-// {
-//     TOKEN t;
-
-//     while ((t = Scanner()) != FDT)
-//         MostrarToken(t);
-
-//     MostrarTablaSimbolos();
-// }
-
-TOKEN Scanner(void)
+tipoDeToken Scanner(void)
 {
     static Estado estadoActual = Q0_inicial;
+    static TOKEN token;
     char c;
     while ((c = getchar()) != EOF)
     {
@@ -116,7 +118,9 @@ TOKEN Scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                AgregarSimbolo(buffer, IDENTIFICADOR);
+                token.tipo = IDENTIFICADOR;
+                CargarArray(token.id, buffer);
+                AgregarToken(token);
                 LimpiarBuffer();
                 return IDENTIFICADOR;
             }
@@ -127,7 +131,9 @@ TOKEN Scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                AgregarSimbolo(buffer, CONSTANTE);
+                token.tipo = CONSTANTE;
+                CargarArray(token.valor, buffer);
+                AgregarToken(token);
                 LimpiarBuffer();
                 return CONSTANTE;
             }
@@ -137,32 +143,44 @@ TOKEN Scanner(void)
         case Q3_adicion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = SUMA;
+            AgregarToken(token);
             return SUMA;
 
         case Q4_producto:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = MULTIPLICACION;
+            AgregarToken(token);
             return MULTIPLICACION;
 
         case Q5_parizquierdo:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = PARENIZQUIERDO;
+            AgregarToken(token);
             return PARENIZQUIERDO;
 
         case Q6_parderecho:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = PARENDERECHO;
+            AgregarToken(token);
             return PARENDERECHO;
 
         case Q7_igual:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = IGUAL;
+            AgregarToken(token);
             return IGUAL;
 
         case Q8_asignacion:
             if (c == '=')
             {
                 estadoActual = Q0_inicial;
+                token.tipo = ASIGNACION;
+                AgregarToken(token);
                 return ASIGNACION;
             }
             estadoActual = Q12_error;
@@ -170,17 +188,25 @@ TOKEN Scanner(void)
         case Q9_expresion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = EXP;
+            AgregarToken(token);
             return EXP;
 
         case Q10_fds:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
+            token.tipo = FDS;
+            AgregarToken(token);
             return FDS;
             break;
 
         case Q11_fdt:
             if (c == '\n')
+            {
+                token.tipo = IGUAL;
+                AgregarToken(token);
                 return FDT;
+            }
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
             break;
@@ -198,51 +224,12 @@ TOKEN Scanner(void)
     }
 }
 
-void MostrarToken(TOKEN a)
-{
-    switch (a)
-    {
-    case IDENTIFICADOR:
-        printf("IDENTIFICADOR\n");
-        break;
-    case CONSTANTE:
-        printf("CONSTANTE\n");
-        break;
-    case SUMA:
-        printf("ADICION\n");
-        break;
-    case MULTIPLICACION:
-        printf("MULTIPLICACION\n");
-        break;
-    case PARENIZQUIERDO:
-        printf("PARENIZQUIERDO\n");
-        break;
-    case PARENDERECHO:
-        printf("PARENDERECHO \n");
-        break;
-    case IGUAL:
-        printf("IGUAL \n");
-        break;
-    case ASIGNACION:
-        printf("ASIGNACION \n");
-        break;
-    case FDS:
-        printf("FDS \n");
-        break;
-    case FDT:
-        printf("FDT \n");
-        break;
-    default:
-        printf("Not a token \n");
-        break;
-    }
-}
+//---------- BUFFER ------------//
 void AgregarCaracter(int c)
 {
     buffer[punteroDeBuffer] = c;
     punteroDeBuffer++;
 }
-
 void MostrarBuffer()
 {
     for (int i = 0; i < 8; i++)
@@ -250,7 +237,6 @@ void MostrarBuffer()
         printf(" [%d]", buffer[i]);
     }
 }
-
 void LimpiarBuffer()
 {
     for (int i = 0; i < 8; ++i)
