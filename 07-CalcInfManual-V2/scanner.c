@@ -28,7 +28,7 @@ typedef enum
     Q12_error
 } Estado;
 
-int main(void)
+/* int main(void)
 {
     tipoDeToken t;
 
@@ -39,7 +39,7 @@ int main(void)
     MostrarListaDeTokens();
     printf("\n\n");
     return 0;
-}
+} */
 
 tipoDeToken Scanner(void)
 {
@@ -118,9 +118,7 @@ tipoDeToken Scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                token.tipo = IDENTIFICADOR;
-                CargarArray(token.id, buffer);
-                AgregarToken(token);
+                AgregarToken(IDENTIFICADOR, buffer);
                 LimpiarBuffer();
                 return IDENTIFICADOR;
             }
@@ -131,9 +129,7 @@ tipoDeToken Scanner(void)
             {
                 estadoActual = Q0_inicial;
                 ungetc(c, stdin);
-                token.tipo = CONSTANTE;
-                CargarArray(token.valor, buffer);
-                AgregarToken(token);
+                AgregarToken(CONSTANTE, buffer);
                 LimpiarBuffer();
                 return CONSTANTE;
             }
@@ -143,44 +139,39 @@ tipoDeToken Scanner(void)
         case Q3_adicion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = SUMA;
-            AgregarToken(token);
+            AgregarToken(SUMA, buffer);
             return SUMA;
 
         case Q4_producto:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = MULTIPLICACION;
-            AgregarToken(token);
+            AgregarToken(MULTIPLICACION, buffer);
+            LimpiarBuffer();
             return MULTIPLICACION;
 
         case Q5_parizquierdo:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = PARENIZQUIERDO;
-            AgregarToken(token);
+            AgregarToken(PARENIZQUIERDO, buffer);
             return PARENIZQUIERDO;
 
         case Q6_parderecho:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = PARENDERECHO;
-            AgregarToken(token);
+            AgregarToken(PARENDERECHO, buffer);
             return PARENDERECHO;
 
         case Q7_igual:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = IGUAL;
-            AgregarToken(token);
+            AgregarToken(IGUAL, buffer);
             return IGUAL;
 
         case Q8_asignacion:
             if (c == '=')
             {
                 estadoActual = Q0_inicial;
-                token.tipo = ASIGNACION;
-                AgregarToken(token);
+                AgregarToken(ASIGNACION, buffer);
                 return ASIGNACION;
             }
             estadoActual = Q12_error;
@@ -188,23 +179,20 @@ tipoDeToken Scanner(void)
         case Q9_expresion:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = EXP;
-            AgregarToken(token);
+            AgregarToken(EXP, buffer);
             return EXP;
 
         case Q10_fds:
             estadoActual = Q0_inicial;
             ungetc(c, stdin);
-            token.tipo = FDS;
-            AgregarToken(token);
+            AgregarToken(FDS, buffer);
             return FDS;
             break;
 
         case Q11_fdt:
             if (c == '\n')
             {
-                token.tipo = IGUAL;
-                AgregarToken(token);
+                AgregarToken(FDT, buffer);
                 return FDT;
             }
             estadoActual = Q0_inicial;

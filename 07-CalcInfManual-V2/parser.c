@@ -2,12 +2,13 @@
 #include "parser.h"
 #include <stdlib.h>
 
-TOKEN t;
+tipoDeToken t;
+extern int *pDTptr;
 
 void Parser()
 {
     Sentencias();
-    printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n");
+    printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n\n");
 }
 
 void Sentencias()
@@ -35,6 +36,7 @@ void Definicion()
 {
     Match(ASIGNACION);
     Match(CONSTANTE);
+    Asignar(listaDeTokens[punteroDeToken].valor);
 }
 
 void Expresion(void)
@@ -44,7 +46,7 @@ void Expresion(void)
         Primaria();
 }
 
-void Primaria()
+void Primaria() //3+(4*6)
 {
     t = Scanner();
     switch (t)
@@ -64,13 +66,13 @@ void Primaria()
         ErrorSintactico();
     }
 }
-void Match(TOKEN tokenEsperado)
+void Match(tipoDeToken tipoEsperado)
 {
-    TOKEN actualToken = Scanner();
-    if (actualToken != tokenEsperado)
+    tipoDeToken actualToken = Scanner();
+    if (actualToken != tipoEsperado)
     {
         printf("\n\nTOKEN ESPERADO: ");
-        MostrarToken(tokenEsperado);
+        MostrarToken(tipoEsperado);
         printf("TOKEN RECIBIDO: ");
         MostrarToken(actualToken);
         printf("\n");
@@ -78,12 +80,12 @@ void Match(TOKEN tokenEsperado)
     }
 }
 
-void TokenActual(TOKEN tokenEsperado)
+void TokenActual(tipoDeToken tipoEsperado)
 {
-    if (tokenEsperado != t)
+    if (tipoEsperado != t)
     {
         printf("\n\nTOKEN ESPERADO: ");
-        MostrarToken(tokenEsperado);
+        MostrarToken(tipoEsperado);
         printf("TOKEN RECIBIDO: ");
         MostrarToken(t);
         printf("\n");
@@ -95,4 +97,11 @@ void ErrorSintactico()
 {
     printf("\nERROR SINTACTICO\n");
     exit(1);
+}
+
+void Asignar(int valor[])
+{
+    punteroDeToken--;
+    int test[8] = {49, 50, 51};
+    SetValor(test);
 }

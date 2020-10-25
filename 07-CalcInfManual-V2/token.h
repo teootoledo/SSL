@@ -1,6 +1,9 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+static int punteroDeToken = 0; //Apunta al ultimo token de la lista de tokens
+int *pDTptr = &punteroDeToken;
+
 typedef enum
 {
     NAT,
@@ -20,15 +23,15 @@ typedef enum
 struct TOKEN
 {
     tipoDeToken tipo;
-    int id[20];
-    int valor[20];
+    int id[8];
+    int valor[8];
 } listaDeTokens[100];
 #endif
 
 typedef struct TOKEN TOKEN;
 
-void AgregarToken(TOKEN);
-void MostrarToken(struct TOKEN);
+void AgregarToken(tipoDeToken, int[]);
+void MostrarToken(int);
 void MostrarListaDeTokens(void);
 void SetID(int[]);
 void SetValor(int[]);

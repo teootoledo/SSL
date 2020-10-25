@@ -3,18 +3,21 @@
 #include <stdio.h>
 
 //---------- AGREGAR TOKENS ------------//
-int punteroDeToken = 0;
-void AgregarToken(TOKEN token)
+
+void AgregarToken(tipoDeToken tipo, int buffer[])
 {
-    if (token.tipo == IDENTIFICADOR)
-        SetID(token.id);
+    if (tipo == IDENTIFICADOR)
+        SetID(buffer);
 
-    if (token.tipo == CONSTANTE)
-        SetValor(token.valor);
+    if (tipo == CONSTANTE)
+        SetValor(buffer);
 
-    SetTipo(token.tipo);
-    ++punteroDeToken;
+    SetTipo(tipo);
+    printf("%d ", punteroDeToken);
+    punteroDeToken++;
+    printf("%d ", punteroDeToken);
 }
+
 void SetID(int id[])
 {
     for (unsigned i = 0; i < 8; ++i)
@@ -31,77 +34,78 @@ void SetTipo(tipoDeToken tipo)
 }
 
 //---------- MOSTRAR TOKENS ------------//
-void MostrarToken(TOKEN token)
+void MostrarToken(int i)
 {
-    switch (token.tipo)
+    switch (listaDeTokens[i].tipo)
     {
     case IDENTIFICADOR:
         printf("IDENTIFICADOR\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case CONSTANTE:
-        printf("CONSTANTE\t\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        printf("CONSTANTE\t");
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case SUMA:
         printf("ADICION\t\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case MULTIPLICACION:
         printf("MULTIPLICACION\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case PARENIZQUIERDO:
         printf("PARENIZQUIERDO\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case PARENDERECHO:
         printf("PARENDERECHO\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case IGUAL:
         printf("IGUAL\t\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case ASIGNACION:
         printf("ASIGNACION\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
+        break;
+    case EXP:
+        printf("EXPRESION\t");
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case FDS:
         printf("FDS \t\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     case FDT:
         printf("FDT \t\t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     default:
         printf("Not a token \t");
-        MostrarID(token.id);
-        MostrarValor(token.valor);
+        MostrarID(listaDeTokens[i].id);
+        MostrarValor(listaDeTokens[i].valor);
         break;
     }
 }
 void MostrarListaDeTokens()
 {
-    printf("\t\t\t--> Tabla de simbolos <--\n\n");
-    for (unsigned i = 0; i < 5; ++i)
+    printf("\t\t\t--> Tabla de tokens <--\n\n");
+    for (unsigned i = 0; i < 8; ++i)
     {
-        TOKEN tok;
-        tok.tipo = listaDeTokens[i].tipo;
-        CargarArray(listaDeTokens[i].id, tok.id);
-        CargarArray(listaDeTokens[i].valor, tok.valor);
-        MostrarToken(tok);
+        MostrarToken(i);
     }
 }
 void MostrarID(int nombre[])
@@ -110,7 +114,7 @@ void MostrarID(int nombre[])
         printf("[%d] ", nombre[i]);
     printf("\t");
 }
-void MostrarValor(int valor[])
+void MostrarValor(int valor[8])
 {
     for (int i = 0; i < 8; i++)
     {
@@ -120,11 +124,4 @@ void MostrarValor(int valor[])
             printf("[%d]", (valor[i] - '0'));
     }
     printf("\n");
-}
-void CargarArray(int inicio[], int final[])
-{
-    for (unsigned i = 0; final[i] != 0; ++i)
-    {
-        final[i] = inicio[i];
-    }
 }
