@@ -11,3 +11,5 @@ void Expresion(void);
 void Primaria(void);
 void ErrorSintactico(void);
 void Asignar(int[]);
+
+//static double LaMemoria['Z'-'A'];

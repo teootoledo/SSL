@@ -11,6 +11,8 @@ void Parser()
     printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n\n");
 }
 
+// $a+4
+
 void Sentencias()
 {
     t = Scanner();
@@ -34,9 +36,20 @@ void Sentencias()
 
 void Definicion()
 {
-    Match(ASIGNACION);
-    Match(CONSTANTE);
-    Asignar(listaDeTokens[punteroDeToken].valor);
+    { //V1
+        unsigned posicion = f(t.id);
+        Match(ASIGNACION);
+        Match(CONSTANTE);
+        LaMemoria[posicion] = t.valor; //Asignacion
+    }
+
+    { //V2
+        TOKEN identificador = t;
+        Match(ASIGNACION);
+        Match(CONSTANTE);
+        TOKEN constante = t;
+        Asignar(identificador, constante);
+    }
 }
 
 void Expresion(void)

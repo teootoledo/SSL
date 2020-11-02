@@ -3,6 +3,11 @@
 
 static int punteroDeToken = 0; //Apunta al ultimo token de la lista de tokens
 int *pDTptr = &punteroDeToken;
+extern int global;
+
+//$A=23
+//23+A=
+//46
 
 typedef enum
 {
@@ -20,13 +25,23 @@ typedef enum
     FDT
 } tipoDeToken;
 
-struct TOKEN
+struct TOKEN //resolver en scanner
 {
     tipoDeToken tipo;
-    int id[8];
-    int valor[8];
+    // union{
+    int id[8];    //string
+    int valor[8]; //double
+    // }
 } listaDeTokens[100];
 #endif
+
+/*
+A:=3
+
+A -> tipo -> IDENT, id -> "A"
+:= -> tipo -> ASIGNACION
+3 -> tipo -> CONST, valor -> "3"
+*/
 
 typedef struct TOKEN TOKEN;
 

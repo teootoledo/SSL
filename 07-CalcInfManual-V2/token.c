@@ -2,26 +2,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+extern int global = 42;
+
 //---------- AGREGAR TOKENS ------------//
 
-void AgregarToken(tipoDeToken tipo, int buffer[])
+TOKEN AgregarToken(tipoDeToken tipo, int buffer[])
 {
+    TOKEN newToken;
     if (tipo == IDENTIFICADOR)
-        SetID(buffer);
+        SetName(buffer, newToken);
 
     if (tipo == CONSTANTE)
         SetValor(buffer);
 
     SetTipo(tipo);
-    printf("%d ", punteroDeToken);
-    punteroDeToken++;
-    printf("%d ", punteroDeToken);
 }
 
-void SetID(int id[])
+void SetName(int id[])
 {
     for (unsigned i = 0; i < 8; ++i)
-        listaDeTokens[punteroDeToken].id[i] = id[i];
+        .id[i] = id[i];
 }
 void SetValor(int valor[])
 {
