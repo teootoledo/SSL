@@ -1,6 +1,7 @@
 #include "scanner.h"
 #include "parser.h"
 #include <stdlib.h>
+#include "string.h"
 
 TOKEN t;
 extern int *pDTptr;
@@ -37,18 +38,10 @@ void Sentencias()
 void Definicion()
 {
     { //V1
-        unsigned posicion = f(t.id);
+        unsigned position = SearchPosition(t.data.name);
         Match(ASIGNACION);
         Match(CONSTANTE);
-        LaMemoria[posicion] = t.valor; //Asignacion
-    }
-
-    { //V2
-        TOKEN identificador = t;
-        Match(ASIGNACION);
-        Match(CONSTANTE);
-        TOKEN constante = t;
-        Asignar(identificador, constante);
+        Asignar(position, t.data.value); //Asignacion
     }
 }
 
@@ -112,9 +105,23 @@ void ErrorSintactico()
     exit(1);
 }
 
-void Asignar(int valor[])
+//FUNCIONES PARA MANEJO DE MEMORIA
+
+unsigned SearchPosition(char name[])
 {
-    punteroDeToken--;
-    int test[8] = {49, 50, 51};
-    SetValor(test);
+    for (unsigned i = 0; i <= memoryLastPosition; ++i)
+    {
+        if (Memory[i].name == name)
+        {
+            return i;
+        }
+    }
+    strcpy(Memory[memoryLastPosition].name, name);
+    ++memoryLastPosition;
+    return memoryLastPosition - 1;
+}
+
+void Asignar(unsigned position, int value)
+{
+    Memory[position].value = value;
 }

@@ -7,15 +7,14 @@
 - Los identificadores deben comenzar con una letra y están compuestos de letras y dígitos.
 - Las constantes son secuencias de dígitos.
 - Hay dos tipos de sentencias:
-    - **Asignación** Identificador := Constante
-    - **Consulta** Expresion =
+  - **Asignación** Identificador := Constante
+  - **Consulta** Expresion =
 - Cada sentencia termina con un "enter" (/n).
-- El final de texto (fdt) será dado por dos "enter" consecuitivos (/n/n) 
-
+- El final de texto (fdt) será dado por dos "enter" consecuitivos (/n/n)
 
 ### Gramática Léxica
 
-~~~
+```
 <token> -> uno de <identificador> <constante> <operadorAditivo> <operadorMultiplicador> <asignación> <igual> <carácterPuntuación>
 <identificador> -> <letra> {<letra o dígito>}
 <constante> -> <dígito> {<dígito>}
@@ -23,26 +22,26 @@
 <letra> -> una de a-z A-Z
 <dígito> -> uno de 0-9
 <palabraReservada> -> una de leer escribir
-<operadorAditivo> -> + 
+<operadorAditivo> -> +
 <operadorMultiplicador> -> *
 <asignación> -> :=
 <igual> -> =
-<carácterPuntuación> -> uno de ( ) 
-~~~
+<carácterPuntuación> -> uno de ( )
+```
 
 ### Gramática Sintáctica
 
-~~~
-<parser> -> <sentencias> 
-<sentencias> -> <asignación> FDS | <expresion> FDS | <sentencias>
+```
+<parser>     -> <sentencias>
+<sentencias> -> <asignación> FDS
+                | <expresion> FDS
+                | <sentencias>
 <asignacion> -> ID ASIGNACION CONSTANTE
-<expresión> -> $ <primaria> { +|*  <primaria>}
-<primaria> -> IDENTIFICADOR | CONSTANTE | ( <expresion> )
-
-
-<expresión> -> <primaria> {<operadorAditivo> <primaria>}
-<primaria> -> <identificador> | <constante> |
- ( <expresión> )
+<expresión>  -> EXP <termino> { +  <termino>}*
+<termino>    -> factor { *  <termino>}*
+<factor>     -> CONSTANTE
+                | IDENTIFICADOR
+                | PARENIZQUIERDO <termino> PARENDERECHO
 
 
 
@@ -58,3 +57,4 @@
 | $ | EXP|
 | /n/n | FDT |
 
+```

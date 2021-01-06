@@ -12,12 +12,19 @@ void Primaria(void);
 void ErrorSintactico(void);
 void Asignar(int[]);
 
-struct
+//MEMORIA ------------------------
+
+#define MEMORY_SIZE 200
+struct var
 {
     char name[10]; //string
     int value;     //int o double
-} var;
+};
 
 typedef struct var var;
 
-static var Memory[200];
+static var Memory[MEMORY_SIZE];
+static unsigned memoryLastPosition = 0;
+
+//PROTOTIPOS MEMORIA
+unsigned SearchPosition(char[]);
