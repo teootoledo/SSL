@@ -260,7 +260,7 @@ void SetName(char id[], TOKEN t)
 }
 void SetValue(char value[], TOKEN t)
 {
-    t.data.val = atoi(value);
+    t.data.value = atoi(value);
 }
 void SetType(tipoDeToken type, TOKEN t)
 {

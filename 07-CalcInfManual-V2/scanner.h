@@ -26,7 +26,7 @@ struct TOKEN //resolver en scanner
     union
     {
         char name[10]; //string
-        int val;       //int o double
+        int value;     //int o double
     } data;
 };
 

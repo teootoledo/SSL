@@ -12,4 +12,12 @@ void Primaria(void);
 void ErrorSintactico(void);
 void Asignar(int[]);
 
-//static double LaMemoria['Z'-'A'];
+struct
+{
+    char name[10]; //string
+    int value;     //int o double
+} var;
+
+typedef struct var var;
+
+static var Memory[200];
