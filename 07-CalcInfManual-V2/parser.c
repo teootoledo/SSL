@@ -2,7 +2,7 @@
 #include "parser.h"
 #include <stdlib.h>
 
-tipoDeToken t;
+TOKEN t;
 extern int *pDTptr;
 
 void Parser()
@@ -16,7 +16,7 @@ void Parser()
 void Sentencias()
 {
     t = Scanner();
-    switch (t)
+    switch (t.type)
     {
     case IDENTIFICADOR:
         Definicion();
