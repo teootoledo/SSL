@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+
+void mostrarTipo(TOKEN);
 
 //-------------- PROTOTIPOS BUFFER ---------------//
 void AddCharacter(char);
@@ -12,10 +15,6 @@ char buffer[10] = {0};
 int bufferIndex = 0;
 //-------------- PROTOTIPOS TOKENS ---------------//
 TOKEN CreateToken(tipoDeToken, char[]);
-void SetName(char[], TOKEN);
-void SetValue(char[], TOKEN);
-void SetType(tipoDeToken, TOKEN);
-void StoreId(char[]);
 
 //----------------- ESTADOS ---------------//
 typedef enum
@@ -36,17 +35,16 @@ typedef enum
 } State;
 
 //---------- MAIN PARA DEBUG ---------//
-int main(void)
-{
-    TOKEN t;
-    while ((t = Scanner()).type != FDT)
-    {
-    };
-    printf("\n\n");
-    ShowMemory();
-    printf("\n\n");
-    return 0;
-}
+// int main(void)
+// {
+//     TOKEN t;
+//     while ((t = Scanner()).type != FDT)
+//     {
+//         mostrarTipo(t);
+//     };
+//     printf("\n\n");
+//     return 0;
+// }
 
 //---------- SCANNER -----------//
 TOKEN Scanner(void)
@@ -126,8 +124,7 @@ TOKEN Scanner(void)
                 ungetc(c, stdin);
                 arrivingToken = CreateToken(IDENTIFICADOR, buffer);
                 CleanBuffer();
-                StoreId(arrivingToken.data.name);
-                break;
+                return arrivingToken;
             }
             AddCharacter(c);
             break;
@@ -138,7 +135,7 @@ TOKEN Scanner(void)
                 ungetc(c, stdin);
                 arrivingToken = CreateToken(CONSTANTE, buffer);
                 CleanBuffer();
-                break;
+                return arrivingToken;
             }
             AddCharacter(c);
             break;
@@ -147,39 +144,39 @@ TOKEN Scanner(void)
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(SUMA, buffer);
-            break;
+            return arrivingToken;
 
         case Q4_producto:
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(MULTIPLICACION, buffer);
             CleanBuffer();
-            break;
+            return arrivingToken;
 
         case Q5_parizquierdo:
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(PARENIZQUIERDO, buffer);
-            break;
+            return arrivingToken;
 
         case Q6_parderecho:
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(PARENDERECHO, buffer);
-            break;
+            return arrivingToken;
 
         case Q7_igual:
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(IGUAL, buffer);
-            break;
+            return arrivingToken;
 
         case Q8_asignacion:
             if (c == '=')
             {
                 actualState = Q0_inicial;
                 arrivingToken = CreateToken(ASIGNACION, buffer);
-                break;
+                return arrivingToken;
             }
             actualState = Q12_error;
             break;
@@ -187,19 +184,19 @@ TOKEN Scanner(void)
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(EXP, buffer);
-            break;
+            return arrivingToken;
 
         case Q10_fds:
             actualState = Q0_inicial;
             ungetc(c, stdin);
             arrivingToken = CreateToken(FDS, buffer);
-            break;
+            return arrivingToken;
 
         case Q11_fdt:
             if (c == '\n')
             {
                 arrivingToken = CreateToken(FDT, buffer);
-                break;
+                return arrivingToken;
             }
             actualState = Q0_inicial;
             ungetc(c, stdin);
@@ -215,7 +212,6 @@ TOKEN Scanner(void)
             printf("[SCANNER] LEXICAL ERROR");
             break;
         }
-        return arrivingToken;
     }
 }
 
@@ -247,30 +243,25 @@ TOKEN CreateToken(tipoDeToken tipo, char buffer[])
 {
     TOKEN newToken;
     if (tipo == IDENTIFICADOR)
-        SetName(buffer, newToken);
+        strcpy(newToken.data.name, buffer);
     if (tipo == CONSTANTE)
-        SetValue(buffer, newToken);
-    SetType(tipo, newToken);
+        newToken.data.value = atoi(buffer);
+    newToken.type = tipo;
     return newToken;
 }
-void SetName(char id[], TOKEN t)
+
+void mostrarTipo(TOKEN t)
 {
-    for (unsigned i = 0; i < 10; ++i)
-        t.data.name[i] = id[i];
-}
-void SetValue(char value[], TOKEN t)
-{
-    t.data.value = atoi(value);
-}
-void SetType(tipoDeToken type, TOKEN t)
-{
-    t.type = type;
-}
-void StoreId(char name[])
-{
-    for (unsigned i = 0; i < 10; ++i)
+
+    switch (t.type)
     {
-        variablesTable[vtIndex].name[i] = name[i];
+    case IDENTIFICADOR:
+        printf("IDENTIFICADOR");
+        break;
+    case CONSTANTE:
+        printf("CONSTANTE");
+    default:
+        printf("otro");
+        break;
     }
-    ++vtIndex;
 }
