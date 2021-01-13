@@ -15,7 +15,7 @@
 ### Gramática Léxica
 
 ```
-<token> -> uno de <identificador> <constante> <operadorAditivo> <operadorMultiplicador> <asignación> <igual> <carácterPuntuación>
+<token> -> uno de <identificador> <constante> <operadorAditivo> <operadorMultiplicador> <igual> <finDeSentencia>
 <identificador> -> <letra> {<letra o dígito>}
 <constante> -> <dígito> {<dígito>}
 <letra o dígito> -> uno de <letra> <dígito>
@@ -32,29 +32,28 @@
 ### Gramática Sintáctica
 
 ```
-<parser>     -> <sentencias>
-<sentencias> -> <asignación> FDS
+<parser>     -> <sentencias> FDT
+<sentencias> -> unaSentencia { <unaSentencia> }* FDT
+<unaSentencia> -> <asignación> FDS
                 | <expresion> FDS
-                | <sentencias>
-<asignacion> -> ID ASIGNACION CONSTANTE
-<expresión>  -> EXP <termino> { +  <termino>}*
-<termino>    -> factor { *  <termino>}*
+<asignacion> -> DEF ID IGUAL CONSTANTE
+<expresión>  -> <termino> { SUMA <expresión> }*
+<término>    -> factor { MULTIPLICACION <término> }*
 <factor>     -> CONSTANTE
-                | IDENTIFICADOR
-                | PARENIZQUIERDO <termino> PARENDERECHO
+              | IDENTIFICADOR
+              | PARENIZQUIERDO <término> PARENDERECHO
 
 
 
 | En la entrada | Nombre del Token |
 |---------------|------------------|
-| := | ASIGNACION |
 | = | IGUAL |
 | ( | PARENIZQUIERDO |
 | ) | PARENDERECHO |
 | + | SUMA |
 | * | MULTIPLICACION |
-| . | FDS |
-| $ | EXP|
+| ; | FDS |
+| $ | DEF|
 | /n/n | FDT |
 
 ```

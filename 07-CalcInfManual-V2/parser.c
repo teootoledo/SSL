@@ -1,102 +1,162 @@
 #include "scanner.h"
 #include "parser.h"
+#include "memory.h"
 #include <stdlib.h>
-#include "string.h"
 
-TOKEN t;
-extern int *pDTptr;
+void mostrarTipo(tipoDeToken);
 
+TOKEN t; //TOKEN OBTENIDO
+
+//Prototipos de funciones privadas
+static void Match(tipoDeToken);
+void Sentencias(void);
+void unaSentencia(void);
+void Definicion(void);
+int Expresion(void);
+int Termino(void);
+int Factor(void);
+void ErrorSintactico(void);
+
+//Definición de función pública
 void Parser()
 {
     Sentencias();
     printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n\n");
 }
 
-// $a+4
-
+//Definiciones de funciones privadas
 void Sentencias()
 {
-    t = Scanner();
+    unaSentencia();
+    t = GetNextToken();
+    mostrarTipo(t.type);
+
     switch (t.type)
     {
+    case DEF:
     case IDENTIFICADOR:
-        Definicion();
-        Match(FDS);
-        break;
-    case EXP:
+    case CONSTANTE:
         Expresion();
-        TokenActual(FDS);
         break;
-    case FDT:
-        return;
     default:
-        ErrorSintactico();
+        Match(FDT);
+        mostrarTipo(t.type);
+
+        return;
     }
-    Sentencias();
+}
+
+void unaSentencia()
+{
+    t = GetNextToken();
+    mostrarTipo(t.type);
+    switch (t.type)
+    {
+    case DEF:         //Definición
+        Definicion(); //Se asocia valor a identificador.
+        break;
+    case IDENTIFICADOR:                      //Expresión
+    case CONSTANTE:                          //Expresión
+        printf("Resultado = ", Expresion()); //Expresión que luego será evaluada
+        break;
+    default:
+        break;
+    }
+    Match(FDS);
+    printf("\nEsperando nueva sentencia...\n");
 }
 
 void Definicion()
 {
-    { //V1
-        unsigned position = SearchPosition(t.data.name);
-        Match(ASIGNACION);
-        Match(CONSTANTE);
-        Asignar(position, t.data.value); //Asignacion
+    Match(IDENTIFICADOR);                         //Matcheo IDENTIFICADOR
+    unsigned position = GetPosition(t.data.name); //t es el último token obtenido. Busco si existe en memoria
+    Match(IGUAL);                                 //Matcheo IGUAL
+    Match(CONSTANTE);                             //Matcheo CONSTANTE a ser asignada.
+    Assign(position, t.data.value);               //Asignacion
+}
+
+int Expresion(void)
+{
+    printf("Llegue EXPRESION\n");
+
+    int resultado;
+    resultado = Termino();
+    printf("%d", resultado);
+    t = GetNextToken();
+
+    switch (t.type)
+    {
+    case SUMA: //Matcheo SUMA
+        printf("Llegue SUMA\n");
+
+        return (resultado + Expresion()); //Por gramática: <termino> { SUMA <expresión> }*
+        break;
+    default:
+        return resultado; //Devuelvo resultado si lo único expresado fue el término
+        break;
     }
 }
 
-void Expresion(void)
+int Termino(void)
 {
-    Primaria();
-    for (t = Scanner(); t == SUMA || t == MULTIPLICACION; t = Scanner())
-        Primaria();
+    int resultado = Factor();
+    t = GetNextToken();
+
+    switch (t.type)
+    {
+    case MULTIPLICACION:                //Matcheo MULTIPLICACIÓN
+        return (resultado * Termino()); //Por gramática: factor { MULTIPLICACION <término> }*
+    default:
+        return resultado; //Devuelvo resultado si lo único expresado fue el factor
+    }
 }
 
-void Primaria() //3+(4*6)
+int Factor(void)
 {
-    t = Scanner();
-    switch (t)
+    int resultado;
+    printf("Llegue FACTOR\n");
+    mostrarTipo(t.type);
+
+    switch (t.type)
     {
-    case IDENTIFICADOR:
-        return;
-    case CONSTANTE:
-        return;
-    case PARENIZQUIERDO:
-        while (t == PARENIZQUIERDO)
+    case CONSTANTE:          //Matcheo CONSTANTE
+        return t.data.value; //Retorno el valor de la CONSTANTE
+        break;
+    case IDENTIFICADOR: //Matcheo IDENTIFICADOR
+        printf("Match ident");
+        printf("%s", t.data.name);
+        if (resultado = GetValue(t.data.name) != -1)
         {
-            Expresion();
-            TokenActual(PARENDERECHO);
-        }
-        return;
+            return resultado;
+        } //Obtengo el valor de la variable en memoria.
+        printf("%d", resultado);
+        ErrorSintactico();
+
+        break;
+    case PARENIZQUIERDO:         //Matcheo PARENIZQUIERDO
+        resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <término> PARENDERECHO
+        Match(PARENDERECHO);     //Matcheo PARENDERECHO
+        break;
     default:
         ErrorSintactico();
-    }
-}
-void Match(tipoDeToken tipoEsperado)
-{
-    tipoDeToken actualToken = Scanner();
-    if (actualToken != tipoEsperado)
-    {
-        printf("\n\nTOKEN ESPERADO: ");
-        MostrarToken(tipoEsperado);
-        printf("TOKEN RECIBIDO: ");
-        MostrarToken(actualToken);
-        printf("\n");
-        ErrorSintactico();
+        break;
     }
 }
 
-void TokenActual(tipoDeToken tipoEsperado)
+//--------------------------------------------------------------------
+static void Match(tipoDeToken tipoEsperado)
 {
-    if (tipoEsperado != t)
+    t = GetNextToken();
+    if (t.type != tipoEsperado)
     {
-        printf("\n\nTOKEN ESPERADO: ");
-        MostrarToken(tipoEsperado);
-        printf("TOKEN RECIBIDO: ");
-        MostrarToken(t);
-        printf("\n");
+        printf("\nR ");
+        mostrarTipo(t.type);
+        printf("\nE ");
+        mostrarTipo(tipoEsperado);
+
         ErrorSintactico();
     }
+    mostrarTipo(t.type);
 }
 
 void ErrorSintactico()
@@ -105,23 +165,43 @@ void ErrorSintactico()
     exit(1);
 }
 
-//FUNCIONES PARA MANEJO DE MEMORIA
-
-unsigned SearchPosition(char name[])
+void mostrarTipo(tipoDeToken tipo)
 {
-    for (unsigned i = 0; i <= memoryLastPosition; ++i)
+
+    switch (tipo)
     {
-        if (Memory[i].name == name)
-        {
-            return i;
-        }
+    case IDENTIFICADOR:
+        printf("IDENTIFICADOR\n");
+        break;
+    case CONSTANTE:
+        printf("CONSTANTE\n");
+        break;
+    case SUMA:
+        printf("SUMA\n");
+        break;
+    case MULTIPLICACION:
+        printf("MULTIPLICACION\n");
+        break;
+    case IGUAL:
+        printf("IGUAL\n");
+        break;
+    case PARENDERECHO:
+        printf("PARENDERECHO\n");
+        break;
+    case PARENIZQUIERDO:
+        printf("PARENIZQUIERDO\n");
+        break;
+    case DEF:
+        printf("DEF\n");
+        break;
+    case FDS:
+        printf("FDS\n");
+        break;
+    case FDT:
+        printf("FDT\n");
+        break;
+    default:
+        printf("NAT\n");
+        break;
     }
-    strcpy(Memory[memoryLastPosition].name, name);
-    ++memoryLastPosition;
-    return memoryLastPosition - 1;
-}
-
-void Asignar(unsigned position, int value)
-{
-    Memory[position].value = value;
 }

@@ -1,22 +1,59 @@
 #include "memory.h"
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
-int vtIndex = 0;
+unsigned memoryLastPosition = 0;
+variable Memory[MEMORY_SIZE]
 
-void ShowName(char[]);
+    //Prototipos funciones privadas
+    int
+    Exists(char[]);
 
-void ShowMemory(void)
+//Definiciones de funciones privadas
+int Exists(char name[])
 {
-    for (unsigned i = 0; i < vtIndex; ++i)
+
+    for (unsigned i = 0; i <= memoryLastPosition; ++i)
     {
-        ShowName(variablesTable[i].name);
+        if (Memory[i].name == name)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+//FUNCIONES PARA MANEJO DE MEMORIA
+//Definición de funciones públicas
+unsigned GetPosition(char name[])
+{
+    if (Exists(name) != -1)
+    {
+        strcpy(Memory[memoryLastPosition].name, name);
+        ++memoryLastPosition;
+        return memoryLastPosition - 1;
+    }
+    else
+    {
+        return memoryLastPosition;
     }
 }
 
-void ShowName(char name[])
+void Assign(unsigned position, int value)
 {
-    printf("SHOW");
-    for (int i = 0; i < 10; i++)
-        printf("%c", name[i]);
-    printf("\t");
+    Memory[position].value = value;
+}
+
+int GetValue(char name[])
+{
+    if (Exists(name) != -1)
+    {
+        return GetPosition(name);
+    }
+    else
+    {
+        printf("\n\nEl identificador %s no existe\n\n", name);
+        return -1;
+    }
 }

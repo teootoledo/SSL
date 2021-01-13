@@ -1,18 +1,28 @@
 #include "scanner.h"
-#include "memory.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
-void mostrarTipo(TOKEN);
+// void mostrarTipo(TOKEN);
 
 //-------------- PROTOTIPOS BUFFER ---------------//
 void AddCharacter(char);
+char buffer[10] = {
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0',
+    '\0'};
 void ShowBuffer();
 void CleanBuffer();
-char buffer[10] = {0};
 int bufferIndex = 0;
+
 //-------------- PROTOTIPOS TOKENS ---------------//
 TOKEN CreateToken(tipoDeToken, char[]);
 
@@ -27,8 +37,7 @@ typedef enum
     Q5_parizquierdo,
     Q6_parderecho,
     Q7_igual,
-    Q8_asignacion,
-    Q9_expresion,
+    Q9_definicion,
     Q10_fds,
     Q11_fdt,
     Q12_error
@@ -38,16 +47,15 @@ typedef enum
 // int main(void)
 // {
 //     TOKEN t;
-//     while ((t = Scanner()).type != FDT)
+//     while ((t = GetNextToken()).type != FDT)
 //     {
-//         mostrarTipo(t);
 //     };
 //     printf("\n\n");
 //     return 0;
 // }
 
-//---------- SCANNER -----------//
-TOKEN Scanner(void)
+//---------- GetNextToken -----------//
+TOKEN GetNextToken(void)
 {
     static State actualState = Q0_inicial;
     static TOKEN arrivingToken;
@@ -94,17 +102,12 @@ TOKEN Scanner(void)
                 actualState = Q7_igual;
                 break;
             }
-            if (c == ':')
-            {
-                actualState = Q8_asignacion;
-                break;
-            }
             if (c == '$')
             {
-                actualState = Q9_expresion;
+                actualState = Q9_definicion;
                 break;
             }
-            if (c == '.')
+            if (c == ';')
             {
                 actualState = Q10_fds;
                 break;
@@ -171,19 +174,10 @@ TOKEN Scanner(void)
             arrivingToken = CreateToken(IGUAL, buffer);
             return arrivingToken;
 
-        case Q8_asignacion:
-            if (c == '=')
-            {
-                actualState = Q0_inicial;
-                arrivingToken = CreateToken(ASIGNACION, buffer);
-                return arrivingToken;
-            }
-            actualState = Q12_error;
-            break;
-        case Q9_expresion:
+        case Q9_definicion:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(EXP, buffer);
+            arrivingToken = CreateToken(DEF, buffer);
             return arrivingToken;
 
         case Q10_fds:
@@ -250,18 +244,43 @@ TOKEN CreateToken(tipoDeToken tipo, char buffer[])
     return newToken;
 }
 
-void mostrarTipo(TOKEN t)
-{
+// void mostrarTipo(TOKEN t)
+// {
 
-    switch (t.type)
-    {
-    case IDENTIFICADOR:
-        printf("IDENTIFICADOR");
-        break;
-    case CONSTANTE:
-        printf("CONSTANTE");
-    default:
-        printf("otro");
-        break;
-    }
-}
+//     switch (t.type)
+//     {
+//     case IDENTIFICADOR:
+//         printf("IDENTIFICADOR");
+//         break;
+//     case CONSTANTE:
+//         printf("CONSTANTE");
+//         break;
+//     case SUMA:
+//         printf("SUMA");
+//         break;
+//     case MULTIPLICACION:
+//         printf("MULTIPLICACION");
+//         break;
+//     case IGUAL:
+//         printf("IGUAL");
+//         break;
+//     case PARENDERECHO:
+//         printf("PARENDERECHO");
+//         break;
+//     case PARENIZQUIERDO:
+//         printf("PARENIZQUIERDO");
+//         break;
+//     case DEF:
+//         printf("DEF");
+//         break;
+//     case FDS:
+//         printf("FDS");
+//         break;
+//     case FDT:
+//         printf("FDT");
+//         break;
+//     default:
+//         printf("NAT");
+//         break;
+//     }
+// }

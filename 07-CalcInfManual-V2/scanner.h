@@ -15,7 +15,7 @@ typedef enum
     PARENDERECHO,
     SUMA,
     MULTIPLICACION,
-    EXP,
+    DEF,
     FDS,
     FDT
 } tipoDeToken;
@@ -34,4 +34,4 @@ typedef struct TOKEN TOKEN;
 
 #endif
 
-TOKEN Scanner(void);
+TOKEN GetNextToken(void);
