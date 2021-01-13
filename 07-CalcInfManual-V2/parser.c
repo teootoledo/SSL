@@ -81,7 +81,7 @@ int Expresion(void)
 
     int resultado;
     resultado = Termino();
-    printf("%d", resultado);
+    printf("\n\tResultado TERMINO %d\n", resultado);
     t = GetNextToken();
 
     switch (t.type)
@@ -100,6 +100,8 @@ int Expresion(void)
 int Termino(void)
 {
     int resultado = Factor();
+    printf("\n\tResultado FACTOR %d\n", resultado);
+
     t = GetNextToken();
 
     switch (t.type)
@@ -115,18 +117,19 @@ int Factor(void)
 {
     int resultado;
     printf("Llegue FACTOR\n");
-    mostrarTipo(t.type);
 
     switch (t.type)
     {
-    case CONSTANTE:          //Matcheo CONSTANTE
+    case CONSTANTE: //Matcheo CONSTANTE
+        printf("\n\tResultado CONSTANTE %d\n", t.data.value);
+
         return t.data.value; //Retorno el valor de la CONSTANTE
         break;
     case IDENTIFICADOR: //Matcheo IDENTIFICADOR
-        printf("Match ident");
-        printf("%s", t.data.name);
+        printf("\n\tResultado IDENTIFICADOR %s %d", t.data.name, t.data.value);
         if (resultado = GetValue(t.data.name) != -1)
         {
+            printf("\n\tResultado IDENTIFICADOR IF %d\n", t.data.value);
             return resultado;
         } //Obtengo el valor de la variable en memoria.
         printf("%d", resultado);
