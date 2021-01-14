@@ -33,7 +33,7 @@
 
 ```
 <parser>     -> <sentencias> FDT
-<sentencias> -> unaSentencia { <unaSentencia> }* FDT
+<sentencias> -> unaSentencia { <unaSentencia> }*
 <unaSentencia> -> <asignación> FDS
                 | <expresion> FDS
 <asignacion> -> DEF ID IGUAL CONSTANTE

@@ -1,3 +1,6 @@
+//https://miro.com/app/board/o9J_lZ_aUhE=/
+//Link al miro
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "parser.h"

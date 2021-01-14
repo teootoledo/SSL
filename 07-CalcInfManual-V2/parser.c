@@ -28,36 +28,33 @@ void Parser()
 void Sentencias()
 {
     unaSentencia();
-    t = GetNextToken();
-    mostrarTipo(t.type);
 
-    switch (t.type)
+    while ((t = GetNextToken()).type != FDT)
     {
-    case DEF:
-    case IDENTIFICADOR:
-    case CONSTANTE:
-        Expresion();
-        break;
-    default:
-        Match(FDT);
-        mostrarTipo(t.type);
-
-        return;
+        switch (t.type)
+        {
+        case DEF:
+        case IDENTIFICADOR:
+        case CONSTANTE:
+            unaSentencia();
+            break;
+        default:
+            return;
+        }
     }
 }
 
 void unaSentencia()
 {
     t = GetNextToken();
-    mostrarTipo(t.type);
     switch (t.type)
     {
     case DEF:         //Definición
         Definicion(); //Se asocia valor a identificador.
         break;
-    case IDENTIFICADOR:                      //Expresión
-    case CONSTANTE:                          //Expresión
-        printf("Resultado = ", Expresion()); //Expresión que luego será evaluada
+    case IDENTIFICADOR:                        //Expresión
+    case CONSTANTE:                            //Expresión
+        printf("Resultado = %d", Expresion()); //Expresión que luego será evaluada
         break;
     default:
         break;
@@ -77,37 +74,25 @@ void Definicion()
 
 int Expresion(void)
 {
-    printf("Llegue EXPRESION\n");
-
-    int resultado;
-    resultado = Termino();
-    printf("\n\tResultado TERMINO %d\n", resultado);
-    t = GetNextToken();
-
-    switch (t.type)
+    int resultado = Termino();
+    switch ((t = GetNextToken()).type)
     {
     case SUMA: //Matcheo SUMA
-        printf("Llegue SUMA\n");
-
-        return (resultado + Expresion()); //Por gramática: <termino> { SUMA <expresión> }*
-        break;
+        resultado = resultado + Expresion();
+        return resultado; //Por gramática: <termino> { SUMA <expresión> }*
     default:
         return resultado; //Devuelvo resultado si lo único expresado fue el término
-        break;
     }
 }
 
 int Termino(void)
 {
     int resultado = Factor();
-    printf("\n\tResultado FACTOR %d\n", resultado);
-
-    t = GetNextToken();
-
-    switch (t.type)
+    switch ((t = GetNextToken()).type)
     {
-    case MULTIPLICACION:                //Matcheo MULTIPLICACIÓN
-        return (resultado * Termino()); //Por gramática: factor { MULTIPLICACION <término> }*
+    case MULTIPLICACION: //Matcheo MULTIPLICACIÓN
+        resultado = resultado * Termino();
+        return resultado; //Por gramática: factor { MULTIPLICACION <término> }*
     default:
         return resultado; //Devuelvo resultado si lo único expresado fue el factor
     }
@@ -116,33 +101,20 @@ int Termino(void)
 int Factor(void)
 {
     int resultado;
-    printf("Llegue FACTOR\n");
-
     switch (t.type)
     {
-    case CONSTANTE: //Matcheo CONSTANTE
-        printf("\n\tResultado CONSTANTE %d\n", t.data.value);
-
-        return t.data.value; //Retorno el valor de la CONSTANTE
-        break;
     case IDENTIFICADOR: //Matcheo IDENTIFICADOR
-        printf("\n\tResultado IDENTIFICADOR %s %d", t.data.name, t.data.value);
-        if (resultado = GetValue(t.data.name) != -1)
-        {
-            printf("\n\tResultado IDENTIFICADOR IF %d\n", t.data.value);
-            return resultado;
-        } //Obtengo el valor de la variable en memoria.
-        printf("%d", resultado);
-        ErrorSintactico();
-
-        break;
+        resultado = GetValue(t.data.name);
+        return resultado;         //Retorno el valor de la variable en memoria.
+    case CONSTANTE:               //Matcheo CONSTANTE
+        resultado = t.data.value; //Obtengo valor de la constante
+        return resultado;
     case PARENIZQUIERDO:         //Matcheo PARENIZQUIERDO
-        resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <término> PARENDERECHO
+        resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <expresion> PARENDERECHO
         Match(PARENDERECHO);     //Matcheo PARENDERECHO
-        break;
+        return resultado;
     default:
-        ErrorSintactico();
-        break;
+        return resultado;
     }
 }
 
