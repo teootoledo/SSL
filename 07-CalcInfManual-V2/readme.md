@@ -23,13 +23,10 @@
     - [Parser](#parser)
         - [Gramática Sintáctica](#gramática-sintáctica)
     - [Memoria](#memoria)
-        - [GetPosition()](#get-position)
+        - [GetPosition()](#getposition)
         - [Assign()](#assign)
-        - [GetValue()](#get-value)
+        - [GetValue()](#getvalue)
 <!--te-->
-
-[TOC]
-
 
 
 # Síntesis
