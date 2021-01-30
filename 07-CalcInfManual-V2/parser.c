@@ -49,7 +49,7 @@ void unaSentencia()
     case CONSTANTE:
     case PARENIZQUIERDO:
         resultado = Expresion();                //Expresión
-        printf("\nResultado = %d", resultado); //Expresión que luego será evaluada
+        printf("\n Resultado = %d", resultado); //Expresión que luego será evaluada
         break;
     case FDT:
         return;

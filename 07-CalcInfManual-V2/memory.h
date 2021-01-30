@@ -21,3 +21,4 @@ void Assign(unsigned, int);
 int GetValue(char[]);
 
 //FUNCIONES PARA DEBUG
+void mostrarMemoria();

@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <stdlib.h> //exit
 
 unsigned memoryLastPosition = 0;
 variable Memory[MEMORY_SIZE];
@@ -46,7 +45,7 @@ int GetValue(char name[])
         }
     }
     printf("\n\nEl identificador %s no existe\n\n", name);
-    exit(1);
+    return -1;
 }
 
 void mostrarMemoria()
