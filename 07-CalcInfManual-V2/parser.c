@@ -3,25 +3,26 @@
 #include "memory.h"
 #include <stdlib.h>
 
-void mostrarTipo(tipoDeToken);
+void ShowType(tipoDeToken);
 
 TOKEN t; //TOKEN OBTENIDO
 
 //Prototipos de funciones privadas
 static void Match(tipoDeToken);
+static void ActualMatch(tipoDeToken tipoEsperado);
 void Sentencias(void);
 void unaSentencia(void);
 void Definicion(void);
 int Expresion(void);
 int Termino(void);
 int Factor(void);
-void ErrorSintactico(void);
+void SyntaxError(void);
 
 //Definición de función pública
 void Parser()
 {
     Sentencias();
-    printf("\n\n\t\t--- SINTAXIS CORRECTA ---\n\n");
+    printf("\n\n\t\t--- FIN DEL PROGRAMA ---\n\n");
 }
 
 //Definiciones de funciones privadas
@@ -29,37 +30,33 @@ void Sentencias()
 {
     unaSentencia();
 
-    while ((t = GetNextToken()).type != FDT)
+    while (t.type != FDT)
     {
-        switch (t.type)
-        {
-        case DEF:
-        case IDENTIFICADOR:
-        case CONSTANTE:
-            unaSentencia();
-            break;
-        default:
-            return;
-        }
+        unaSentencia();
     }
 }
 
 void unaSentencia()
 {
+    int resultado;
     t = GetNextToken();
     switch (t.type)
     {
     case DEF:         //Definición
         Definicion(); //Se asocia valor a identificador.
         break;
-    case IDENTIFICADOR:                        //Expresión
-    case CONSTANTE:                            //Expresión
-        printf("Resultado = %d", Expresion()); //Expresión que luego será evaluada
+    case IDENTIFICADOR: //Expresión
+    case CONSTANTE:
+    case PARENIZQUIERDO:
+        resultado = Expresion();                //Expresión
+        printf("\nResultado = %d", resultado); //Expresión que luego será evaluada
         break;
+    case FDT:
+        return;
     default:
         break;
     }
-    Match(FDS);
+    ActualMatch(FDS);
     printf("\nEsperando nueva sentencia...\n");
 }
 
@@ -70,32 +67,29 @@ void Definicion()
     Match(IGUAL);                                 //Matcheo IGUAL
     Match(CONSTANTE);                             //Matcheo CONSTANTE a ser asignada.
     Assign(position, t.data.value);               //Asignacion
+    t = GetNextToken();
 }
 
 int Expresion(void)
 {
     int resultado = Termino();
-    switch ((t = GetNextToken()).type)
+    while (t.type == SUMA)
     {
-    case SUMA: //Matcheo SUMA
-        resultado = resultado + Expresion();
-        return resultado; //Por gramática: <termino> { SUMA <expresión> }*
-    default:
-        return resultado; //Devuelvo resultado si lo único expresado fue el término
+        t = GetNextToken();
+        resultado = resultado + Termino();
     }
+    return resultado;
 }
 
 int Termino(void)
 {
     int resultado = Factor();
-    switch ((t = GetNextToken()).type)
+    while (t.type == MULTIPLICACION)
     {
-    case MULTIPLICACION: //Matcheo MULTIPLICACIÓN
-        resultado = resultado * Termino();
-        return resultado; //Por gramática: factor { MULTIPLICACION <término> }*
-    default:
-        return resultado; //Devuelvo resultado si lo único expresado fue el factor
+        t = GetNextToken();
+        resultado = resultado * Factor();
     }
+    return resultado;
 }
 
 int Factor(void)
@@ -105,44 +99,52 @@ int Factor(void)
     {
     case IDENTIFICADOR: //Matcheo IDENTIFICADOR
         resultado = GetValue(t.data.name);
-        return resultado;         //Retorno el valor de la variable en memoria.
+        t = GetNextToken();
+        break;                    //Retorno el valor de la variable en memoria.
     case CONSTANTE:               //Matcheo CONSTANTE
         resultado = t.data.value; //Obtengo valor de la constante
-        return resultado;
-    case PARENIZQUIERDO:         //Matcheo PARENIZQUIERDO
+        t = GetNextToken();
+        break;
+    case PARENIZQUIERDO:
+        t = GetNextToken();
         resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <expresion> PARENDERECHO
-        Match(PARENDERECHO);     //Matcheo PARENDERECHO
-        return resultado;
+        ActualMatch(PARENDERECHO);
+        t = GetNextToken();
+        break;
     default:
-        return resultado;
+        SyntaxError();
     }
+    return resultado;
 }
 
 //--------------------------------------------------------------------
 static void Match(tipoDeToken tipoEsperado)
 {
     t = GetNextToken();
-    if (t.type != tipoEsperado)
-    {
-        printf("\nR ");
-        mostrarTipo(t.type);
-        printf("\nE ");
-        mostrarTipo(tipoEsperado);
-
-        ErrorSintactico();
-    }
-    mostrarTipo(t.type);
+    ActualMatch(tipoEsperado);
 }
 
-void ErrorSintactico()
+static void ActualMatch(tipoDeToken tipoEsperado)
 {
-    printf("\nERROR SINTACTICO\n");
+    if (t.type != tipoEsperado)
+    {
+        printf("\nRecibido ");
+        ShowType(t.type);
+        printf("\nEsperado ");
+        ShowType(tipoEsperado);
+
+        SyntaxError();
+    }
+}
+void SyntaxError()
+{
+    printf("\n[PARSER] SYNTAX ERROR\n");
     exit(1);
 }
 
-void mostrarTipo(tipoDeToken tipo)
+void ShowType(tipoDeToken tipo)
 {
-
+    printf(" ");
     switch (tipo)
     {
     case IDENTIFICADOR:

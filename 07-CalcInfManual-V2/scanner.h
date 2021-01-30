@@ -9,7 +9,6 @@ typedef enum
     NAT,
     IDENTIFICADOR,
     CONSTANTE,
-    ASIGNACION,
     IGUAL,
     PARENIZQUIERDO,
     PARENDERECHO,
@@ -20,7 +19,7 @@ typedef enum
     FDT
 } tipoDeToken;
 
-struct TOKEN //resolver en scanner
+struct TOKEN
 {
     tipoDeToken type;
     union

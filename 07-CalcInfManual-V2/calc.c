@@ -3,10 +3,12 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "parser.h"
 
 int main()
 {
+    system("cls");
     printf("\t\t%c%c CALCULADORA MANUAL INFIJA %c%c\n\n", 45, 45, 45, 45);
     printf("%c Diccionario%c", 45, 58);
 

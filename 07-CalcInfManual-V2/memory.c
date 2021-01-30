@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h> //exit
 
 unsigned memoryLastPosition = 0;
 variable Memory[MEMORY_SIZE];
@@ -11,6 +12,10 @@ variable Memory[MEMORY_SIZE];
 //Definiciones de funciones privadas
 
 //FUNCIONES PARA MANEJO DE MEMORIA
+
+void mostrarVariable(int);
+void mostrarNombre(char[]);
+
 //Definición de funciones públicas
 unsigned GetPosition(char name[])
 {
@@ -41,5 +46,28 @@ int GetValue(char name[])
         }
     }
     printf("\n\nEl identificador %s no existe\n\n", name);
-    return -1;
+    exit(1);
+}
+
+void mostrarMemoria()
+{
+    printf("\n--------------MEMORIA---------------\n");
+    for (int i = 0; i < 5; i++)
+        mostrarVariable(i);
+}
+
+void mostrarVariable(int i)
+{
+    mostrarNombre(Memory[i].name);
+    printf("valor: %d", Memory[i].value);
+}
+
+void mostrarNombre(char nombre[])
+{
+    printf("\nnombre: ");
+    for (int i = 0; i < 10; i++)
+    {
+        printf("%c", nombre[i]);
+    }
+    printf("\t");
 }
