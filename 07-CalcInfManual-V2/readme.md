@@ -1,4 +1,4 @@
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Banner.png)
+![](/07-CalcInfManual-V2/imgs/Banner.png)
 
 
 
@@ -30,7 +30,7 @@ La interfaz utilizada en la consola enseña al inicio del programa una guía del
 
 
 
-<img src="C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Interfaz.png"  />
+<img src="/07-CalcInfManual-V2/imgs/Interfaz.png"  />
 
 [^]: Ejemplo de la interfaz al momento de ejecutar el programa.
 
@@ -61,7 +61,7 @@ La interfaz utilizada en la consola enseña al inicio del programa una guía del
 
 ------
 
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Banner1.png)
+![](/07-CalcInfManual-V2/imgs/Banner1.png)
 
 
 
@@ -156,7 +156,7 @@ Una vez retornado el tipo de token, el Parser es el encargado de analizar si es 
 
 -----
 
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Banner2.png)
+![](/07-CalcInfManual-V2/imgs/Banner2.png)
 
 
 
@@ -210,7 +210,7 @@ El Parser va “descendiendo” por sus funciones “No terminales”
 
 ---
 
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Banner3.png)
+![](/07-CalcInfManual-V2/imgs/Banner3.png)
 
 
 
@@ -240,7 +240,7 @@ Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su
 
 ---
 
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Banner4.png)
+![](/07-CalcInfManual-V2/imgs/Banner4.png)
 
 
 
@@ -254,7 +254,7 @@ Pueden acceder a la pizarra de *Miró* a través del siguiente link: [Link al do
 
 
 
-![](C:\Users\teoot\Documents\GitHub\SSL\07-CalcInfManual-V2\imgs\Miro.jpg)
+![](/07-CalcInfManual-V2/imgs/Miro.jpg)
 
 
 
