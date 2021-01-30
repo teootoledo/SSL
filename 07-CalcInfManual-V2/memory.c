@@ -1,7 +1,6 @@
 #include "memory.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
+#include <stdio.h> //printf
+#include <string.h> //strcmp
 
 unsigned memoryLastPosition = 0;
 variable Memory[MEMORY_SIZE];

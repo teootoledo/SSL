@@ -1,8 +1,8 @@
 #include "scanner.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
+#include <stdio.h> //printf
+#include <stdlib.h> //exit
+#include <ctype.h> //isalpha isdigit
+#include <string.h> //strcpy
 
 //void mostrarTipo(TOKEN);
 
@@ -200,11 +200,12 @@ TOKEN GetNextToken(void)
         case Q12_error:
             printf("[SCANNER] LEXICAL ERROR");
             c = EOF;
-            exit(0);
+            exit(1);
             break;
 
         default:
             printf("[SCANNER] LEXICAL ERROR");
+            exit(1);
             break;
         }
     }
