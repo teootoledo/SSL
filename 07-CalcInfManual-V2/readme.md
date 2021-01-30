@@ -12,7 +12,21 @@
 
 # Tabla de Contenidos
 
-
+<!--ts-->
+- [Tabla de contenidos](#tabla-de-contenidos)
+- [Síntesis](#síntesis)
+- [Calculadora](#calculadora)
+    - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado)
+    - [Scanner](#scanner)
+        - [Gramática Léxica](#gramática-léxica)
+        - [Lista de tokens](#lista-de-tokens)
+    - [Parser](#parser)
+        - [Gramática Sintáctica](#gramática-sintáctica)
+    - [Memoria](#memoria)
+        - [GetPosition()](#get-position)
+        - [Assign()](#assign)
+        - [GetValue()](#get-value)
+<!--te-->
 
 [TOC]
 
