@@ -1,16 +1,13 @@
 %{
-  #include "scanner.h"
   #include <stdio.h>
   #include <stdlib.h>
-  static TOKEN arrivingToken;
-
 }%
 
 %option noyywrap
 
 %%
 
-[a-zA-Z][a-zA-Z]* {
+[a-zA-Z][a-zA-Z | 0-9]* {
                     strcpy(yylval.string, yytext);
                     return IDENTIFICADOR;
                   }
@@ -18,24 +15,27 @@
                     yylval.number=atoi(yytext);
                     return CONSTANTE;
                   }
-\)        return PARENDERECHO;
-\(        return PARENIZQUIERDO;
-\*        return MULTIPLICACION;
-\+        return SUMA;
-\$        return DEFINICION;
-\=        return IGUAL;
-\{        return INICIO;
-\}        return FIN;
-\;        return PUNTO_Y_COMA;
-<<EOF>>   return FDT;
-[ ]+ ;
+")"        return PARENDERECHO;
+")"        return PARENIZQUIERDO;
+"*"        return MULTIPLICACION;
+"+"        return SUMA;
+"$"        return DEFINICION;
+"="        return IGUAL;
+";"        return FDS;
+\\n\\n   return FDT;
 .                       {
-                          Error("[Scanner] Error Léxico, carácter inválido: %s\n", yytext);
-                          return ERROR_LEXICO;
+                          printf("Ha ingresado el siguiente caracter no v%clido: %s\n",160, yytext);
+                          return FDT;
                         }
 
 %%
 
-TOKEN GetNextToken(){
-  
+main(int argc, char **argv)
+{
+ int tok;
+ while(tok = yylex()) {
+ printf("%d", tok);
+ if(tok == NUMBER) printf(" = %d\n", yylval);
+ else printf("\n");
+ }
 }
