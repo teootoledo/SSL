@@ -1,7 +1,7 @@
 #include "scanner.h"
-#include <stdio.h> //printf
+#include <stdio.h>  //printf
 #include <stdlib.h> //exit
-#include <ctype.h> //isalpha isdigit
+#include <ctype.h>  //isalpha isdigit
 #include <string.h> //strcpy
 
 //void mostrarTipo(TOKEN);
@@ -59,7 +59,7 @@ typedef enum
 TOKEN GetNextToken(void)
 {
     static State actualState = Q0_inicial;
-    static TOKEN arrivingToken;
+    static TOKEN incomingToken;
     char c;
     while ((c = getchar()) != EOF)
     {
@@ -126,9 +126,9 @@ TOKEN GetNextToken(void)
             {
                 actualState = Q0_inicial;
                 ungetc(c, stdin);
-                arrivingToken = CreateToken(IDENTIFICADOR, buffer);
+                incomingToken = CreateToken(IDENTIFICADOR, buffer);
                 CleanBuffer();
-                return arrivingToken;
+                return incomingToken;
             }
             AddCharacter(c);
             break;
@@ -137,9 +137,9 @@ TOKEN GetNextToken(void)
             {
                 actualState = Q0_inicial;
                 ungetc(c, stdin);
-                arrivingToken = CreateToken(CONSTANTE, buffer);
+                incomingToken = CreateToken(CONSTANTE, buffer);
                 CleanBuffer();
-                return arrivingToken;
+                return incomingToken;
             }
             AddCharacter(c);
             break;
@@ -147,51 +147,51 @@ TOKEN GetNextToken(void)
         case Q3_adicion:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(SUMA, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(SUMA, buffer);
+            return incomingToken;
 
         case Q4_producto:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(MULTIPLICACION, buffer);
+            incomingToken = CreateToken(MULTIPLICACION, buffer);
             CleanBuffer();
-            return arrivingToken;
+            return incomingToken;
 
         case Q5_parizquierdo:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(PARENIZQUIERDO, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(PARENIZQUIERDO, buffer);
+            return incomingToken;
 
         case Q6_parderecho:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(PARENDERECHO, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(PARENDERECHO, buffer);
+            return incomingToken;
 
         case Q7_igual:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(IGUAL, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(IGUAL, buffer);
+            return incomingToken;
 
         case Q9_definicion:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(DEF, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(DEF, buffer);
+            return incomingToken;
 
         case Q10_fds:
             actualState = Q0_inicial;
             ungetc(c, stdin);
-            arrivingToken = CreateToken(FDS, buffer);
-            return arrivingToken;
+            incomingToken = CreateToken(FDS, buffer);
+            return incomingToken;
 
         case Q11_fdt:
             if (c == '\n')
             {
-                arrivingToken = CreateToken(FDT, buffer);
-                return arrivingToken;
+                incomingToken = CreateToken(FDT, buffer);
+                return incomingToken;
             }
             actualState = Q0_inicial;
             ungetc(c, stdin);
