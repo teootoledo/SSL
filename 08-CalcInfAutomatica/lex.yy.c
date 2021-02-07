@@ -285,12 +285,12 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 6
-#define YY_END_OF_BUFFER 7
-static yyconst short int yy_accept[13] =
+#define YY_NUM_RULES 10
+#define YY_END_OF_BUFFER 11
+static yyconst short int yy_accept[17] =
     {   0,
-        0,    0,    7,    5,    6,    4,    3,    1,    2,    1,
-        2,    0
+        0,    0,   11,    9,   10,    5,    4,    3,    1,    7,
+        6,    2,    8,    1,    2,    0
     } ;
 
 static yyconst int yy_ec[256] =
@@ -298,17 +298,17 @@ static yyconst int yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    3,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    4,    5,    1,    1,    1,    1,    6,    6,    6,
-        6,    6,    6,    6,    6,    6,    6,    1,    1,    1,
-        1,    1,    1,    1,    7,    7,    7,    7,    7,    7,
-        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-        1,    1,    1,    1,    1,    1,    7,    7,    7,    7,
+        1,    3,    1,    1,    1,    4,    1,    1,    1,    1,
+        1,    5,    6,    1,    1,    1,    1,    7,    7,    7,
+        7,    7,    7,    7,    7,    7,    7,    1,    8,    1,
+        9,    1,    1,    1,   10,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+        1,    1,    1,    1,    1,    1,   10,   10,   10,   10,
 
-        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-        7,    7,    7,    7,    7,    7,    7,    7,    7,    7,
-        7,    7,    1,    3,    1,    1,    1,    1,    1,    1,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,    1,    3,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -325,33 +325,35 @@ static yyconst int yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst int yy_meta[8] =
+static yyconst int yy_meta[11] =
     {   0,
-        1,    1,    2,    1,    1,    2,    2
+        1,    1,    2,    1,    1,    1,    2,    1,    1,    2
     } ;
 
-static yyconst short int yy_base[14] =
+static yyconst short int yy_base[18] =
     {   0,
-        0,    0,   11,   12,   12,   12,   12,    4,    0,    3,
-        0,   12,    6
+        0,    0,   15,   16,   12,   16,   16,   16,    6,   16,
+       16,    0,   16,    5,    0,   16,    9
     } ;
 
-static yyconst short int yy_def[14] =
+static yyconst short int yy_def[18] =
     {   0,
-       12,    1,   12,   12,   12,   12,   12,   12,   13,   12,
-       13,    0,   12
+       16,    1,   16,   16,   16,   16,   16,   16,   16,   16,
+       16,   17,   16,   16,   17,    0,   16
     } ;
 
-static yyconst short int yy_nxt[20] =
+static yyconst short int yy_nxt[27] =
     {   0,
-        4,    5,    4,    6,    7,    8,    9,   11,   10,   10,
-       12,    3,   12,   12,   12,   12,   12,   12,   12
+        4,    5,    4,    6,    7,    8,    9,   10,   11,   12,
+       15,   14,   14,   13,   16,    3,   16,   16,   16,   16,
+       16,   16,   16,   16,   16,   16
     } ;
 
-static yyconst short int yy_chk[20] =
+static yyconst short int yy_chk[27] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,   13,   10,    8,
-        3,   12,   12,   12,   12,   12,   12,   12,   12
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+       17,   14,    9,    5,    3,   16,   16,   16,   16,   16,
+       16,   16,   16,   16,   16,   16
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -370,10 +372,12 @@ char *yytext;
 #line 2 "scanner.l"
 #include <stdlib.h> //atoi()
 #include <stdio.h>  //printf()
+#include <string.h>  //strcpy()
+#include "y.tab.h"
 
-int yylval;
+//int yylval;
 
-#line 377 "lex.yy.c"
+#line 381 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -524,10 +528,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 19 "scanner.l"
+#line 21 "scanner.l"
 
 
-#line 531 "lex.yy.c"
+#line 535 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -578,13 +582,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 13 )
+				if ( yy_current_state >= 17 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 12 );
+		while ( yy_base[yy_current_state] != 16 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -612,38 +616,75 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 21 "scanner.l"
+#line 23 "scanner.l"
 {
-            printf( "Constante: %s\n", yytext);
-            yylval = atoi(yytext);
-            }
+                        printf( "Constante: %s\n", yytext);
+                        yylval = atoi(yytext);
+                        return CONSTANTE;
+                        }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 26 "scanner.l"
-printf( "An identifier: %s\n", yytext );
+#line 29 "scanner.l"
+{
+                        strcpy(yylval, yytext); //Copio a yylval lo que ingreso a yytext
+                        printf( "Identificador: %s\n", yytext);
+                        return IDENTIFICADOR;
+                        }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "scanner.l"
-printf( "An operator: %s\n", yytext );
+#line 35 "scanner.l"
+{
+                        printf( "Operador: %s\n", yytext );
+                        return SUMA
+                        }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "scanner.l"
-printf( "An operator: %s\n", yytext );
+#line 40 "scanner.l"
+{
+                        printf( "Operador: %s\n", yytext );
+                        return MULTIPLICACION
+                        }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "scanner.l"
-printf( "Caracter no reconocido: %s\t LEXICAL ERROR\n", yytext );
+#line 44 "scanner.l"
+{
+                        printf( "Operador: %s\n", yytext );
+                        return DEF
+                        }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "scanner.l"
+#line 49 "scanner.l"
+{
+                        printf( "Operador: %s\n", yytext );
+                        return IGUAL
+                        }
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 54 "scanner.l"
+return FDS;
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 56 "scanner.l"
+return FDT;
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 58 "scanner.l"
+return NAT;
+	YY_BREAK
+case 10:
+YY_RULE_SETUP
+#line 60 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 647 "lex.yy.c"
+#line 688 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -935,7 +976,7 @@ static yy_state_type yy_get_previous_state()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 13 )
+			if ( yy_current_state >= 17 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -970,11 +1011,11 @@ yy_state_type yy_current_state;
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 13 )
+		if ( yy_current_state >= 17 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 12);
+	yy_is_jam = (yy_current_state == 16);
 
 	return yy_is_jam ? 0 : yy_current_state;
 	}
@@ -1529,18 +1570,11 @@ int main()
 	return 0;
 	}
 #endif
-#line 34 "scanner.l"
+#line 60 "scanner.l"
 
 
-int main( argc, argv )
-int argc;
-char **argv;
-    {
-    ++argv, --argc;  /* skip over program name */
-    if ( argc > 0 )
-            yyin = fopen( argv[0], "r" );
-    else
-            yyin = stdin;
-
-    yylex();
-    }
+int GetNextToken(void){
+        int incomingToken = yylex();
+        return incomingToken != 0 ? incomingToken
+                                    : 1;
+}

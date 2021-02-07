@@ -1,8 +1,10 @@
 %{
 #include <stdlib.h> //atoi()
 #include <stdio.h>  //printf()
+#include <string.h>  //strcpy()
+#include "y.tab.h"
 
-int yylval;
+//int yylval;
 
 %}
 %option noyywrap
@@ -11,37 +13,54 @@ CONSTANTE    [0-9]+
 IDENTIFICADOR    [a-zA-Z][a-zA-Z | 0-9]*
 SUMA  \+
 MULTIPLICACION  \*
-DEF $
-IGUAL =
-FDS ;
-FDT \\n\\n
+DEF \$
+IGUAL \=
+FDS \;
+FDT [\n][\n]
+NAT .
+%%
+
+{CONSTANTE}             {
+                        printf( "Constante: %s\n", yytext);
+                        yylval = atoi(yytext);
+                        return CONSTANTE;
+                        }
+
+{IDENTIFICADOR}         {
+                        strcpy(yylval, yytext); //Copio a yylval lo que ingreso a yytext
+                        printf( "Identificador: %s\n", yytext);
+                        return IDENTIFICADOR;
+                        }
+
+{SUMA}                  {
+                        printf( "Operador: %s\n", yytext );
+                        return SUMA
+                        }
+        
+{MULTIPLICACION}        {
+                        printf( "Operador: %s\n", yytext );
+                        return MULTIPLICACION
+                        }
+{DEF}                   {
+                        printf( "Operador: %s\n", yytext );
+                        return DEF
+                        }
+
+{IGUAL}                 {
+                        printf( "Operador: %s\n", yytext );
+                        return IGUAL
+                        }
+
+{FDS}                   return FDS;
+
+{FDT}                   return FDT;
+
+{NAT}                   return NAT;
 
 %%
 
-{CONSTANTE} {
-            printf( "Constante: %s\n", yytext);
-            yylval = atoi(yytext);
-            }
-
-{IDENTIFICADOR}  printf( "An identifier: %s\n", yytext );
-
-{SUMA}  printf( "An operator: %s\n", yytext );
-
-{MULTIPLICACION}  printf( "An operator: %s\n", yytext );
-
-.           printf( "Caracter no reconocido: %s\t LEXICAL ERROR\n", yytext );
-
-%%
-
-int main( argc, argv )
-int argc;
-char **argv;
-    {
-    ++argv, --argc;  /* skip over program name */
-    if ( argc > 0 )
-            yyin = fopen( argv[0], "r" );
-    else
-            yyin = stdin;
-
-    yylex();
-    }
+int GetNextToken(void){
+        int incomingToken = yylex();
+        return incomingToken != 0 ? incomingToken
+                                    : 1;
+}
