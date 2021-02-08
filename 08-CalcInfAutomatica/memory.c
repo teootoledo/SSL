@@ -1,6 +1,7 @@
 #include "memory.h"
 #include <stdio.h>  //printf
 #include <string.h> //strcmp
+#include <stdlib.h> //exit
 
 unsigned memoryLastPosition = 0;
 variable Memory[MEMORY_SIZE];
@@ -39,8 +40,8 @@ int GetValue(char name[])
             return Memory[i].value;
         }
     }
-    printf("\n\nEl identificador %s no existe\n\n", name);
-    return -1;
+    printf("\nEl identificador %s no existe\n", name);
+    exit(1);
 }
 
 void mostrarMemoria()

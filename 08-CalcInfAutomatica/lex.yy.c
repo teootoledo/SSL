@@ -615,73 +615,59 @@ case 1:
 YY_RULE_SETUP
 #line 11 "scanner.l"
 {
-                        printf( "Constante: %s\n", yytext);
                         yylval.value = atoi(yytext);
                         return CONSTANTE;
                         }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "scanner.l"
+#line 16 "scanner.l"
 {
                         strcpy(yylval.name, yytext); //Copio a yylval lo que ingreso a yytext
-                        printf( "Identificador: %s\n", yytext);
                         return IDENTIFICADOR;
                         }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "scanner.l"
-{
-                        printf( "Operador: %s\n", yytext );
-                        return SUMA;
-                        }
+#line 21 "scanner.l"
+return SUMA;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 28 "scanner.l"
-{
-                        printf( "Operador: %s\n", yytext );
-                        return MULTIPLICACION;
-                        }
+#line 23 "scanner.l"
+return MULTIPLICACION;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "scanner.l"
-{
-                        printf( "Operador: %s\n", yytext );
-                        return DEF;
-                        }
+#line 25 "scanner.l"
+return DEF;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "scanner.l"
-{
-                        printf( "Operador: %s\n", yytext );
-                        return IGUAL;
-                        }
+#line 27 "scanner.l"
+return IGUAL;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 42 "scanner.l"
+#line 29 "scanner.l"
 return FDS;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 44 "scanner.l"
+#line 31 "scanner.l"
 return FDT;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 46 "scanner.l"
+#line 33 "scanner.l"
 return NAT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 48 "scanner.l"
+#line 35 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 685 "lex.yy.c"
+#line 671 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1567,7 +1553,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 48 "scanner.l"
+#line 35 "scanner.l"
 
 
 int GetNextToken(void){

@@ -9,36 +9,23 @@
 %%
 
 [0-9]+                  {
-                        printf( "Constante: %s\n", yytext);
                         yylval.value = atoi(yytext);
                         return CONSTANTE;
                         }
 
 [a-zA-Z][a-zA-Z | 0-9]* {
                         strcpy(yylval.name, yytext); //Copio a yylval lo que ingreso a yytext
-                        printf( "Identificador: %s\n", yytext);
                         return IDENTIFICADOR;
                         }
 
-\+                      {
-                        printf( "Operador: %s\n", yytext );
-                        return SUMA;
-                        }
+\+                      return SUMA;
         
-\*                      {
-                        printf( "Operador: %s\n", yytext );
-                        return MULTIPLICACION;
-                        }
-\$                      {
-                        printf( "Operador: %s\n", yytext );
-                        return DEF;
-                        }
+\*                      return MULTIPLICACION;
 
-\=                      {
-                        printf( "Operador: %s\n", yytext );
-                        return IGUAL;
-                        }
+\$                      return DEF;
 
+\=                      return IGUAL;
+                        
 \;                      return FDS;
 
 [\n][\n]                return FDT;
