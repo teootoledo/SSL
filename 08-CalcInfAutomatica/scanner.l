@@ -30,6 +30,8 @@
 
 [\n][\n]                return FDT;
 
+[\n]                    ;
+
 .                       return NAT;
 
 %%

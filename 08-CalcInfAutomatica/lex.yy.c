@@ -285,11 +285,11 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 10
-#define YY_END_OF_BUFFER 11
+#define YY_NUM_RULES 11
+#define YY_END_OF_BUFFER 12
 static yyconst short int yy_accept[17] =
     {   0,
-        0,    0,   11,    9,   10,    5,    4,    3,    1,    7,
+        0,    0,   12,   10,    9,    5,    4,    3,    1,    7,
         6,    2,    8,    1,    2,    0
     } ;
 
@@ -660,14 +660,19 @@ return FDT;
 case 9:
 YY_RULE_SETUP
 #line 33 "scanner.l"
-return NAT;
+;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 35 "scanner.l"
+return NAT;
+	YY_BREAK
+case 11:
+YY_RULE_SETUP
+#line 37 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 671 "lex.yy.c"
+#line 676 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1553,7 +1558,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 35 "scanner.l"
+#line 37 "scanner.l"
 
 
 int GetNextToken(void){

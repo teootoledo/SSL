@@ -1,7 +1,7 @@
-#ifndef SCANNER_H_
-#define SCANNER_H_
+#define MAX_NAME_LENGTH 10
 
-#include "y.tab.h"
+#ifndef SCANNER_H
+#define SCANNER_H
 
 int GetNextToken(void);
 
