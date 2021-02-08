@@ -1,13 +1,13 @@
 %{
-#include "parser.h"
 #include "memory.h"
+#include "scanner.h"
+#include "parser.h"
+#include <stdio.h> //printf
 
-/* DECLARACION DE FUNCIONES PRIVADAS */
-
+/* FUNCIONES PRIVADAS */
 static void mostrarResultado(int);
 static int yylex(void);
 static void yyerror(char const *);
-//MOVER A OTRO ARCHIVO
 
 %}
 
@@ -84,12 +84,12 @@ void Parser(void){
     case 1:
       return;
     default:
-      printf("[Parser] Error indefinido\n");
+      printf("Error\n");
       return;
   }
 }
 
 /* FUNCIONES PRIVADAS */
 static void mostrarResultado(int valor) {
-    Info("[Parser] Resultado de evaluación: %d\n", valor);
+    printf("Resultado: %d\n", valor);
 }

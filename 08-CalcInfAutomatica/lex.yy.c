@@ -374,10 +374,7 @@ char *yytext;
 #include <stdio.h>  //printf()
 #include <string.h>  //strcpy()
 #include "y.tab.h"
-
-//int yylval;
-
-#line 381 "lex.yy.c"
+#line 378 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -528,10 +525,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 21 "scanner.l"
+#line 9 "scanner.l"
 
 
-#line 535 "lex.yy.c"
+#line 532 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -616,75 +613,75 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "scanner.l"
+#line 11 "scanner.l"
 {
                         printf( "Constante: %s\n", yytext);
-                        yylval = atoi(yytext);
+                        yylval.value = atoi(yytext);
                         return CONSTANTE;
                         }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "scanner.l"
+#line 17 "scanner.l"
 {
-                        strcpy(yylval, yytext); //Copio a yylval lo que ingreso a yytext
+                        strcpy(yylval.name, yytext); //Copio a yylval lo que ingreso a yytext
                         printf( "Identificador: %s\n", yytext);
                         return IDENTIFICADOR;
                         }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 35 "scanner.l"
+#line 23 "scanner.l"
 {
                         printf( "Operador: %s\n", yytext );
-                        return SUMA
+                        return SUMA;
                         }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 40 "scanner.l"
+#line 28 "scanner.l"
 {
                         printf( "Operador: %s\n", yytext );
-                        return MULTIPLICACION
+                        return MULTIPLICACION;
                         }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 44 "scanner.l"
+#line 32 "scanner.l"
 {
                         printf( "Operador: %s\n", yytext );
-                        return DEF
+                        return DEF;
                         }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 49 "scanner.l"
+#line 37 "scanner.l"
 {
                         printf( "Operador: %s\n", yytext );
-                        return IGUAL
+                        return IGUAL;
                         }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 54 "scanner.l"
+#line 42 "scanner.l"
 return FDS;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "scanner.l"
+#line 44 "scanner.l"
 return FDT;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 58 "scanner.l"
+#line 46 "scanner.l"
 return NAT;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 60 "scanner.l"
+#line 48 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 688 "lex.yy.c"
+#line 685 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1570,7 +1567,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 60 "scanner.l"
+#line 48 "scanner.l"
 
 
 int GetNextToken(void){

@@ -1,13 +1,9 @@
 #include "memory.h"
-#include <stdio.h> //printf
+#include <stdio.h>  //printf
 #include <string.h> //strcmp
 
 unsigned memoryLastPosition = 0;
 variable Memory[MEMORY_SIZE];
-
-//Prototipos funciones privadas
-
-//Definiciones de funciones privadas
 
 //FUNCIONES PARA MANEJO DE MEMORIA
 
