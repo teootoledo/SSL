@@ -1,6 +1,6 @@
-#include "scanner.h"
-#include "parser.h"
-#include "memory.h"
+#include "../inc/scanner.h"
+#include "../inc/parser.h"
+#include "../inc/memory.h"
 #include <stdlib.h>
 
 void ShowType(tipoDeToken);
@@ -22,7 +22,7 @@ void SyntaxError(void);
 void Parser()
 {
     Sentencias();
-    printf("\n\n\t\t--- FIN DEL PROGRAMA ---\n\n");
+    printf("FIN");
 }
 
 //Definiciones de funciones privadas
@@ -49,7 +49,7 @@ void unaSentencia()
     case CONSTANTE:
     case PARENIZQUIERDO:
         resultado = Expresion();                //Expresión
-        printf("\n Resultado = %d", resultado); //Expresión que luego será evaluada
+        printf("Resultado = %d\n", resultado); //Expresión que luego será evaluada
         break;
     case FDT:
         return;
@@ -57,7 +57,7 @@ void unaSentencia()
         break;
     }
     ActualMatch(FDS);
-    printf("\nEsperando nueva sentencia...\n");
+    //printf("Esperando nueva sentencia...\");
 }
 
 void Definicion()

@@ -1,4 +1,4 @@
-#include "scanner.h"
+#include "../inc/scanner.h"
 #include <stdio.h>  //printf
 #include <stdlib.h> //exit
 #include <ctype.h>  //isalpha isdigit

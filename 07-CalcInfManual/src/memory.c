@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "../inc/memory.h"
 #include <stdio.h> //printf
 #include <string.h> //strcmp
 
@@ -50,20 +50,20 @@ int GetValue(char name[])
 void mostrarMemoria()
 {
     printf("\n--------------MEMORIA---------------\n");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < memoryLastPosition; i++)
         mostrarVariable(i);
 }
 
 void mostrarVariable(int i)
 {
     mostrarNombre(Memory[i].name);
-    printf("valor: %d", Memory[i].value);
+    printf("Valor: %d", Memory[i].value);
 }
 
 void mostrarNombre(char nombre[])
 {
-    printf("\nnombre: ");
-    for (int i = 0; i < 10; i++)
+    printf("\nNombre: ");
+    for (int i = 0; i < '\0'; i++)
     {
         printf("%c", nombre[i]);
     }

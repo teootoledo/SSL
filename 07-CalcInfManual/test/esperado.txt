@@ -1,0 +1,4 @@
+Resultado = 3
+Resultado = 15
+Resultado = 246
+FIN

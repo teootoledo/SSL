@@ -1,36 +1,37 @@
-TARGET 		= $(BIN_DIR)/Calculator
-OBJ_DIR		= ../obj		#.o
-BIN_DIR		= ../bin		#app
-INC_DIR		= ../inc 		#headers
-SRC_DIR		= .				#.c y makefile
-OBJS		= $(OBJ_DIR)/calc.o 	\
-			  $(OBJ_DIR)/parser.o 	\
-			  $(OBJ_DIR)/scanner.o 	\
-			  $(OBJ_DIR)/memory.o
-
-CFLAGS		= -Wall
-CC			= gcc
-RM 			= del /Q /F
-FLEX_RULES 	= scanner.l
-FLEX_C 		= scanner.c
-BISON_RULES = parser.y
-BISON_C 	= parser.c
-BISON_H 	= y.tab.h
-
-default: $(TARGET)
-all: default
+TARGET = $(BIN_DIR)/Calculator
+OBJ_DIR = ../obj
+BIN_DIR = ../bin
+INC_DIR = ../inc
+SRC_DIR = .
+TEST_DIR = ../test
+OBJS = $(OBJ_DIR)/calc.o \
+		$(OBJ_DIR)/parser.o \
+		$(OBJ_DIR)/scanner.o \
+		$(OBJ_DIR)/memory.o
+CC = gcc
+CFLAGS = -I$(INC_DIR)
+RM 			= del /q /f /s
+ARCHIVO_ENTRADA = $(TEST_DIR)/entrada.txt
+ARCHIVO_ESPERADO = $(TEST_DIR)/esperado.txt
+ARCHIVO_OBTENIDO = $(TEST_DIR)/obtenido.txt
 
 $(TARGET) : $(OBJS)
-	mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
+	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
+	@$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
 
-# $< y $@ sustituye el nombre el target y el source
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c					#Genero un .o por cada .c en el DIR
-	mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) $< -o $@
-# $< = SRC_DIR y $@ = OBJ_DIR
-# mkdir -p crea si no existe el directorio
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+	@if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
+	@$(CC) -c -MD $(CFLAGS) $< -o $@
+
+-include $(OBJ_DIR)*.d
 
 .PHONY : clean
 clean :
-	$(RM) -r $(OBJ_DIR) $(BIN_DIR)
+	@$(RM) "$(OBJ_DIR)/*.o"
+	@$(RM) "$(OBJ_DIR)/*.d"
+	@$(RM) "$(TARGET).exe"
+	@$(RM) "$(ARCHIVO_OBTENIDO)"
+	
+test : $(TARGET)
+	@"$(TARGET).exe" < $(ARCHIVO_ENTRADA) > $(ARCHIVO_OBTENIDO)
+	@comp "$(ARCHIVO_OBTENIDO)" "$(ARCHIVO_ESPERADO)" /M /A /L
