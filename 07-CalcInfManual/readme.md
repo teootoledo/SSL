@@ -251,6 +251,42 @@ Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su
 
 ---
 
+![](/07-CalcInfManual/imgs/Banner5.png)
+
+
+
+## Makefile
+
+A la hora de querer ejecutar nuestro programa en nuestro PC, debemos abrir la terminal del sistema en la carpeta con el siguiente path:
+
+```
+07-CalcInfManual/src/
+```
+
+Aquí dentro se encuentra junto a los archivos con extensión `.c`, otro llamado `makefile` el cuál a través de unas rutinas ya definidas en él, nos permitirá tanto compilar, testear y limpiar el repositorio del proyecto.
+
+### Compilación
+
+Para proceder a la compilación de los archivos necesarios, debemos ejecutar el comando `make` desde la línea de comandos, lo que iniciará la rutina por default llamada `TARGET`, que se encarga de compilar el programa, dejando como producto el ejecutable del mismo en la siguiente ubicación:
+
+```
+07-CalcInfManual/bin/
+```
+
+Como *ventaja* de realizar la compilación a través de este método, obtenemos un mejor tiempo de compilación a la hora de estar realizando cambios en algunos de los archivos del proyecto. Gracias a la comparación que realiza `make` de los archivos `.o`, es posible compilar únicamente los archivos que fueron modificados y no recompilar el proyecto desde 0.
+
+### Test
+
+La rutina que se ejecuta con el comando `make test`, nos permite con un input preestablecido en el archivo `entrada.txt` ubicado en la carpeta `/test`, obtener una salida que será escrita en `obtenido.txt` la cual posteriormente será comparada automáticamente utilizando el comando `comp`. Este nos advierte si encuentra una diferencia entre `obtenido.txt` y `esperado.txt`. Dándonos la posibilidad de identificar en caso de que falle, dónde lo está haciendo.
+
+### Clean
+
+Por último, utilizaremos el comando `make clean` para limpiar de nuestro repositorio los archivos `.o`, `.d` y `.exe`.
+
+
+
+---
+
 ![](/07-CalcInfManual/imgs/Banner4.png)
 
 
@@ -266,6 +302,5 @@ Pueden acceder a la pizarra de *Miró* a través del siguiente link: [Link al do
 
 
 ![](/07-CalcInfManual/imgs/Miro.jpg)
-
 
 
