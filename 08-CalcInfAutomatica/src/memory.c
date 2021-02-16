@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "../inc/memory.h"
 #include <stdio.h>  //printf
 #include <string.h> //strcmp
 #include <stdlib.h> //exit
@@ -18,10 +18,12 @@ unsigned GetPosition(char name[])
     {
         if (strcmp(Memory[i].name, name) == 0)
         {
+            // printf("\nEncontre la variable %s con el valor %d", name, Memory[i].value);
             return i;
         }
     }
     strcpy(Memory[memoryLastPosition].name, name);
+    // printf("\nDeclare la variable %s", name);
     ++memoryLastPosition;
     return memoryLastPosition - 1;
 }
@@ -29,6 +31,7 @@ unsigned GetPosition(char name[])
 void Assign(unsigned position, int value)
 {
     Memory[position].value = value;
+    // printf("\nAsigno %d a la posicion %d", value, position);
 }
 
 int GetValue(char name[])
@@ -37,6 +40,7 @@ int GetValue(char name[])
     {
         if (strcmp(Memory[i].name, name) == 0)
         {
+            //printf("\Encuentro variable %s en la posicion %d, con valor %d", name, i, Memory[i].value);
             return Memory[i].value;
         }
     }

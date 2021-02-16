@@ -2,7 +2,7 @@
 #include <stdlib.h> //atoi()
 #include <stdio.h>  //printf()
 #include <string.h>  //strcpy()
-#include "y.tab.h"
+#include "token.h" //Incluyo el header generado por bison
 %}
 %option noyywrap
 

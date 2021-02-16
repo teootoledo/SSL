@@ -61,7 +61,7 @@ termino: factor { $$ = $1; }
        | termino MULTIPLICACION factor { $$ = $1 * $3; }
  ;
 
-factor: IDENTIFICADOR { int aux = GetValue($1); if(aux==(-1)) $$=aux; else exit(1); }
+factor: IDENTIFICADOR { int aux = GetValue($1); if(aux!=(-1)) $$=aux; else exit(1); }
       | CONSTANTE { $$ = $1; }
       | PARENIZQUIERDO expresion PARENDERECHO { $$ = $2; }
 ;

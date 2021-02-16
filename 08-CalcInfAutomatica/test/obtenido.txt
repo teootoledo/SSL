@@ -1,0 +1,5 @@
+Resultado: 3
+Resultado: 13
+Resultado: 9
+Resultado: 50
+SYNTAX ERROR: syntax error

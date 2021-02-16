@@ -68,7 +68,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 1 "parser.y"
+#line 1 "../rules/parser.y"
 
 #include "memory.h"
 #include "scanner.h"
@@ -84,7 +84,7 @@ static void yyerror(char const *);
 
 
 /* Line 189 of yacc.c  */
-#line 88 "y.tab.c"
+#line 88 "./parser.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -145,7 +145,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 16 "parser.y"
+#line 16 "../rules/parser.y"
 
   int value;
   char name[20];
@@ -153,7 +153,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 157 "y.tab.c"
+#line 157 "./parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -165,7 +165,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 169 "y.tab.c"
+#line 169 "./parser.c"
 
 #ifdef short
 # undef short
@@ -1364,70 +1364,70 @@ yyreduce:
         case 6:
 
 /* Line 1455 of yacc.c  */
-#line 51 "parser.y"
+#line 51 "../rules/parser.y"
     { mostrarResultado((yyvsp[(1) - (2)].value)); }
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 54 "parser.y"
+#line 54 "../rules/parser.y"
     { Assign(GetPosition((yyvsp[(1) - (3)].name)), (yyvsp[(3) - (3)].value)); }
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 56 "parser.y"
+#line 56 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(1) - (1)].value); }
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 57 "parser.y"
+#line 57 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(1) - (3)].value) + (yyvsp[(3) - (3)].value); }
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 60 "parser.y"
+#line 60 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(1) - (1)].value); }
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 61 "parser.y"
+#line 61 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(1) - (3)].value) * (yyvsp[(3) - (3)].value); }
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 64 "parser.y"
-    { int aux = GetValue((yyvsp[(1) - (1)].name)); if(aux==(-1)) (yyval.value)=aux; else exit(1); }
+#line 64 "../rules/parser.y"
+    { int aux = GetValue((yyvsp[(1) - (1)].name)); if(aux!=(-1)) (yyval.value)=aux; else exit(1); }
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 65 "parser.y"
+#line 65 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(1) - (1)].value); }
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 66 "parser.y"
+#line 66 "../rules/parser.y"
     { (yyval.value) = (yyvsp[(2) - (3)].value); }
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1431 "y.tab.c"
+#line 1431 "./parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1639,7 +1639,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 69 "parser.y"
+#line 69 "../rules/parser.y"
 
 
 /* FUNCIONES PUBLICAS */
