@@ -26,6 +26,12 @@
         - [GetPosition()](#getposition)
         - [Assign()](#assign)
         - [GetValue()](#getvalue)
+    - [Makefile](#makefile)
+        - [Compilación](#compilación)
+        - [Test](#test)
+        - [Clean](#clean)
+    - [Inconvenientes encontrados](#inconvenientes-encontrados)
+        - [Miro](#miro)
 <!--te-->
 
 
