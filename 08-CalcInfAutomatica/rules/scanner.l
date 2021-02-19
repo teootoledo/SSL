@@ -28,6 +28,10 @@
                         
 \;                      return FDS;
 
+\(                      return PARENIZQUIERDO;
+
+\)                      return PARENDERECHO;
+
 [\n][\n]                return FDT;
 
 [\n]                    ;
