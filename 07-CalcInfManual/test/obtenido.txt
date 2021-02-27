@@ -1,9 +1,0 @@
-Resultado = 3
-Resultado = 13
-Resultado = 9
-Resultado = 50
-Resultado = 30
-Resultado = 60
-Resultado = 55
-Resultado = 35
-FIN

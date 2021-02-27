@@ -14,7 +14,7 @@ int bufferIndex = 0;
 // Prototipo para la creación de TOKENs
 TOKEN CreateToken(tipoDeToken);
 
-// 
+// Definición de estados
 typedef enum
 {
     Q0_inicial,
@@ -127,7 +127,6 @@ TOKEN GetNextToken(void)
             actualState = Q0_inicial;
             ungetc(c, stdin);
             return CreateToken(PRODUCTO);
-
 
         case Q5_parizquierdo:
             actualState = Q0_inicial;

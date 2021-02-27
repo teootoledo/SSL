@@ -19,8 +19,8 @@ typedef enum
     FDT
 } tipoDeToken;
 
-// Creamos struct TOKEN
-struct TOKEN
+// Definición de la estructura TOKEN
+typedef struct TOKEN
 {
     tipoDeToken type;   //Tipo
     union               //string o int
@@ -28,14 +28,10 @@ struct TOKEN
         char name[MAX_NAME_LENGTH]; 
         int value;     
     } data;
-};
-
-// Redefino referencia a la estructura
-typedef struct TOKEN TOKEN;
+} TOKEN;
 
 #endif
 
-// Prototipo de funciones públicas --------
-
+// Prototipo de funciones públicas
 // Función que se encarga de devolver los TOKENs según lo que el scanner analiza.
 TOKEN GetNextToken(void);
