@@ -1,5 +1,6 @@
 #include "../inc/memory.h"
 #include <stdio.h> //printf
+#include <stdlib.h> //exit
 #include <string.h> //strcmp
 
 unsigned memoryLastPosition = 0;
@@ -44,28 +45,5 @@ int GetValue(char name[])
         }
     }
     printf("\n\nEl identificador %s no existe\n\n", name);
-    return -1;
-}
-
-void mostrarMemoria()
-{
-    printf("\n--------------MEMORIA---------------\n");
-    for (int i = 0; i < memoryLastPosition; i++)
-        mostrarVariable(i);
-}
-
-void mostrarVariable(int i)
-{
-    mostrarNombre(Memory[i].name);
-    printf("Valor: %d", Memory[i].value);
-}
-
-void mostrarNombre(char nombre[])
-{
-    printf("\nNombre: ");
-    for (int i = 0; i < '\0'; i++)
-    {
-        printf("%c", nombre[i]);
-    }
-    printf("\t");
+    exit(1);
 }

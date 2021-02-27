@@ -35,3 +35,6 @@ clean :
 test : $(TARGET)
 	@"$(TARGET).exe" < $(ARCHIVO_ENTRADA) > $(ARCHIVO_OBTENIDO)
 	@comp "$(ARCHIVO_OBTENIDO)" "$(ARCHIVO_ESPERADO)" /M /A /L
+
+run : $(TARGET)
+	@$(TARGET)

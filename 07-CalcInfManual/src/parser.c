@@ -42,7 +42,7 @@ void unaSentencia()
     t = GetNextToken();
     switch (t.type)
     {
-    case DEF:         //Definición
+    case DEFINICION:         //Definición
         Definicion(); //Se asocia valor a identificador.
         break;
     case IDENTIFICADOR: //Expresión
@@ -84,7 +84,7 @@ int Expresion(void)
 int Termino(void)
 {
     int resultado = Factor();
-    while (t.type == MULTIPLICACION)
+    while (t.type == PRODUCTO)
     {
         t = GetNextToken();
         resultado = resultado * Factor();
@@ -156,8 +156,8 @@ void ShowType(tipoDeToken tipo)
     case SUMA:
         printf("SUMA\n");
         break;
-    case MULTIPLICACION:
-        printf("MULTIPLICACION\n");
+    case PRODUCTO:
+        printf("PRODUCTO\n");
         break;
     case IGUAL:
         printf("IGUAL\n");
@@ -168,8 +168,8 @@ void ShowType(tipoDeToken tipo)
     case PARENIZQUIERDO:
         printf("PARENIZQUIERDO\n");
         break;
-    case DEF:
-        printf("DEF\n");
+    case DEFINICION:
+        printf("DEFINICION\n");
         break;
     case FDS:
         printf("FDS\n");

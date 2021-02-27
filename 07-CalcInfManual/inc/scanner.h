@@ -13,8 +13,8 @@ typedef enum
     PARENIZQUIERDO,
     PARENDERECHO,
     SUMA,
-    MULTIPLICACION,
-    DEF,
+    PRODUCTO,
+    DEFINICION,
     FDS,
     FDT
 } tipoDeToken;
