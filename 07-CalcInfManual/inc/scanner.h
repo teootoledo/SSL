@@ -1,9 +1,9 @@
-#define MAX_NAME_LENGTH 10
+#define MAX_NAME_LENGTH 20
 
 #ifndef SCANNER_H
 #define SCANNER_H
 
-// DEFINICION DE TIPO DE TOKEN
+// Definición tipoDeToken
 typedef enum
 {
     NAT,
@@ -19,18 +19,23 @@ typedef enum
     FDT
 } tipoDeToken;
 
+// Creamos struct TOKEN
 struct TOKEN
 {
-    tipoDeToken type;
-    union
+    tipoDeToken type;   //Tipo
+    union               //string o int
     {
-        char name[10]; //string
-        int value;     //int o double
+        char name[MAX_NAME_LENGTH]; 
+        int value;     
     } data;
 };
 
+// Redefino referencia a la estructura
 typedef struct TOKEN TOKEN;
 
 #endif
 
+// Prototipo de funciones públicas --------
+
+// Función que se encarga de devolver los TOKENs según lo que el scanner analiza.
 TOKEN GetNextToken(void);
