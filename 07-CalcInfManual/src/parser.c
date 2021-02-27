@@ -1,11 +1,11 @@
 #include "../inc/scanner.h"
 #include "../inc/parser.h"
 #include "../inc/memory.h"
-#include <stdlib.h>
+#include <stdlib.h> //exit
 
 void ShowType(tipoDeToken);
 
-TOKEN t; //TOKEN OBTENIDO
+TOKEN t; //Token actual
 
 //Prototipos de funciones privadas
 static void Match(tipoDeToken);
@@ -29,12 +29,19 @@ void Parser()
 void Sentencias()
 {
     unaSentencia();
+    //printf("antes del while");
 
     while (t.type != FDT)
     {
         unaSentencia();
+    //printf("en el while");
+
     }
+    //printf("despues del while");
+
 }
+
+// =1+2*3+4;
 
 void unaSentencia()
 {
@@ -42,22 +49,21 @@ void unaSentencia()
     t = GetNextToken();
     switch (t.type)
     {
-    case DEFINICION:         //Definición
-        Definicion(); //Se asocia valor a identificador.
+    case DEFINICION:                            //Definición.
+        Definicion();                           //Asocia valor a identificador.
         break;
-    case IDENTIFICADOR: //Expresión
-    case CONSTANTE:
-    case PARENIZQUIERDO:
-        resultado = Expresion();                //Expresión
-        printf("Resultado = %d\n", resultado); //Expresión que luego será evaluada
+    case IGUAL:                                 //Expresión.
+        resultado = Expresion();                //Expresión devuelve un resultado.
+        printf("Resultado = %d\n", resultado);  //Muestra resultado de la expresión.
         break;
     case FDT:
         return;
     default:
+        printf("default");
         break;
     }
-    ActualMatch(FDS);
-    //printf("Esperando nueva sentencia...\");
+    //ShowType(t.type);
+    Match(FDS);
 }
 
 void Definicion()
@@ -67,70 +73,73 @@ void Definicion()
     Match(IGUAL);                                 //Matcheo IGUAL
     Match(CONSTANTE);                             //Matcheo CONSTANTE a ser asignada.
     Assign(position, t.data.value);               //Asignacion
-    t = GetNextToken();
 }
 
 int Expresion(void)
 {
-    int resultado = Termino();
-    while (t.type == SUMA)
+    int resultado = Termino(); //1
+    switch (t.type)
     {
-        t = GetNextToken();
-        resultado = resultado + Termino();
+        case SUMA:
+        resultado = resultado + Expresion(); //1 + 6
     }
     return resultado;
 }
 
 int Termino(void)
 {
-    int resultado = Factor();
-    while (t.type == PRODUCTO)
+    int resultado = Factor(); //1
+    switch (t.type)
     {
-        t = GetNextToken();
-        resultado = resultado * Factor();
+        case PRODUCTO:
+        resultado = resultado * Termino(); //2 * 3
     }
-    return resultado;
+    return resultado; //6
 }
 
 int Factor(void)
 {
     int resultado;
-    switch (t.type)
+    switch ((t=GetNextToken()).type)
     {
     case IDENTIFICADOR: //Matcheo IDENTIFICADOR
         resultado = GetValue(t.data.name);
-        t = GetNextToken();
         break;                    //Retorno el valor de la variable en memoria.
     case CONSTANTE:               //Matcheo CONSTANTE
         resultado = t.data.value; //Obtengo valor de la constante
-        t = GetNextToken();
         break;
     case PARENIZQUIERDO:
-        t = GetNextToken();
         resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <expresion> PARENDERECHO
         ActualMatch(PARENDERECHO);
-        t = GetNextToken();
         break;
     default:
         SyntaxError();
     }
+    //t=GetNextToken();
     return resultado;
 }
 
 //--------------------------------------------------------------------
 static void Match(tipoDeToken tipoEsperado)
 {
-    t = GetNextToken();
-    ActualMatch(tipoEsperado);
+    if ((t=GetNextToken()).type != tipoEsperado)
+    {
+        printf("\nRecibido: ");
+        ShowType(t.type);
+        printf("\nEsperado ");
+        ShowType(tipoEsperado);
+
+        SyntaxError();
+    }
 }
 
 static void ActualMatch(tipoDeToken tipoEsperado)
 {
     if (t.type != tipoEsperado)
     {
-        printf("\nRecibido ");
+        printf("\nRecibido: ");
         ShowType(t.type);
-        printf("\nEsperado ");
+        printf("\nEsperado: ");
         ShowType(tipoEsperado);
 
         SyntaxError();
