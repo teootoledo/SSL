@@ -3,10 +3,15 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
+// Declaración de flag para habilitar/deshabilitar consumo de TOKENS
+extern int keepLastToken;
+
 // Definición tipoDeToken
 typedef enum
 {
     NAT,
+    INICIO,
+    FIN,
     IDENTIFICADOR,
     CONSTANTE,
     IGUAL,

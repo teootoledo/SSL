@@ -5,61 +5,52 @@
 
 void ShowType(tipoDeToken);
 
-TOKEN t; //Token actual
+TOKEN tok; //Token actual
 
 //Prototipos de funciones privadas
 static void Match(tipoDeToken);
-static void ActualMatch(tipoDeToken tipoEsperado);
-void Sentencias(void);
-void unaSentencia(void);
+void ListaSentencias(void);
+void Sentencia(void);
 void Definicion(void);
 int Expresion(void);
 int Termino(void);
 int Factor(void);
-void SyntaxError(void);
 
 //Definición de función pública
 void Parser()
 {
-    Sentencias();
-    printf("FIN");
+    ListaSentencias();
+    printf("[Parser] Finalizado de manera exitosa.");
 }
 
 //Definiciones de funciones privadas
-void Sentencias()
+void ListaSentencias()
 {
-    unaSentencia();
-    //printf("antes del while");
-
-    while (t.type != FDT)
+    Sentencia();
+    while (GetNextToken().type != FDT)
     {
-        unaSentencia();
-    //printf("en el while");
-
+        Sentencia();
     }
     //printf("despues del while");
-
 }
 
-// =1+2*3+4;
-
-void unaSentencia()
+void Sentencia()
 {
     int resultado;
-    t = GetNextToken();
-    switch (t.type)
+    switch (GetNextToken().type)
     {
-    case DEFINICION:                            //Definición.
-        Definicion();                           //Asocia valor a identificador.
+    case DEFINICION:
+        Match(DEFINICION);
+        Definicion(); //Asocia valor a identificador.
         break;
-    case IGUAL:                                 //Expresión.
-        resultado = Expresion();                //Expresión devuelve un resultado.
-        printf("Resultado = %d\n", resultado);  //Muestra resultado de la expresión.
+    case IGUAL:
+        Match(IGUAL);
+        resultado = Expresion();               //Expresión devuelve un resultado.
+        printf("Resultado = %d\n", resultado); //Muestra resultado de la expresión.
         break;
-    case FDT:
-        return;
     default:
-        printf("default");
+        printf("[Parser] Error en la sintaxis.");
+        exit(1);
         break;
     }
     //ShowType(t.type);
@@ -68,87 +59,70 @@ void unaSentencia()
 
 void Definicion()
 {
-    Match(IDENTIFICADOR);                         //Matcheo IDENTIFICADOR
-    unsigned position = GetPosition(t.data.name); //t es el último token obtenido. Busco si existe en memoria
-    Match(IGUAL);                                 //Matcheo IGUAL
-    Match(CONSTANTE);                             //Matcheo CONSTANTE a ser asignada.
-    Assign(position, t.data.value);               //Asignacion
+    Match(IDENTIFICADOR);                           //Matcheo IDENTIFICADOR
+    unsigned position = GetPosition(tok.data.name); //t es el último token obtenido. Busco si existe en memoria
+    Match(IGUAL);                                   //Matcheo IGUAL
+    Match(CONSTANTE);                               //Matcheo CONSTANTE a ser asignada.
+    Assign(position, tok.data.value);               //Asignacion
 }
 
 int Expresion(void)
 {
-    int resultado = Termino(); //1
-    switch (t.type)
+    int resultado = Termino();
+    switch (GetNextToken().type)
     {
-        case SUMA:
-        resultado = resultado + Expresion(); //1 + 6
+    case SUMA:
+        return resultado + Expresion();
+    default:
+        return resultado;
     }
     return resultado;
 }
 
 int Termino(void)
 {
-    int resultado = Factor(); //1
-    switch (t.type)
+    int resultado = Factor();
+    switch (GetNextToken().type)
     {
-        case PRODUCTO:
-        resultado = resultado * Termino(); //2 * 3
+    case PRODUCTO:
+        return resultado * Termino();
+    default:
+        return resultado;
     }
-    return resultado; //6
 }
 
 int Factor(void)
 {
     int resultado;
-    switch ((t=GetNextToken()).type)
+    switch (GetNextToken().type)
     {
-    case IDENTIFICADOR: //Matcheo IDENTIFICADOR
-        resultado = GetValue(t.data.name);
-        break;                    //Retorno el valor de la variable en memoria.
-    case CONSTANTE:               //Matcheo CONSTANTE
-        resultado = t.data.value; //Obtengo valor de la constante
+    case IDENTIFICADOR:
+        Match(IDENTIFICADOR);
+        resultado = GetValue(tok.data.name);
+    case CONSTANTE:
+        Match(CONSTANTE);
+        resultado = tok.data.value;
         break;
     case PARENIZQUIERDO:
-        resultado = Expresion(); //Por gramática: <factor> | PARENIZQUIERDO <expresion> PARENDERECHO
-        ActualMatch(PARENDERECHO);
+        Match(PARENIZQUIERDO);
+        resultado = Expresion();
+        Match(PARENDERECHO);
         break;
     default:
-        SyntaxError();
+        printf("[Parser] Error en la sintaxis.");
     }
-    //t=GetNextToken();
     return resultado;
 }
 
 //--------------------------------------------------------------------
 static void Match(tipoDeToken tipoEsperado)
 {
-    if ((t=GetNextToken()).type != tipoEsperado)
+    if ((tok = GetNextToken()).type != tipoEsperado)
     {
-        printf("\nRecibido: ");
-        ShowType(t.type);
-        printf("\nEsperado ");
-        ShowType(tipoEsperado);
-
-        SyntaxError();
+        printf("[Parser] Error en la sintaxis.\n");
+        exit(3);
     }
-}
-
-static void ActualMatch(tipoDeToken tipoEsperado)
-{
-    if (t.type != tipoEsperado)
-    {
-        printf("\nRecibido: ");
-        ShowType(t.type);
-        printf("\nEsperado: ");
-        ShowType(tipoEsperado);
-
-        SyntaxError();
-    }
-}
-void SyntaxError()
-{
-    printf("\n[PARSER] SYNTAX ERROR\n");
-    exit(1);
+    keepLastToken = 0;
 }
 
 void ShowType(tipoDeToken tipo)
@@ -157,37 +131,37 @@ void ShowType(tipoDeToken tipo)
     switch (tipo)
     {
     case IDENTIFICADOR:
-        printf("IDENTIFICADOR\n");
+        printf("IDENTIFICADOR");
         break;
     case CONSTANTE:
-        printf("CONSTANTE\n");
+        printf("CONSTANTE");
         break;
     case SUMA:
-        printf("SUMA\n");
+        printf("SUMA");
         break;
     case PRODUCTO:
-        printf("PRODUCTO\n");
+        printf("PRODUCTO");
         break;
     case IGUAL:
-        printf("IGUAL\n");
+        printf("IGUAL");
         break;
     case PARENDERECHO:
-        printf("PARENDERECHO\n");
+        printf("PARENDERECHO");
         break;
     case PARENIZQUIERDO:
-        printf("PARENIZQUIERDO\n");
+        printf("PARENIZQUIERDO");
         break;
     case DEFINICION:
-        printf("DEFINICION\n");
+        printf("DEFINICION");
         break;
     case FDS:
-        printf("FDS\n");
+        printf("FDS");
         break;
     case FDT:
-        printf("FDT\n");
+        printf("FDT");
         break;
     default:
-        printf("NAT\n");
+        printf("NAT");
         break;
     }
 }

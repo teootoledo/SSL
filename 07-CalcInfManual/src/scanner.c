@@ -13,7 +13,10 @@ int bufferIndex = 0;
 
 // Prototipo para la creación de TOKENs
 TOKEN CreateToken(tipoDeToken);
+//Prototipo para función scanner
+TOKEN Scanner(void);
 
+// Definiciones privadas ---------------------------
 // Definición de estados
 typedef enum
 {
@@ -31,14 +34,30 @@ typedef enum
     Q11_lexError
 } State;
 
-//---------- GetNextToken -----------//
+// Definición de flag público
+int keepLastToken = 0;
+
+// Declaración de variable auxiliar para mantener el último token
+TOKEN incomingToken;
+
+// Definición de funciones públicas ----------------
+// Definición de la función GetNextToken
 TOKEN GetNextToken(void)
 {
+    if(!keepLastToken){
+    incomingToken=Scanner();
+    keepLastToken = 1;
+    }
+    return incomingToken;
+}
+
+// Definición de funciones privadas ----------------
+// Definición de función Scanner
+TOKEN Scanner(){
     static State actualState = Q0_inicial;
-    TOKEN incomingToken;
     char c;
     CleanBuffer();
-    while ((c = getchar()) != '#' ) // ! Simboliza nuestro EOF
+    while ((c = getchar()) != '#' ) // # Marca el EOF
     {
         switch (actualState)
         {
@@ -170,6 +189,7 @@ TOKEN GetNextToken(void)
     }
     exit(1);
 }
+
 
 //---------- BUFFER ------------//
 void AddCharacter(char c)

@@ -6,4 +6,4 @@ Resultado = 30
 Resultado = 60
 Resultado = 55
 Resultado = 35
-FIN
+[Parser] Finalizado de manera exitosa.
