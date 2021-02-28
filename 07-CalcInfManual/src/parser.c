@@ -18,8 +18,8 @@ int Factor(void);
 void Parser()
 {
     ListaSentencias();
-    printf("[Parser] Finalizado de manera exitosa.\n");
     Match(FDT);
+    printf("[Parser] Finalizado de manera exitosa.");
 }
 
 // Definiciones de funciones privadas -----------------------
@@ -27,11 +27,11 @@ void Parser()
 // Subrutinas de la lista de sentencias.
 void ListaSentencias()
 {
-    Sentencia();
-    while (GetNextToken().type != FDT)
+    do
     {
         Sentencia();
-    }
+        Match(FDS);
+    } while (GetNextToken().type != FDT);
 }
 
 void Sentencia()
@@ -49,10 +49,10 @@ void Sentencia()
         printf("Resultado: %d\n", resultado); // Muestra resultado de la expresión.
         break;
     default:
-        exit(1);
+        printf("[Parser] Sintaxis incorrecta.\n");
+        exit(3);
         break;
     }
-    Match(FDS);
 }
 
 // Subrutina para definir variables.
@@ -109,7 +109,8 @@ int Factor(void)
         Match(PARENDERECHO);
         break;
     default:
-        printf("[Parser] Error en la sintaxis.\n");
+        printf("[Parser] Sintaxis incorrecta.\n");
+        exit(4);
     }
     return resultado;
 }
@@ -119,8 +120,8 @@ static void Match(tipoDeToken tipoEsperado)
 {
     if ((tok = GetNextToken()).type != tipoEsperado)
     {
-        printf("[Parser] Error en la sintaxis.\n");
-        exit(3);
+        printf("[Parser] Sintaxis incorrecta.\n");
+        exit(5);
     }
     keepLastToken = 0;
 }

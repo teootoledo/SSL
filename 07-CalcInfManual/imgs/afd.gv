@@ -1,20 +1,20 @@
 digraph finite_state_machine {
 	rankdir=LR;
-	ranksep=2;
+	ranksep=5;
 	nodesep=0.5;
 
-	node [shape = circle, color="indigo"]; INICIAL
-	node [shape = doublecircle, color="indigo"]; IDENTIFICADOR CONSTANTE ADICION PRODUCTO PARENIZQUIERDO PARENDERECHO IGUAL DEFINICION FDS FDT
-	INICIAL -> IDENTIFICADOR [ label = "Letras"  color="grey24" ];
-	IDENTIFICADOR -> IDENTIFICADOR [ label = "Letras | Dígitos"  color="grey24" ];
-	INICIAL -> CONSTANTE [ label = "Dígitos" color="grey24" ];
-	CONSTANTE -> CONSTANTE [ label = "Dígitos"  color="grey24" ];
-	INICIAL -> ADICION [ label = "+" color="grey24" ];
-	INICIAL -> PRODUCTO [ label = "*" color="grey24" ];
-	INICIAL -> PARENIZQUIERDO [ label = "(" color="grey24" ];
-	INICIAL -> PARENDERECHO [ label = "" color="grey24" ];
-	INICIAL -> IGUAL [ label = ")" color="grey24" ];
-	INICIAL -> DEFINICION [ label = ")" color="grey24" ];
-	INICIAL -> FDS [ label = ")" color="grey24" ];
-	INICIAL -> FDT [ label = ")" color="grey24" ];
+	node [shape = circle]; INICIAL
+	node [shape = doublecircle]; IDENTIFICADOR CONSTANTE ADICION PRODUCTO PARENIZQUIERDO PARENDERECHO IGUAL DEFINICION FDS FDT
+	INICIAL -> IDENTIFICADOR [ label = "a-Z" ];
+	IDENTIFICADOR -> IDENTIFICADOR [ label = "a-Z | 0-9" ];
+	INICIAL -> CONSTANTE [ label = "0-9" ];
+	CONSTANTE -> CONSTANTE [ label = "0-9" ];
+	INICIAL -> ADICION [ label = "+" ];
+	INICIAL -> PRODUCTO [ label = "*" ];
+	INICIAL -> PARENIZQUIERDO [ label = "(" ];
+	INICIAL -> PARENDERECHO [ label = ")" ];
+	INICIAL -> IGUAL [ label = "=" ];
+	INICIAL -> DEFINICION [ label = "$" ];
+	INICIAL -> FDS [ label = ";" ];
+	INICIAL -> FDT [ label = "!" ];
 }

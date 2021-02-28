@@ -1,5 +1,5 @@
 #include "../inc/memory.h"
-#include <stdio.h> //printf
+#include <stdio.h>  //printf
 #include <stdlib.h> //exit
 #include <string.h> //strcmp
 
@@ -40,5 +40,6 @@ int GetValue(char name[])
             return Memory[i].value;
         }
     }
-    exit(2);
+    printf("[Memory] El identificador %s no existe en memoria.\n", name);
+    exit(6);
 }

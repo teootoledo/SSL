@@ -4,20 +4,6 @@
 #include <ctype.h>  //isalpha isdigit
 #include <string.h> //strcpy
 
-/* Prototipos para el manejo del buffer */
-char buffer[MAX_NAME_LENGTH] = {};
-void AddCharacter(char); //Agrega caracter al buffer
-void CleanBuffer();      //Limpia el buffer
-int bufferIndex = 0;
-
-/* Prototipos de funciones privadas */
-// Prototipo para la creación de TOKENs
-TOKEN CreateToken(tipoDeToken);
-//Prototipo para función scanner
-TOKEN Scanner(void);
-//Prototipo para función ActionState_Qx
-TOKEN ActionState_Qx(State, char, tipoDeToken);
-
 // Definición de estados
 typedef enum
 {
@@ -34,6 +20,20 @@ typedef enum
     Q10_fdt,
     Q11_lexError
 } State;
+
+/* Prototipos para el manejo del buffer */
+char buffer[MAX_NAME_LENGTH] = {};
+void AddCharacter(char); //Agrega caracter al buffer
+void CleanBuffer();      //Limpia el buffer
+int bufferIndex = 0;
+
+/* Prototipos de funciones privadas */
+// Prototipo para la creación de TOKENs
+TOKEN CreateToken(tipoDeToken);
+//Prototipo para función scanner
+TOKEN Scanner(void);
+//Prototipo para función ActionState_Qx
+TOKEN ActionState_Qx(State, char, tipoDeToken);
 
 // Declaración de variable auxiliar para mantener el último token
 TOKEN incomingToken;
@@ -166,7 +166,7 @@ TOKEN Scanner()
             break;
         }
     }
-    exit(4);
+    exit(1);
 }
 
 /* Definición de funciones para el manejo del buffer. */
