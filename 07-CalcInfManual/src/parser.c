@@ -3,11 +3,9 @@
 #include "../inc/memory.h"
 #include <stdlib.h> //exit
 
-void ShowType(tipoDeToken);
+TOKEN tok; // Token actual
 
-TOKEN tok; //Token actual
-
-//Prototipos de funciones privadas
+// Prototipos de funciones privadas -------------------------
 static void Match(tipoDeToken);
 void ListaSentencias(void);
 void Sentencia(void);
@@ -16,14 +14,17 @@ int Expresion(void);
 int Termino(void);
 int Factor(void);
 
-//Definición de función pública
+// Definición de función pública ----------------------------
 void Parser()
 {
     ListaSentencias();
-    printf("[Parser] Finalizado de manera exitosa.");
+    printf("[Parser] Finalizado de manera exitosa.\n");
+    Match(FDT);
 }
 
-//Definiciones de funciones privadas
+// Definiciones de funciones privadas -----------------------
+// Subrutinas semánticas.
+// Subrutinas de la lista de sentencias.
 void ListaSentencias()
 {
     Sentencia();
@@ -31,7 +32,6 @@ void ListaSentencias()
     {
         Sentencia();
     }
-    //printf("despues del while");
 }
 
 void Sentencia()
@@ -41,56 +41,55 @@ void Sentencia()
     {
     case DEFINICION:
         Match(DEFINICION);
-        Definicion(); //Asocia valor a identificador.
+        Definicion(); // Asigna una constante al nombre de una variable.
         break;
     case IGUAL:
         Match(IGUAL);
-        resultado = Expresion();               //Expresión devuelve un resultado.
-        printf("Resultado = %d\n", resultado); //Muestra resultado de la expresión.
+        resultado = Expresion();              // Expresión devuelve un resultado.
+        printf("Resultado: %d\n", resultado); // Muestra resultado de la expresión.
         break;
     default:
-        printf("[Parser] Error en la sintaxis.");
         exit(1);
         break;
     }
-    //ShowType(t.type);
     Match(FDS);
 }
 
+// Subrutina para definir variables.
 void Definicion()
 {
-    Match(IDENTIFICADOR);                           //Matcheo IDENTIFICADOR
-    unsigned position = GetPosition(tok.data.name); //t es el último token obtenido. Busco si existe en memoria
-    Match(IGUAL);                                   //Matcheo IGUAL
-    Match(CONSTANTE);                               //Matcheo CONSTANTE a ser asignada.
-    Assign(position, tok.data.value);               //Asignacion
+    Match(IDENTIFICADOR);
+    unsigned position = GetPosition(tok.data.name);
+    Match(IGUAL);
+    Match(CONSTANTE);
+    Assign(position, tok.data.value);
 }
 
+// Subrutina para resolver una expresión.
 int Expresion(void)
 {
     int resultado = Termino();
-    switch (GetNextToken().type)
+    while (GetNextToken().type == SUMA)
     {
-    case SUMA:
-        return resultado + Expresion();
-    default:
-        return resultado;
+        Match(SUMA);
+        resultado = resultado + Termino();
     }
     return resultado;
 }
 
+// Subrutina para resolver un término.
 int Termino(void)
 {
     int resultado = Factor();
-    switch (GetNextToken().type)
+    while (GetNextToken().type == PRODUCTO)
     {
-    case PRODUCTO:
-        return resultado * Termino();
-    default:
-        return resultado;
+        Match(PRODUCTO);
+        resultado = resultado * Factor();
     }
+    return resultado;
 }
 
+// Subrutina para resolver un factor.
 int Factor(void)
 {
     int resultado;
@@ -99,6 +98,7 @@ int Factor(void)
     case IDENTIFICADOR:
         Match(IDENTIFICADOR);
         resultado = GetValue(tok.data.name);
+        break;
     case CONSTANTE:
         Match(CONSTANTE);
         resultado = tok.data.value;
@@ -109,12 +109,12 @@ int Factor(void)
         Match(PARENDERECHO);
         break;
     default:
-        printf("[Parser] Error en la sintaxis.");
+        printf("[Parser] Error en la sintaxis.\n");
     }
     return resultado;
 }
 
-//--------------------------------------------------------------------
+// Definición de función Match()
 static void Match(tipoDeToken tipoEsperado)
 {
     if ((tok = GetNextToken()).type != tipoEsperado)
@@ -123,45 +123,4 @@ static void Match(tipoDeToken tipoEsperado)
         exit(3);
     }
     keepLastToken = 0;
-}
-
-void ShowType(tipoDeToken tipo)
-{
-    printf(" ");
-    switch (tipo)
-    {
-    case IDENTIFICADOR:
-        printf("IDENTIFICADOR");
-        break;
-    case CONSTANTE:
-        printf("CONSTANTE");
-        break;
-    case SUMA:
-        printf("SUMA");
-        break;
-    case PRODUCTO:
-        printf("PRODUCTO");
-        break;
-    case IGUAL:
-        printf("IGUAL");
-        break;
-    case PARENDERECHO:
-        printf("PARENDERECHO");
-        break;
-    case PARENIZQUIERDO:
-        printf("PARENIZQUIERDO");
-        break;
-    case DEFINICION:
-        printf("DEFINICION");
-        break;
-    case FDS:
-        printf("FDS");
-        break;
-    case FDT:
-        printf("FDT");
-        break;
-    default:
-        printf("NAT");
-        break;
-    }
 }
