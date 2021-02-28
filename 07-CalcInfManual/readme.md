@@ -1,39 +1,19 @@
 ![](/07-CalcInfManual/imgs/Banner.png)
 
-
-
-----------------------
+---
 
 **¿De qué trata este trabajo?** [Link al documento.](https://josemariasola.github.io/ssl/assignments/2020/Ssl%20Assignments.pdf#page=53)
 
----------
-
-
+---
 
 # Tabla de Contenidos
 
 <!--ts-->
+
 - [Tabla de contenidos](#tabla-de-contenidos)
 - [Síntesis](#síntesis)
-- [Calculadora](#calculadora)
-    - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado)
-    - [Scanner](#scanner)
-        - [Gramática Léxica](#gramática-léxica)
-        - [Lista de tokens](#lista-de-tokens)
-    - [Parser](#parser)
-        - [Gramática Sintáctica](#gramática-sintáctica)
-    - [Memoria](#memoria)
-        - [GetPosition()](#getposition)
-        - [Assign()](#assign)
-        - [GetValue()](#getvalue)
-    - [Makefile](#makefile)
-        - [Compilación](#compilación)
-        - [Test](#test)
-        - [Clean](#clean)
-    - [Inconvenientes encontrados](#inconvenientes-encontrados)
-        - [Miro](#miro)
+- [Calculadora](#calculadora) - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado) - [Scanner](#scanner) - [Gramática Léxica](#gramática-léxica) - [Lista de tokens](#lista-de-tokens) - [Parser](#parser) - [Gramática Sintáctica](#gramática-sintáctica) - [Memoria](#memoria) - [GetPosition()](#getposition) - [Assign()](#assign) - [GetValue()](#getvalue) - [Makefile](#makefile) - [Compilación](#compilación) - [Test](#test) - [Clean](#clean) - [Inconvenientes encontrados](#inconvenientes-encontrados) - [Miro](#miro)
 <!--te-->
-
 
 # Síntesis
 
@@ -41,25 +21,11 @@ Este trabajo práctico es un programa de consola desarrollado en lenguaje C, que
 
 Otra funcionalidad con la que cuenta este programa es la de almacenar variables con sus relativos nombres en una “memoria”, pudiendo acceder a los valores asociados para realizar posteriormente la evaluación de la sentencia.
 
-Cabe destacar que las variables deben tener un máximo de 10 `char` para su nombre. Característica que podría modificarse según la conveniencia del usuario. Al igual que la cantidad máxima de variables almacenadas, que ahora mismo se encuentra fijada en 200.
+Cabe destacar que las variables deben tener un máximo de 20 `char` para su nombre. Característica que podría modificarse según la conveniencia del usuario. Al igual que la cantidad máxima de variables almacenadas, que ahora mismo se encuentra fijada en 200.
 
-La interfaz utilizada en la consola enseña al inicio del programa una guía del diccionario utilizado, junto a unos ejemplos de sentencias correctas.
-
-
-
-<img src="/07-CalcInfManual/imgs/Interfaz.png"  />
-
-[^]: Ejemplo de la interfaz al momento de ejecutar el programa.
-
-
-
--------
-
-
+---
 
 # Calculadora
-
-
 
 ## Descripción del lenguaje utilizado
 
@@ -74,19 +40,17 @@ La interfaz utilizada en la consola enseña al inicio del programa una guía del
 - Cada sentencia termina con un ‘’ ; ‘’, el cual hace referencia a un token llamado “FDS” que refiere al final de la sentencia. Para confirmar el ingreso de la sentencia se presiona “ENTER” ( “\n” ).
 - El final de texto (FDT) será dado por dos "ENTER" consecutivos ( “/n/n” ).
 
-
-
-------
+---
 
 ![](/07-CalcInfManual/imgs/Banner1.png)
-
-
 
 ## Scanner
 
 El **Scanner** es la sección del programa encargada de realizar el análisis léxico de las cadenas de caracteres que son ingresadas por el usuario.
 
-Este desarrolla su análisis mediante un `while` que va pidiendo uno a uno los distintos `char` ingresados por el usuario, y va desplazándose por los estados posibles. Esto lo hace mediante un `switch` que modifica una variable `actualState` de tipo `State` que hace referencia un `enum` con los estados posibles.
+Su implementación consta de dos funciones principales, una **pública** y otra **privada**. La función de carácter público es la llamada  `GetNextToken()`. Esta es la que el **Parser** llama cada vez que necesita el siguiente  `TOKEN` para continuar con la derivación. Su declaración se encuentra en  `inc\scanner.h` y su definición en  `src\scanner.c`. Por otro lado, la función privada es la definida como  `Scanner()` la cual es invocada por la anterior ( `GetNextToken()`) y es la encargada del análisis de la entrada mediante un `while` que va pidiendo uno a uno los distintos `char` ingresados por el usuario, y va desplazándose por los estados posibles. Esto lo hace mediante un `switch` que modifica una variable `actualState` de tipo `State` que hace referencia un `enum` con los estados posibles. En distintos estados empleamos la utilización de la función privada  `ActionState_Qx` ya que ahorra código y aumenta la legibilidad a la hora de resetear el estado actual, devolver el último `char` analizado al flujo de entrada, y retornar el  `TOKEN` identificado. Esto lo hace con  `CreateToken()`.
+
+La función `GetNextToken()` cuenta con un "flag" al cual decidimos llamar `keepLastToken`. Esto lo explicamos en la sección del [Parser](#parser).
 
 Estos son:
 
@@ -101,42 +65,38 @@ typedef enum
     Q5_parizquierdo,
     Q6_parderecho,
     Q7_igual,
-    Q9_definicion,
-    Q10_fds,
-    Q11_fdt,
-    Q12_error
+    Q8_definicion,
+    Q9_fds,
+    Q10_fdt,
+    Q11_lexError
 } State;
 ```
 
-
-
-A medida que el `while` itera el `switch` y se va desplazando por los estados, hasta llegar a un estado final, se retorna un `tipoDeToken` el cual podrá ser como los siguientes:
+A medida que el `while` itera el `switch` y se va desplazando por los estados, hasta llegar a un estado final, se retorna un `TOKEN` con su correspondiente `tipoDeToken` el cual podrá ser como los siguientes:
 
 ```c
 typedef enum
 {
-    NAT,					//Not a Token
-    IDENTIFICADOR,			//Variable
-    CONSTANTE,				//Valor
-    IGUAL,					//=
-    PARENIZQUIERDO,			//(
-    PARENDERECHO,			//)
-    SUMA,					//+
-    MULTIPLICACION,			//*
-    DEF,					//$
-    FDS,					//;
-    FDT						//\n
+    NAT,
+    IDENTIFICADOR,
+    CONSTANTE,
+    IGUAL,
+    PARENIZQUIERDO,
+    PARENDERECHO,
+    SUMA,
+    MULTIPLICACION,
+    DEF,
+    FDS,
+    FDT
 } tipoDeToken;
 ```
 
-Una vez retornado el tipo de token, el Parser es el encargado de analizar si es correcta la sintaxis de la sentencia. En caso de ser una definición o una evaluación, lo irá resolviendo a medida que va avanzando en su lógica.
-
-
+Una vez retornado el `TOKEN`, el Parser es el encargado de analizar si es correcta la sintaxis de la sentencia. En caso de ser una definición o una evaluación, lo irá resolviendo a medida que va avanzando en su lógica.
 
 ### Gramática Léxica
 
 ```c
-<token> -> uno de <identificador> <constante> <suma> <multiplicación> <igual> <def> <fds> <fdt>
+<token> -> uno de <identificador> <constante> <suma> <multiplicación> <igual> <definición> <fds> <fdt>
 <identificador> -> <letra> {<letra o dígito>}*
 <constante> -> <dígito> {<dígito>}*
 <letra o dígito> -> uno de <letra> <dígito>
@@ -145,14 +105,12 @@ Una vez retornado el tipo de token, el Parser es el encargado de analizar si es 
 <suma> -> +
 <multiplicación> -> *
 <igual> -> =
-<def> -> $
+<definición> -> $
 <parenizquierdo> -> (
 <parenderecho> -> )
 <fds> -> ;
-<fdt> -> \n\n
+<fdt> -> !
 ```
-
-
 
 ### Lista de tokens
 
@@ -162,20 +120,16 @@ Una vez retornado el tipo de token, el Parser es el encargado de analizar si es 
 | (              | PARENIZQUIERDO   |
 | )              | PARENDERECHO     |
 | +              | SUMA             |
-| *              | MULTIPLICACION   |
+| \*             | MULTIPLICACION   |
 | ;              | FDS              |
 | $              | DEF              |
-| /n/n           | FDT              |
+| !              | FDT              |
 | val1 (ejemplo) | IDENTIFICADOR    |
 | 123 (ejemplo)  | CONSTANTE        |
 
-
-
------
+---
 
 ![](/07-CalcInfManual/imgs/Banner2.png)
-
-
 
 ## Parser
 
@@ -186,7 +140,7 @@ A medida que necesita analizar un nuevo token, el Parser consume uno solicitánd
 Un `TOKEN` está compuesto de la siguiente manera:
 
 ```c
-struct TOKEN
+typedef struct TOKEN
 {
     tipoDeToken type;
     union
@@ -194,25 +148,21 @@ struct TOKEN
         char name[10]; //string
         int value;     //int o double
     } data;
-};
-
-typedef struct TOKEN TOKEN;
+} TOKEN;
 ```
 
 Su propiedad `type`, como su nombre lo dice, hace referencia al tipo de token que ha sido detectado.
 
 Por otro lado, su estructura `data` proporciona la información necesaria para operar posteriormente con este token. Ya que un token no puede tener un `name` y un `value` al mismo tiempo, utilizamos `union` para cumplir con esta característica. Solo dispondrá de un nombre cuando estemos hablando de un `IDENTIFICADOR` y de un valor cuando se trate de una `CONSTANTE`.
 
-
-
 ### Gramática Sintáctica
 
 ```c
-<Parser>     -> <Sentencias> FDT
-<Sentencias> -> unaSentencia { <unaSentencia> }*
-<unaSentencia> -> <Definición> FDS
-                | <Expresión> FDS
-<Definición> -> DEF ID IGUAL CONSTANTE
+<Parser>     -> <listaSentencias> FDT
+<listaSentencias> -> Sentencia FDS { <Sentencia> FDS }*
+<Sentencia> -> DEF <Definición>
+               IGUAL <Expresión>
+<Definición> -> ID IGUAL CONSTANTE
 <Expresión>  -> <Término> { SUMA <Término> }*
 <Término>    -> Factor { MULTIPLICACION <Factor> }*
 <Factor>     -> CONSTANTE
@@ -221,7 +171,11 @@ Por otro lado, su estructura `data` proporciona la información necesaria para o
 
 ```
 
-El Parser va “descendiendo” por sus funciones “No terminales”
+El Parser va analizando la sintaxis con una **derivación vertical a izquierda**.
+
+Este se va desplazando a través de las distintas subrutinas semánticas. `Definicion()` es la que se encarga de asociar el valor de una constante al nombre de una variable. `Expresion()` devuelve el resultado de la sentencia ingresada por el usuario.
+
+`Match()` es la encargada de confirmar que la sintaxis se va desarrollando de forma correcta. Tiene la capacidad de "consumir" realmente un token, cambiando el estado del flag global `keepLastToken`, el cual modifica la lógica de `GetNextToken()`, permitiéndole acceder o no, a la función `Scanner()` para actualizar el token actual.
 
 
 
@@ -229,21 +183,19 @@ El Parser va “descendiendo” por sus funciones “No terminales”
 
 ![](/07-CalcInfManual/imgs/Banner3.png)
 
-
-
 ## Memoria
 
 Esta calculadora cuenta con la funcionalidad de almacenar en memoria variables con su nombre y valor correspondiente. Esto lo realiza gracias al código desarrollado en `memory.h` y `memory.c`. Donde están definidas las siguientes funciones:
 
-- `unsigned GetPosition(char[]);` 
+- `unsigned GetPosition(char[]);`
 - `void Assign(unsigned, int);`
 - `int GetValue(char[]);`
 
-----
+---
 
 ### `GetPosition()`
 
-Se encarga de obtener la posición del array en la que debe guardarse el nombre de la variable. Si existe ya esa variable en el array devuelve su índice. De lo contrario guarda su nombre en donde corresponda según la variable global `memoryLastPosition` , posteriormente la incrementa y retorna su valor decrementado en uno (sin efecto de lado). 
+Se encarga de obtener la posición del array en la que debe guardarse el nombre de la variable. Si existe ya esa variable en el array devuelve su índice. De lo contrario guarda su nombre en donde corresponda según la variable global `memoryLastPosition` , posteriormente la incrementa y retorna su valor decrementado en uno (sin efecto de lado).
 
 ### `Assign()`
 
@@ -253,13 +205,9 @@ Es la responsable de asignar a cierta posición un valor natural.
 
 Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su valor para ser operado en una evaluación. En caso de no existir el nombre buscado en memoria, muestra una leyenda “El identificador deseado no existe.” y corta la ejecución del programa con `exit(1);`.
 
-
-
 ---
 
 ![](/07-CalcInfManual/imgs/Banner5.png)
-
-
 
 ## Makefile
 
@@ -279,34 +227,32 @@ Para proceder a la compilación de los archivos necesarios, debemos ejecutar el 
 07-CalcInfManual/bin/
 ```
 
-Como *ventaja* de realizar la compilación a través de este método, obtenemos un mejor tiempo de compilación a la hora de estar realizando cambios en algunos de los archivos del proyecto. Gracias a la comparación que realiza `make` de los archivos `.o`, es posible compilar únicamente los archivos que fueron modificados y no recompilar el proyecto desde 0.
+Como _ventaja_ de realizar la compilación a través de este método, obtenemos un mejor tiempo de compilación a la hora de estar realizando cambios en algunos de los archivos del proyecto. Gracias a la comparación que realiza `make` de los archivos `.o`, es posible compilar únicamente los archivos que fueron modificados y no recompilar el proyecto desde 0.
 
 ### Test
 
-La rutina que se ejecuta con el comando `make test`, nos permite con un input preestablecido en el archivo `entrada.txt` ubicado en la carpeta `/test`, obtener una salida que será escrita en `obtenido.txt` la cual posteriormente será comparada automáticamente utilizando el comando `comp`. Este nos advierte si encuentra una diferencia entre `obtenido.txt` y `esperado.txt`. Dándonos la posibilidad de identificar en caso de que falle, dónde lo está haciendo.
+La rutina que se ejecuta con el comando `make test`, nos permite con un input preestablecido en el archivo `entrada.txt` ubicado en la carpeta `/test`, obtener una salida que será escrita en `obtenido.txt` la cual posteriormente será comparada automáticamente utilizando el comando `comp`. Este nos advierte si encuentra una diferencia entre `obtenido.txt` y `esperado.txt`. Dándonos la posibilidad de identificar en caso de que falle, dónde lo está haciendo.
 
 ### Clean
 
-Por último, utilizaremos el comando `make clean` para limpiar de nuestro repositorio los archivos `.o`, `.d` y `.exe`.
+Utilizaremos el comando `make clean` para limpiar de nuestro repositorio los archivos `.o`, `.d` y `.exe`.
 
 
+
+### Run
+
+Por último, utilizaremos el comando `make run` para ejecutar directamente el archivo `Calculadora.exe` y realizar la entrada manual sentencias..
 
 ---
 
 ![](/07-CalcInfManual/imgs/Banner4.png)
 
-
-
 ## Inconvenientes encontrados
 
 A la hora de encontrarnos con algunos problemas ya sean lógicos, conceptuales, o de cualquier otro tipo, recurrimos a la discusión de los mismos y el uso de herramientas gráficas para buscar una posible solución de una manera más fácil.
 
-Para ello utilizamos tanto *OneNote* como *Miró*.
+Para ello utilizamos tanto _OneNote_ como _Miró_.
 
-Pueden acceder a la pizarra de *Miró* a través del siguiente link: [Link al documento.](https://miro.com/app/board/o9J_lZ_aUhE=/)
-
-
+Pueden acceder a la pizarra de _Miró_ a través del siguiente link: [Link al documento.](https://miro.com/app/board/o9J_lZ_aUhE=/)
 
 ![](/07-CalcInfManual/imgs/Miro.jpg)
-
-
