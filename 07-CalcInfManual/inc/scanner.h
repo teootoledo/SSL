@@ -10,8 +10,6 @@ extern int keepLastToken;
 typedef enum
 {
     NAT,
-    INICIO,
-    FIN,
     IDENTIFICADOR,
     CONSTANTE,
     IGUAL,
@@ -27,11 +25,11 @@ typedef enum
 // Definición de la estructura TOKEN
 typedef struct TOKEN
 {
-    tipoDeToken type;   //Tipo
-    union               //string o int
+    tipoDeToken type; //Tipo
+    union             //string o int
     {
-        char name[MAX_NAME_LENGTH]; 
-        int value;     
+        char name[MAX_NAME_LENGTH];
+        int value;
     } data;
 } TOKEN;
 

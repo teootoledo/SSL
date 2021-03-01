@@ -3,6 +3,10 @@
 #include <stdio.h>  //printf()
 #include <string.h>  //strcpy()
 #include "token.h" //Incluyo el header generado por bison
+
+#undef YY_DECL
+#define YY_DECL int GetNextToken(void)
+YY_DECL;
 %}
 %option noyywrap
 
@@ -34,13 +38,8 @@
 
 \!                      return FDT;
 
-[\n]                    ;
+[\s\t\n]                ;
 
 .                       return NAT;
 
 %%
-
-int GetNextToken(void){
-        int incomingToken = yylex();
-        return incomingToken != 0 ? incomingToken : 1;
-}
