@@ -1,4 +1,10 @@
 %{
+/* parser.y
+ - Reglas sintácticas, producciones. Compilable de Bison.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #include "memory.h"
 #include "scanner.h"
 #include "parser.h"

@@ -1,4 +1,10 @@
 %{
+/* scanner.l
+ - Reglas léxicas y TOKENs. Compilable de Flex.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #include <stdlib.h> //atoi()
 #include <stdio.h>  //printf()
 #include <string.h>  //strcpy()

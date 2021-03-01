@@ -1,3 +1,9 @@
+/* scanner.h
+ - Declaración del flag keepLastToken, definición de TOKEN y prototipo de funcion pública GetNextToken.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #define MAX_NAME_LENGTH 20
 
 #ifndef SCANNER_H

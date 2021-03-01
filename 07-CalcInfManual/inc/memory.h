@@ -1,3 +1,9 @@
+/* memory.h
+ - Declaración de estructura variable y prototipos de funciones.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #define MEMORY_SIZE 200
 
 #ifndef MEMORY_H

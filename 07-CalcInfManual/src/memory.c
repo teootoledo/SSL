@@ -1,3 +1,9 @@
+/* memory.c
+ - Almacenamiento de variables enteras.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #include "../inc/memory.h"
 #include <stdio.h>  //printf
 #include <stdlib.h> //exit

@@ -1,3 +1,9 @@
+/* parser.c
+ - Análisis sintáctico de tokens proveeidos por GetNextToken.
+ - TOLEDO, Teo Martin - 171.891-5 - UTN FRBA - ft (MARECO, RUBIN)
+ - 20210301
+*/
+
 #include "../inc/scanner.h"
 #include "../inc/parser.h"
 #include "../inc/memory.h"
