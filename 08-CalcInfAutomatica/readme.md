@@ -1,33 +1,19 @@
-![](/07-CalcInfManual-V2/imgs/Banner.png)
+![](/08-CalcInfAutomatica/imgs/Banner.png)
 
-
-
-----------------------
+---
 
 **¿De qué trata este trabajo?** [Link al documento.](https://josemariasola.github.io/ssl/assignments/2020/Ssl%20Assignments.pdf#page=53)
 
----------
-
-
+---
 
 # Tabla de Contenidos
 
 <!--ts-->
+
 - [Tabla de contenidos](#tabla-de-contenidos)
 - [Síntesis](#síntesis)
-- [Calculadora](#calculadora)
-    - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado)
-    - [Scanner](#scanner)
-        - [Gramática Léxica](#gramática-léxica)
-        - [Lista de tokens](#lista-de-tokens)
-    - [Parser](#parser)
-        - [Gramática Sintáctica](#gramática-sintáctica)
-    - [Memoria](#memoria)
-        - [GetPosition()](#getposition)
-        - [Assign()](#assign)
-        - [GetValue()](#getvalue)
+- [Calculadora](#calculadora) - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado) - [Scanner](#scanner) - [Gramática Léxica](#gramática-léxica) - [Lista de tokens](#lista-de-tokens) - [Parser](#parser) - [Gramática Sintáctica](#gramática-sintáctica) - [Memoria](#memoria) - [GetPosition()](#getposition) - [Assign()](#assign) - [GetValue()](#getvalue)
 <!--te-->
-
 
 # Síntesis
 
@@ -37,15 +23,11 @@ Otra funcionalidad con la que cuenta este programa es la de almacenar variables 
 
 Cabe destacar que las variables deben tener un máximo de 20 `char` para su nombre. Característica que podría modificarse según la conveniencia del usuario. Al igual que la cantidad máxima de variables almacenadas, que ahora mismo se encuentra fijada en 200.
 
+---
 
-
--------
-
-![](/07-CalcInfManual-V2/imgs/Banner.png)
+![](/08-CalcInfAutomatica/imgs/Banner.png)
 
 # Calculadora
-
-
 
 ## Descripción del lenguaje utilizado
 
@@ -60,13 +42,9 @@ Cabe destacar que las variables deben tener un máximo de 20 `char` para su nomb
 - Cada sentencia termina con un ‘’ ; ‘’, el cual hace referencia a un token llamado “FDS” que refiere al final de la sentencia. Para confirmar el ingreso de la sentencia se presiona “ENTER” ( “\n” ).
 - El final de texto (FDT) será dado por el char ' ! ' consecutivos.
 
+---
 
-
-------
-
-![](/07-CalcInfManual-V2/imgs/Banner1.png)
-
-
+![](/08-CalcInfAutomatica/imgs/Banner1.png)
 
 ## Scanner
 
@@ -94,13 +72,13 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
                         }
 
 \+                      return SUMA;
-        
+
 \*                      return MULTIPLICACION;
 
 \$                      return DEF;
 
 \=                      return IGUAL;
-                        
+
 \;                      return FDS;
 
 \(                      return PARENIZQUIERDO;
@@ -114,8 +92,6 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
 .                       return NAT;
 ```
 
-
-
 ### Lista de tokens
 
 | En la entrada  | Nombre del Token |
@@ -124,20 +100,16 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
 | (              | PARENIZQUIERDO   |
 | )              | PARENDERECHO     |
 | +              | SUMA             |
-| *              | MULTIPLICACION   |
+| \*             | MULTIPLICACION   |
 | ;              | FDS              |
 | $              | DEF              |
 | /n/n           | FDT              |
 | val1 (ejemplo) | IDENTIFICADOR    |
 | 123 (ejemplo)  | CONSTANTE        |
 
+---
 
-
------
-
-![](/07-CalcInfManual-V2/imgs/Banner2.png)
-
-
+![](/08-CalcInfAutomatica/imgs/Banner2.png)
 
 ## Parser
 
@@ -165,8 +137,6 @@ Su propiedad `type`, como su nombre lo dice, hace referencia al tipo de token qu
 
 Por otro lado, su estructura `data` proporciona la información necesaria para operar posteriormente con este token. Ya que un token no puede tener un `name` y un `value` al mismo tiempo, utilizamos `union` para cumplir con esta característica. Solo dispondrá de un nombre cuando estemos hablando de un `IDENTIFICADOR` y de un valor cuando se trate de una `CONSTANTE`.
 
-
-
 ### Gramática Sintáctica
 
 ```c
@@ -185,27 +155,23 @@ Por otro lado, su estructura `data` proporciona la información necesaria para o
 
 El Parser va “descendiendo” por sus funciones “No terminales”
 
-
-
 ---
 
-![](/07-CalcInfManual-V2/imgs/Banner3.png)
-
-
+![](/08-CalcInfAutomatica/imgs/Banner3.png)
 
 ## Memoria
 
 Esta calculadora cuenta con la funcionalidad de almacenar en memoria variables con su nombre y valor correspondiente. Esto lo realiza gracias al código desarrollado en `memory.h` y `memory.c`. Donde están definidas las siguientes funciones:
 
-- `unsigned GetPosition(char[]);` 
+- `unsigned GetPosition(char[]);`
 - `void Assign(unsigned, int);`
 - `int GetValue(char[]);`
 
-----
+---
 
 ### `GetPosition()`
 
-Se encarga de obtener la posición del array en la que debe guardarse el nombre de la variable. Si existe ya esa variable en el array devuelve su índice. De lo contrario guarda su nombre en donde corresponda según la variable global `memoryLastPosition` , posteriormente la incrementa y retorna su valor decrementado en uno (sin efecto de lado). 
+Se encarga de obtener la posición del array en la que debe guardarse el nombre de la variable. Si existe ya esa variable en el array devuelve su índice. De lo contrario guarda su nombre en donde corresponda según la variable global `memoryLastPosition` , posteriormente la incrementa y retorna su valor decrementado en uno (sin efecto de lado).
 
 ### `Assign()`
 
@@ -215,25 +181,16 @@ Es la responsable de asignar a cierta posición un valor natural.
 
 Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su valor para ser operado en una evaluación. En caso de no existir el nombre buscado en memoria, muestra una leyenda “El identificador deseado no existe.” y corta la ejecución del programa con `exit(1);`.
 
-
-
 ---
 
-![](/07-CalcInfManual-V2/imgs/Banner4.png)
-
-
+![](/08-CalcInfAutomatica/imgs/Banner4.png)
 
 ## Inconvenientes encontrados
 
 A la hora de encontrarnos con algunos problemas ya sean lógicos, conceptuales, o de cualquier otro tipo, recurrimos a la discusión de los mismos y el uso de herramientas gráficas para buscar una posible solución de una manera más fácil.
 
-Para ello utilizamos tanto *OneNote* como *Miró*.
+Para ello utilizamos tanto _OneNote_ como _Miró_.
 
-Pueden acceder a la pizarra de *Miró* a través del siguiente link: [Link al documento.](https://miro.com/app/board/o9J_lZ_aUhE=/)
+Pueden acceder a la pizarra de _Miró_ a través del siguiente link: [Link al documento.](https://miro.com/app/board/o9J_lZ_aUhE=/)
 
-
-
-![](/07-CalcInfManual-V2/imgs/Miro.jpg)
-
-
-
+![](/08-CalcInfAutomatica/imgs/Miro.jpg)
