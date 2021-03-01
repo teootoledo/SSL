@@ -38,7 +38,7 @@ Cabe destacar que las variables deben tener un máximo de 20 `char` para su nomb
   - **Expresión** > Esta sentencia realiza la evaluación de una expresión simple o compuesta.
 - Las variables ya existentes pueden modificar su valor. El procedimiento es el mismo que al definir una nueva variable.
 - Cada sentencia termina con un ‘’ ; ‘’, el cual hace referencia a un token llamado “FDS” que refiere al final de la sentencia. Para confirmar el ingreso de la sentencia se presiona “ENTER” ( “\n” ).
-- El final de texto (FDT) será dado por dos "ENTER" consecutivos ( “/n/n” ).
+- El final de texto (FDT) será dado por el char ' ! ' consecutivos.
 
 ---
 
@@ -48,7 +48,7 @@ Cabe destacar que las variables deben tener un máximo de 20 `char` para su nomb
 
 El **Scanner** es la sección del programa encargada de realizar el análisis léxico de las cadenas de caracteres que son ingresadas por el usuario.
 
-Su implementación consta de dos funciones principales, una **pública** y otra **privada**. La función de carácter público es la llamada  `GetNextToken()`. Esta es la que el **Parser** llama cada vez que necesita el siguiente  `TOKEN` para continuar con la derivación. Su declaración se encuentra en  `inc\scanner.h` y su definición en  `src\scanner.c`. Por otro lado, la función privada es la definida como  `Scanner()` la cual es invocada por la anterior ( `GetNextToken()`) y es la encargada del análisis de la entrada mediante un `while` que va pidiendo uno a uno los distintos `char` ingresados por el usuario, y va desplazándose por los estados posibles. Esto lo hace mediante un `switch` que modifica una variable `actualState` de tipo `State` que hace referencia un `enum` con los estados posibles. En distintos estados empleamos la utilización de la función privada  `ActionState_Qx` ya que ahorra código y aumenta la legibilidad a la hora de resetear el estado actual, devolver el último `char` analizado al flujo de entrada, y retornar el  `TOKEN` identificado. Esto lo hace con  `CreateToken()`.
+Su implementación consta de dos funciones principales, una **pública** y otra **privada**. La función de carácter público es la llamada `GetNextToken()`. Esta es la que el **Parser** llama cada vez que necesita el siguiente `TOKEN` para continuar con la derivación. Su declaración se encuentra en `inc\scanner.h` y su definición en `src\scanner.c`. Por otro lado, la función privada es la definida como `Scanner()` la cual es invocada por la anterior ( `GetNextToken()`) y es la encargada del análisis de la entrada mediante un `while` que va pidiendo uno a uno los distintos `char` ingresados por el usuario, y va desplazándose por los estados posibles. Esto lo hace mediante un `switch` que modifica una variable `actualState` de tipo `State` que hace referencia un `enum` con los estados posibles. En distintos estados empleamos la utilización de la función privada `ActionState_Qx` ya que ahorra código y aumenta la legibilidad a la hora de resetear el estado actual, devolver el último `char` analizado al flujo de entrada, y retornar el `TOKEN` identificado. Esto lo hace con `CreateToken()`.
 
 La función `GetNextToken()` cuenta con un "flag" al cual decidimos llamar `keepLastToken`. Esto lo explicamos en la sección del [Parser](#parser).
 
@@ -177,8 +177,6 @@ Este se va desplazando a través de las distintas subrutinas semánticas. `Defin
 
 `Match()` es la encargada de confirmar que la sintaxis se va desarrollando de forma correcta. Tiene la capacidad de "consumir" realmente un token, cambiando el estado del flag global `keepLastToken`, el cual modifica la lógica de `GetNextToken()`, permitiéndole acceder o no, a la función `Scanner()` para actualizar el token actual.
 
-
-
 ---
 
 ![](/07-CalcInfManual/imgs/Banner3.png)
@@ -237,11 +235,21 @@ La rutina que se ejecuta con el comando `make test`, nos permite con un input pr
 
 Utilizaremos el comando `make clean` para limpiar de nuestro repositorio los archivos `.o`, `.d` y `.exe`.
 
-
-
 ### Run
 
 Por último, utilizaremos el comando `make run` para ejecutar directamente el archivo `Calculadora.exe` y realizar la entrada manual sentencias..
+
+### Errores
+
+| Código de error | Descripción                                                  |
+| --------------- | ------------------------------------------------------------ |
+| 1               | Error léxico. Sucede en la etapa de análisis realizada por el *Scanner*. |
+| 2               | Error sintáctico. Sucede en la subrutina semántica de `Sentencia`. |
+| 3               | Error sintáctico. Sucede en la subrutina semántica de `Factor`. |
+| 4               | Error sintáctico. Sucede en la función `Match`.              |
+| 5               | Error de memoria. El identificador solicitado no existe en memoria. |
+
+
 
 ---
 

@@ -5,10 +5,10 @@
 #include <stdio.h> //printf
 #include <stdlib.h> //exit
 
-/* FUNCIONES PRIVADAS */
+/* Prototipos de funciones privadas */
 static void mostrarResultado(int);
-static int yylex(void);
-static void yyerror(char const *);
+static int yylex();
+static void yyerror();
 
 %}
 
@@ -32,8 +32,8 @@ static void yyerror(char const *);
 %token <name> PARENIZQUIERDO
 /* Definición de no-terminales */
 %type <name> parser
-%type <name> sentencias
-%type <name> unasentencia
+%type <name> listaSentencias
+%type <name> sentencia
 %type <value> expresion
 %type <value> definicion
 %type <value> termino
@@ -41,14 +41,14 @@ static void yyerror(char const *);
 %start parser
 
 %%
-parser: sentencias FDT;
+parser: listaSentencias FDT {printf("Sentencia");}
 
-sentencias: unasentencia
-          | unasentencia sentencias
+listaSentencias: sentencia FDS {printf("Sentencia");}
+          | listaSentencias sentencia FDS
 ;
 
-unasentencia: DEF definicion FDS
-         | expresion FDS { mostrarResultado($1); }
+sentencia: DEF definicion
+         | IGUAL expresion { mostrarResultado($2); }
 ;
 
 definicion: IDENTIFICADOR IGUAL CONSTANTE { Assign(GetPosition($1), $3); }
@@ -61,36 +61,40 @@ termino: factor { $$ = $1; }
        | termino MULTIPLICACION factor { $$ = $1 * $3; }
  ;
 
-factor: IDENTIFICADOR { int aux = GetValue($1); if(aux!=(-1)) $$=aux; else exit(1); }
+factor: IDENTIFICADOR { int aux = GetValue($1); $$=aux;}
       | CONSTANTE { $$ = $1; }
       | PARENIZQUIERDO expresion PARENDERECHO { $$ = $2; }
 ;
 
 %%
 
-/* FUNCIONES PUBLICAS */
-
-void yyerror(char const *sentencia){
-  printf("SYNTAX ERROR: %s\n", sentencia);
+/* Definición de funciones privadas */
+// yyerror es utilizada para mostrar que ocurrió un error y cerrar el programa.
+void yyerror(){
+  printf("[Parser] Sintaxis incorrecta.");
+  exit(3);
 }
 
 int yylex(void){   
     return GetNextToken();
 }
 
+// mostrarResultado imprime por pantalla el resultado de la expresión parseada.
+static void mostrarResultado(int valor) {
+    printf("Resultado: %d\n", valor);
+}
+
+/* Definición de funciones públicas */
+// Definición de Parser()
 void Parser(void){
   switch(yyparse()){
     case 0:
+      printf("[Parser] Finalizado de manera exitosa.");
       return;
     case 1:
-      return;
     default:
       printf("Error\n");
       return;
   }
 }
-
-/* FUNCIONES PRIVADAS */
-static void mostrarResultado(int valor) {
-    printf("Resultado: %d\n", valor);
-}
+// yyparse lee tokens y ejecuta acciones. Retorna al matchear FDT

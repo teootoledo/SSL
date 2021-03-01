@@ -1,5 +1,18 @@
+Resultado: 1
+Resultado: 2
 Resultado: 3
-Resultado: 13
+Resultado: 4
+Resultado: 5
+Resultado: 6
+Resultado: 7
+Resultado: 8
 Resultado: 9
-Resultado: 50
-SYNTAX ERROR: syntax error
+Resultado: 10
+Resultado: 15
+Resultado: 18
+Resultado: 36
+Resultado: 55
+Resultado: 44
+Resultado: 5
+Resultado: 10
+[Parser] Sintaxis incorrecta.

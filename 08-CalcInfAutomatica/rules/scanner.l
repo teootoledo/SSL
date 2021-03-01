@@ -32,7 +32,7 @@
 
 \)                      return PARENDERECHO;
 
-[\n][\n]                return FDT;
+\!                      return FDT;
 
 [\n]                    ;
 
@@ -42,6 +42,5 @@
 
 int GetNextToken(void){
         int incomingToken = yylex();
-        return incomingToken != 0 ? incomingToken
-                                    : 1;
+        return incomingToken != 0 ? incomingToken : 1;
 }

@@ -50,7 +50,7 @@ void Sentencia()
         break;
     default:
         printf("[Parser] Sintaxis incorrecta.\n");
-        exit(3);
+        exit(2);
         break;
     }
 }
@@ -110,7 +110,7 @@ int Factor(void)
         break;
     default:
         printf("[Parser] Sintaxis incorrecta.\n");
-        exit(4);
+        exit(3);
     }
     return resultado;
 }
@@ -121,7 +121,7 @@ static void Match(tipoDeToken tipoEsperado)
     if ((tok = GetNextToken()).type != tipoEsperado)
     {
         printf("[Parser] Sintaxis incorrecta.\n");
-        exit(5);
+        exit(4);
     }
     keepLastToken = 0;
 }

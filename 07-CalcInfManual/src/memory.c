@@ -41,5 +41,5 @@ int GetValue(char name[])
         }
     }
     printf("[Memory] El identificador %s no existe en memoria.\n", name);
-    exit(6);
+    exit(5);
 }

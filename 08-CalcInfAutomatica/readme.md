@@ -31,25 +31,17 @@
 
 # Síntesis
 
-Este trabajo práctico es un programa de consola desarrollado en lenguaje C, que permite realizar tanto el análisis léxico, y sintáctico de las distintas sentencias ingresadas por el usuario. Cuenta con un lenguaje propio, definido para poder realizar estas evaluaciones, y arroja un resultado preciso de la operación.
+Este trabajo práctico es un programa de consola desarrollado en lenguaje C, con herramientas como **Flex** y **Bison**, que permite realizar tanto el análisis léxico, y sintáctico de las distintas sentencias ingresadas por el usuario. Cuenta con un lenguaje propio, definido para poder realizar estas evaluaciones, y arroja un resultado preciso de la operación.
 
 Otra funcionalidad con la que cuenta este programa es la de almacenar variables con sus relativos nombres en una “memoria”, pudiendo acceder a los valores asociados para realizar posteriormente la evaluación de la sentencia.
 
-Cabe destacar que las variables deben tener un máximo de 10 `char` para su nombre. Característica que podría modificarse según la conveniencia del usuario. Al igual que la cantidad máxima de variables almacenadas, que ahora mismo se encuentra fijada en 200.
-
-La interfaz utilizada en la consola enseña al inicio del programa una guía del diccionario utilizado, junto a unos ejemplos de sentencias correctas.
-
-
-
-<img src="/07-CalcInfManual-V2/imgs/Interfaz.png"  />
-
-[^]: Ejemplo de la interfaz al momento de ejecutar el programa.
+Cabe destacar que las variables deben tener un máximo de 20 `char` para su nombre. Característica que podría modificarse según la conveniencia del usuario. Al igual que la cantidad máxima de variables almacenadas, que ahora mismo se encuentra fijada en 200.
 
 
 
 -------
 
-
+![](/07-CalcInfManual-V2/imgs/Banner.png)
 
 # Calculadora
 
@@ -66,7 +58,7 @@ La interfaz utilizada en la consola enseña al inicio del programa una guía del
   - **Expresión** > Esta sentencia realiza la evaluación de una expresión simple o compuesta.
 - Las variables ya existentes pueden modificar su valor. El procedimiento es el mismo que al definir una nueva variable.
 - Cada sentencia termina con un ‘’ ; ‘’, el cual hace referencia a un token llamado “FDS” que refiere al final de la sentencia. Para confirmar el ingreso de la sentencia se presiona “ENTER” ( “\n” ).
-- El final de texto (FDT) será dado por dos "ENTER" consecutivos ( “/n/n” ).
+- El final de texto (FDT) será dado por el char ' ! ' consecutivos.
 
 
 
@@ -80,70 +72,46 @@ La interfaz utilizada en la consola enseña al inicio del programa una guía del
 
 El **Scanner** es la sección del programa encargada de realizar el análisis léxico de las cadenas de caracteres que son ingresadas por el usuario.
 
-Este desarrolla su análisis mediante un `while` que va pidiendo uno a uno los distintos `char` ingresados por el usuario, y va desplazándose por los estados posibles. Esto lo hace mediante un `switch` que modifica una variable `actualState` de tipo `State` que hace referencia un `enum` con los estados posibles.
+La función del analizador léxico, `yylex`, reconoce tokens desde el flujo de entrada y se los devuelve al analizador. Bison no crea esta función automáticamente; usted debe escribirla de manera que `yyparse` pueda llamarla.
 
-Estos son:
-
-```c
-typedef enum
-{
-    Q0_inicial,
-    Q1_identificador,
-    Q2_constante,
-    Q3_adicion,
-    Q4_producto,
-    Q5_parizquierdo,
-    Q6_parderecho,
-    Q7_igual,
-    Q9_definicion,
-    Q10_fds,
-    Q11_fdt,
-    Q12_error
-} State;
-```
-
-
-
-A medida que el `while` itera el `switch` y se va desplazando por los estados, hasta llegar a un estado final, se retorna un `tipoDeToken` el cual podrá ser como los siguientes:
-
-```c
-typedef enum
-{
-    NAT,					//Not a Token
-    IDENTIFICADOR,			//Variable
-    CONSTANTE,				//Valor
-    IGUAL,					//=
-    PARENIZQUIERDO,			//(
-    PARENDERECHO,			//)
-    SUMA,					//+
-    MULTIPLICACION,			//*
-    DEF,					//$
-    FDS,					//;
-    FDT						//\n
-} tipoDeToken;
-```
-
-Una vez retornado el tipo de token, el Parser es el encargado de analizar si es correcta la sintaxis de la sentencia. En caso de ser una definición o una evaluación, lo irá resolviendo a medida que va avanzando en su lógica.
-
-
+En programas simples, `yylex` se define a menudo al final del archivo de la gramática de
+Bison. En programas un poco más complejos, lo habitual es crear un programa en Flex
+que genere automáticamente esta función y enlazar Flex y Bison.
 
 ### Gramática Léxica
 
+La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en el archivo `scanner.l` ubicado en la carpeta `rules\`.
+
 ```c
-<token> -> uno de <identificador> <constante> <suma> <multiplicación> <igual> <def> <fds> <fdt>
-<identificador> -> <letra> {<letra o dígito>}*
-<constante> -> <dígito> {<dígito>}*
-<letra o dígito> -> uno de <letra> <dígito>
-<letra> -> una de a-Z
-<dígito> -> uno de 0-9
-<suma> -> +
-<multiplicación> -> *
-<igual> -> =
-<def> -> $
-<parenizquierdo> -> (
-<parenderecho> -> )
-<fds> -> ;
-<fdt> -> \n\n
+[0-9]+                  {
+                        yylval.value = atoi(yytext);
+                        return CONSTANTE;
+                        }
+
+[a-zA-Z][a-zA-Z | 0-9]* {
+                        strcpy(yylval.name, yytext);
+                        return IDENTIFICADOR;
+                        }
+
+\+                      return SUMA;
+        
+\*                      return MULTIPLICACION;
+
+\$                      return DEF;
+
+\=                      return IGUAL;
+                        
+\;                      return FDS;
+
+\(                      return PARENIZQUIERDO;
+
+\)                      return PARENDERECHO;
+
+\!                      return FDT;
+
+[\n]                    ;
+
+.                       return NAT;
 ```
 
 
