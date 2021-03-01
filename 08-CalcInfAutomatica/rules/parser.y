@@ -22,9 +22,9 @@ static void yyerror();
 %token <value> CONSTANTE
 %token <name> IDENTIFICADOR
 %token SUMA
-%token MULTIPLICACION
+%token PRODUCTO
 %token IGUAL
-%token DEF
+%token DEFINICION
 %token FDS
 %token FDT
 %token NAT
@@ -45,7 +45,7 @@ listaSentencias: sentencia FDS
           | sentencia FDS listaSentencias
 ;
 
-sentencia: DEF definicion
+sentencia: DEFINICION definicion
          | IGUAL expresion { mostrarResultado($2); }
 ;
 
@@ -56,7 +56,7 @@ expresion: termino { $$ = $1; }
 ;
 
 termino: factor { $$ = $1; }
-       | termino MULTIPLICACION factor { $$ = $1 * $3; }
+       | termino PRODUCTO factor { $$ = $1 * $3; }
 ;
 
 factor: IDENTIFICADOR { int aux = GetValue($1); $$=aux;}

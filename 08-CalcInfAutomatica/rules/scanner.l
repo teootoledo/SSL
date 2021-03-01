@@ -24,9 +24,9 @@ YY_DECL;
 
 \+                      return SUMA;
         
-\*                      return MULTIPLICACION;
+\*                      return PRODUCTO;
 
-\$                      return DEF;
+\$                      return DEFINICION;
 
 \=                      return IGUAL;
                         
