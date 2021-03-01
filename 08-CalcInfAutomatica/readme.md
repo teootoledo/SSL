@@ -8,12 +8,12 @@
 
 # Tabla de Contenidos
 
-<!--ts-->
+- <!--ts-->
 
-- [Tabla de contenidos](#tabla-de-contenidos)
-- [Síntesis](#síntesis)
-- [Calculadora](#calculadora) - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado) - [Scanner](#scanner) - [Gramática Léxica](#gramática-léxica) - [Lista de tokens](#lista-de-tokens) - [Parser](#parser) - [Gramática Sintáctica](#gramática-sintáctica) - [Memoria](#memoria) - [GetPosition()](#getposition) - [Assign()](#assign) - [GetValue()](#getvalue)
-<!--te-->
+  - [Tabla de contenidos](#tabla-de-contenidos)
+  - [Síntesis](#síntesis)
+  - [Calculadora](#calculadora) - [Descripción del lenguaje utilizado](#descripción-del-lenguaje-utilizado) - [Scanner](#scanner) - [La función del analizador léxico](#la-funcion-del-analizador-lexico) - [Gramática Léxica](#gramática-léxica) - [Lista de tokens](#lista-de-tokens) - [Parser](#parser) - [Bison](#bison) - [La función del analizador sintáctico](#la-funcion-del-analizador-sintactico) - [Gramática Sintáctica](#gramática-sintáctica) - [Memoria](#memoria) - [GetPosition()](#getposition) - [Assign()](#assign) - [GetValue()](#getvalue) - [Makefile](#makefile) - [Compilación](#compilación) - [Test](#test) - [Clean](#clean) - [Códigos de errores](#errores) - [Inconvenientes encontrados](#inconvenientes-encontrados) - [Miro](#miro)
+    <!--te-->
 
 # Síntesis
 
@@ -49,6 +49,8 @@ Cabe destacar que las variables deben tener un máximo de 20 `char` para su nomb
 ## Scanner
 
 El **Scanner** es la sección del programa encargada de realizar el análisis léxico de las cadenas de caracteres que son ingresadas por el usuario.
+
+### La función del Analizador Léxico `yylex()`
 
 La función del analizador léxico, `yylex`, reconoce tokens desde el flujo de entrada y se los devuelve al analizador. Bison no crea esta función automáticamente; usted debe escribirla de manera que `yyparse` pueda llamarla.
 
@@ -87,7 +89,7 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
 
 \!                      return FDT;
 
-[\n]                    ;
+[\s\t\n]                    ;
 
 .                       return NAT;
 ```
@@ -103,7 +105,7 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
 | \*             | MULTIPLICACION   |
 | ;              | FDS              |
 | $              | DEF              |
-| /n/n           | FDT              |
+| !              | FDT              |
 | val1 (ejemplo) | IDENTIFICADOR    |
 | 123 (ejemplo)  | CONSTANTE        |
 
@@ -115,36 +117,28 @@ La gramática léxica, junto a los `TOKEN` que corresponden, se especifican en e
 
 El **Parser** es la sección del programa encargada de realizar el análisis sintáctico de las sentencias ingresadas. Trabaja abstrayéndose de los caracteres ingresados. Para esto utiliza **TOKENS**.
 
-A medida que necesita analizar un nuevo token, el Parser consume uno solicitándolo al Scanner mediante la función `GetNextToken()` la cual devuelve el próximo a analizar.
+### Bison
 
-Un `TOKEN` está compuesto de la siguiente manera:
+El fuente de **Bison** se convierte en una función en C llamada `yyparse`. Aquí describimos las convenciones de interfaz de `yyparse` y las otras funciones que éste necesita usar.
 
-```c
-struct TOKEN
-{
-    tipoDeToken type;
-    union
-    {
-        char name[10]; //string
-        int value;     //int o double
-    } data;
-};
+Tenga en cuenta que el analizador utiliza muchos identificadores en C comenzando con
+‘yy’ e ‘YY’ para propósito interno.
 
-typedef struct TOKEN TOKEN;
-```
+Si utiliza tales identificadores (a parte de aquellos descritos en el manual) en una acción o en código C adicional en el archivo de la gramática, es probable que se encuentre con problemas.  
 
-Su propiedad `type`, como su nombre lo dice, hace referencia al tipo de token que ha sido detectado.
+### La Función del Analizador `yyparse()`
+Se llama a la función yyparse para hacer que el análisis comience. Esta función lee tokens, ejecuta acciones, y por último retorna cuando se encuentre con el final del fichero o un error de sintaxis del que no puede recuperarse. Usted puede también escribir acciones que ordenen a yyparse retornar inmediatamente sin leer más allá. 
 
-Por otro lado, su estructura `data` proporciona la información necesaria para operar posteriormente con este token. Ya que un token no puede tener un `name` y un `value` al mismo tiempo, utilizamos `union` para cumplir con esta característica. Solo dispondrá de un nombre cuando estemos hablando de un `IDENTIFICADOR` y de un valor cuando se trate de una `CONSTANTE`.
+El valor devuelto por yyparse es 0 si el análisis tuvo éxito (el retorno se debe al final del fichero). El valor es 1 si el análisis falló (el retorno es debido a un error de sintaxis). 
 
 ### Gramática Sintáctica
 
 ```c
-<Parser>     -> <Sentencias> FDT
-<Sentencias> -> unaSentencia { <unaSentencia> }*
-<unaSentencia> -> <Definición> FDS
-                | <Expresión> FDS
-<Definición> -> DEF ID IGUAL CONSTANTE
+<Parser>     -> <listaSentencias> FDT
+<listaSentencias> -> Sentencia FDS { <Sentencia> FDS }*
+<Sentencia> -> DEF <Definición>
+               IGUAL <Expresión>
+<Definición> -> ID IGUAL CONSTANTE
 <Expresión>  -> <Término> { SUMA <Término> }*
 <Término>    -> Factor { MULTIPLICACION <Factor> }*
 <Factor>     -> CONSTANTE
@@ -153,7 +147,7 @@ Por otro lado, su estructura `data` proporciona la información necesaria para o
 
 ```
 
-El Parser va “descendiendo” por sus funciones “No terminales”
+
 
 ---
 
@@ -179,7 +173,55 @@ Es la responsable de asignar a cierta posición un valor natural.
 
 ### `GetValue()`
 
-Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su valor para ser operado en una evaluación. En caso de no existir el nombre buscado en memoria, muestra una leyenda “El identificador deseado no existe.” y corta la ejecución del programa con `exit(1);`.
+Obtiene el valor de un nombre de memoria. Lo hace iterando el array y retorna su valor para ser operado en una evaluación. En caso de no existir el nombre buscado en memoria, muestra una leyenda “El identificador deseado no existe.” y corta la ejecución del programa con `exit(5);`.
+
+---
+
+![](/08-CalcInfAutomatica/imgs/Banner5.png)
+
+## Makefile
+
+A la hora de querer ejecutar nuestro programa en nuestro PC, debemos abrir la terminal del sistema en la carpeta con el siguiente path:
+
+```
+08-CalcInfAutomatica/src/
+```
+
+Aquí dentro se encuentra junto a los archivos con extensión `.c`, otro llamado `makefile` el cuál a través de unas rutinas ya definidas en él, nos permitirá tanto compilar, testear y limpiar el repositorio del proyecto.
+
+### Compilación
+
+Para proceder a la compilación de los archivos necesarios, debemos ejecutar el comando `make` desde la línea de comandos, lo que iniciará la rutina por default llamada `TARGET`, que se encarga de compilar el programa, dejando como producto el ejecutable del mismo en la siguiente ubicación:
+
+```
+08-CalcInfAutomatica/bin/
+```
+
+Como _ventaja_ de realizar la compilación a través de este método, obtenemos un mejor tiempo de compilación a la hora de estar realizando cambios en algunos de los archivos del proyecto. Gracias a la comparación que realiza `make` de los archivos `.o`, es posible compilar únicamente los archivos que fueron modificados y no recompilar el proyecto desde 0.
+
+### Test
+
+La rutina que se ejecuta con el comando `make test`, nos permite con un input preestablecido en el archivo `entrada.txt` ubicado en la carpeta `/test`, obtener una salida que será escrita en `obtenido.txt` la cual posteriormente será comparada automáticamente utilizando el comando `comp`. Este nos advierte si encuentra una diferencia entre `obtenido.txt` y `esperado.txt`. Dándonos la posibilidad de identificar en caso de que falle, dónde lo está haciendo.
+
+### Clean
+
+Utilizaremos el comando `make clean` para limpiar de nuestro repositorio los archivos `.o`, `.d` y `.exe`.
+
+### Run
+
+Por último, utilizaremos el comando `make run` para ejecutar directamente el archivo `Calculadora.exe` y realizar la entrada manual sentencias..
+
+### Errores
+
+| Código de error | Descripción                                                  |
+| --------------- | ------------------------------------------------------------ |
+| 1               | Error léxico. Sucede en la etapa de análisis realizada por el *Scanner*. |
+| 2               | Error sintáctico. Sucede en la subrutina semántica de `Sentencia`. |
+| 3               | Error sintáctico. Sucede en la subrutina semántica de `Factor`. |
+| 4               | Error sintáctico. Sucede en la función `Match`.              |
+| 5               | Error de memoria. El identificador solicitado no existe en memoria. |
+
+
 
 ---
 
