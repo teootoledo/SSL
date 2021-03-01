@@ -25,8 +25,6 @@ Cabe destacar que las variables deben tener un máximo de 20 `char` para su nomb
 
 ---
 
-![](/08-CalcInfAutomatica/imgs/Banner.png)
-
 # Calculadora
 
 ## Descripción del lenguaje utilizado
